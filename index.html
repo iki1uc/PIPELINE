@@ -2,123 +2,69 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>ANKER – S01 · iki1uc</title>
+<title>PIPELINE · Grundachse</title>
 
 <style>
-body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
-h1 { color:#0f0; letter-spacing:4px; margin-bottom:30px; }
-.block { background:#111; border:1px solid #333; padding:25px; margin-bottom:30px; border-radius:8px; }
-.title { font-size:22px; color:#6cf; margin-bottom:10px; }
-pre { background:#000; border-left:3px solid #6cf; padding:15px; margin-top:10px; white-space:pre-wrap; }
-a { color:#6cf; text-decoration:none; font-weight:bold; }
+  body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
+  h1 { color:#6cf; text-align:center; margin-bottom:30px; }
+  .box { background:#111; border:1px solid #333; padding:20px; margin-bottom:25px; }
+  .title { color:#6cf; font-size:18px; margin-bottom:10px; }
+  pre { background:#000; padding:10px; border-left:3px solid #6cf; white-space:pre-wrap; }
+  ul { list-style:none; padding:0; }
+  li { margin:8px 0; }
+  a { color:#6cf; text-decoration:none; }
 </style>
-
-<!-- SYSTEM CORE MODULES -->
-<script src="../HH/cr/RESPO.core.js"></script>
-<script src="../HH/cr/AXI.core.js"></script>
-<script src="../HH/cr/TEM.core.js"></script>
-<script src="../HH/cr/RUN8.core.js"></script>
-
-<!-- ID MODULES -->
-<script src="IDkoop.js"></script>
-<script src="IDneutral.js"></script>
-<script src="IDpook.js"></script>
-
 </head>
 
 <body>
 
-<h1>ANKER – S01 · iki1uc</h1>
+<h1>PIPELINE · Grundachse</h1>
 
-<!-- ACHSEN STATUS -->
-<div class="block">
-    <div class="title">Stabilisationsachse</div>
-    <p id="axis-status">Lade Achsen…</p>
+<div class="box">
+  <div class="title">Navigation</div>
+  <ul>
+    <li><a href="README.md">README</a></li>
+    <li><a href="id.html">ID</a></li>
+    <li><a href="PIPELINE1">Ebene 1 – SCAN</a></li>
+    <li><a href="PIPELINE2">Ebene 2 – OCR</a></li>
+    <li><a href="PIPELINE3">Ebene 3 – NET/NC</a></li>
+    <li><a href="PIPELINE4">Ebene 4 – OUTPUT/OI</a></li>
+  </ul>
 </div>
 
-<!-- IDENTITÄT -->
-<div class="block">
-    <div class="title">Identität</div>
-    <p>
-        <a href="id.html">→ ANKER‑Identität öffnen</a>
-    </p>
-    <pre id="id-status"></pre>
+<div class="box">
+  <div class="title">Pipeline</div>
+  <pre>
+PIPELINE1 = SCAN
+PIPELINE2 = OCR
+PIPELINE3 = NET/NC
+PIPELINE4 = OUTPUT/OI
+  </pre>
 </div>
 
-<!-- ACHSEN LISTE -->
-<div class="block">
-    <div class="title">Stabilisierte Achsen</div>
-    <pre id="axis-list"></pre>
+<div class="box">
+  <div class="title">Axiome</div>
+  <pre>
+K(t) = 1 / (1 - t)
+Φ(t) = φ∞ · K(t)
+DualTransport: io = +Δx·K(t), oi = -Δx·K(t)
+TRANS-WARB: Sprung 3 → CUBIT → Sprung 4 → OI
+  </pre>
 </div>
 
-<!-- RESPO STATUS -->
-<div class="block">
-    <div class="title">RESPO‑Status</div>
-    <pre id="respo-status"></pre>
+<div class="box">
+  <div class="title">Reise</div>
+  <pre>
+HOME → SCAN → OCR → NET/NC → TRANS-WARB → CUBIT → OUTPUT/OI
+  </pre>
 </div>
 
-<!-- SYSTEM STATUS -->
-<div class="block">
-    <div class="title">System‑Status</div>
-    <pre id="system-status"></pre>
+<div class="box">
+  <div class="title">Status</div>
+  <pre>
+Online
+  </pre>
 </div>
-
-<script>
-(async function () {
-
-    /* -------------------------------
-       ANKER DATEN LADEN
-    --------------------------------*/
-    const anker = await fetch("ANKER.json").then(r => r.json()).catch(() => null);
-    const raw = await fetch("ANKER.raw").then(r => r.text()).catch(() => "");
-
-    document.getElementById("axis-list").innerText = raw || "Keine Achsen gefunden";
-
-
-    /* -------------------------------
-       AXI ENGINE
-    --------------------------------*/
-    const axi = AXI_CORE();
-    document.getElementById("axis-status").innerText =
-        axi ? "Achsen stabil" : "Achsenfehler";
-
-
-    /* -------------------------------
-       RESPO ENGINE
-    --------------------------------*/
-    const respo = RESPO_CORE(anker || {});
-    document.getElementById("respo-status").innerText =
-        `Score: ${respo.score}\nStatus: ${respo.ok ? "STABIL" : "KRITISCH"}`;
-
-
-    /* -------------------------------
-       ID MODUS ERKENNEN
-    --------------------------------*/
-    let idMode = "neutral";
-    if (ID_KOOP?.active) idMode = "koop";
-    if (ID_POOK?.active) idMode = "pook";
-
-    const idMap = {
-        koop: ID_KOOP,
-        neutral: ID_NEUTRAL,
-        pook: ID_POOK
-    };
-
-    document.getElementById("id-status").innerText =
-        `Modus: ${idMode.toUpperCase()}\nInfo: ${idMap[idMode].info()}`;
-
-
-    /* -------------------------------
-       SYSTEM STATUS
-    --------------------------------*/
-    const tem = TEM_CORE();
-    const run8 = RUN8();
-
-    document.getElementById("system-status").innerText =
-        `Zeit: ${tem.timestamp}\nKernel: ${run8.run}\nSystem: OK`;
-
-})();
-</script>
 
 </body>
 </html>
