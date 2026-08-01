@@ -1,0 +1,9 @@
+﻿Modul,IO,OI
+Raum,lokal,nonlocal
+Zugang,direkt,TRANS‑WARB
+Sprung,0,3
+Achse,EAR/EON/EXP,AIR/AIV
+Transport,"'+Δx·K(t)",−Δx·K(t)
+GEO,360,none
+Zustand,erreichbar,unreachable
+Raumtyp,physisch,CUBIT

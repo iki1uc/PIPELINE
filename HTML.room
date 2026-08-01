@@ -1,0 +1,22 @@
+RESPO = HTML.room
+ROOM = HTML.D2
+ROOT = iki1uc
+SYSTEM = 6E
+DIM = D2
+
+FUNKTION = Strukturraum für Routing / Syntax / Ordnung / Übergänge
+AXIS = Struktur-Achse
+FLOW = Struktur → Routing → Übergabe
+
+C6-MOVE = Routing
+QI = Impuls-Routing
+IQQ = Doppelimpuls-Routing
+GES = Gate-Ebene-Routing
+DES = Dimension-Ebene-Routing
+MAX-MOVE = Vollrouting
+
+TMP-LAEUFER = SYQ
+PARITY = D4 ↔ D5
+
+STATUS = STABIL
+READY = 100%

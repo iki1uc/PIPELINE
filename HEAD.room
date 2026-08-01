@@ -1,0 +1,22 @@
+RESPO = HEAD.room
+ROOM = HEAD.D1
+ROOT = iki1uc
+SYSTEM = 6E
+DIM = D1
+
+FUNKTION = Bewusstseinsraum für Logik / Kontrolle / Ausrichtung
+AXIS = Bewusstseins-Achse
+FLOW = Logik → Kontrolle → Ausrichtung
+
+C6-MOVE = Routing
+QI = Impuls-Verarbeitung
+IQQ = Doppelimpuls-Verarbeitung
+GES = Gate-Ebene-Verarbeitung
+DES = Dimension-Ebene-Verarbeitung
+MAX-MOVE = Vollverarbeitung
+
+TMP-LAEUFER = SYQ
+PARITY = D4 ↔ D5
+
+STATUS = STABIL
+READY = 100%
