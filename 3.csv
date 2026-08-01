@@ -1,0 +1,5 @@
+CSV-Zeile:
+IO, Eingang, +Δx, aktiv
+
+Vektor-Modul:
+[ IO, Eingang, +Δx, aktiv ]
