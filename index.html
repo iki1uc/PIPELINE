@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIPELINE · Grundachse</title>
+<title>PIPELINE · Matrix · Vektor · CSV</title>
 
 <style>
   body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
@@ -18,51 +18,76 @@
 
 <body>
 
-<h1>PIPELINE · Grundachse</h1>
+<h1>PIPELINE · Matrix · Vektor · CSV</h1>
 
+<!-- Navigation -->
 <div class="box">
   <div class="title">Navigation</div>
   <ul>
     <li><a href="README.md">README</a></li>
     <li><a href="id.html">ID</a></li>
-    <li><a href="PIPELINE1">Ebene 1 – SCAN</a></li>
-    <li><a href="PIPELINE2">Ebene 2 – OCR</a></li>
-    <li><a href="PIPELINE3">Ebene 3 – NET/NC</a></li>
-    <li><a href="PIPELINE4">Ebene 4 – OUTPUT/OI</a></li>
+    <li><a href="3.csv">3 · Grundmatrix</a></li>
+    <li><a href="6.csv">6 · Funktionsmatrix</a></li>
+    <li><a href="9.csv">9 · Normmatrix</a></li>
+    <li><a href="axiom-dreieck-6.csv">Axiom Dreieck 6</a></li>
+    <li><a href="modul-io-8.csv">Modul IO 8</a></li>
+    <li><a href="funktion-beschreibung-6.csv">Funktion 6</a></li>
+    <li><a href="stufe-aufgabe-5.csv">Stufe Aufgabe 5</a></li>
+    <li><a href="ebene-achse-12 (1).csv">Ebene Achse 12</a></li>
   </ul>
 </div>
 
+<!-- Vektor Module -->
+<div class="box">
+  <div class="title">Vektor Module (aus CSV)</div>
+  <pre>
+[ IO, Eingang, +Δx, aktiv ]
+[ X4, Multi, 4, stabil ]
+[ AIR, Aufstieg, +Φ, hoch ]
+  </pre>
+</div>
+
+<!-- 3 / 6 / 9 Matrix -->
+<div class="box">
+  <div class="title">Matrix 3 · 6 · 9</div>
+  <pre>
+3 = Grundvektoren (IX, XI, X4)
+6 = Funktionsachsen (IO, OI, AIR, AIV, ALLIN, ALLOUT)
+9 = Normmodule (FIT, FIX, MISS, RDY, ERROR, HELP)
+  </pre>
+</div>
+
+<!-- NC Mechanik -->
+<div class="box">
+  <div class="title">NC · Greifmechanik</div>
+  <pre>
+NC-GRIP  → Masse greifen
+NC-HOLD  → Masse halten
+NC-FLOW  → Masse transportieren
+NC-ORBIT → Masse umlaufen lassen
+  </pre>
+</div>
+
+<!-- Pipeline -->
 <div class="box">
   <div class="title">Pipeline</div>
   <pre>
 PIPELINE1 = SCAN
-PIPELINE2 = OCR
+PIPELINE2 = FUSION
 PIPELINE3 = NET/NC
 PIPELINE4 = OUTPUT/OI
+PIPELINE9 = Normmodul (FIT/FIX/MISS/RDY/ERROR/HELP)
   </pre>
 </div>
 
-<div class="box">
-  <div class="title">Axiome</div>
-  <pre>
-K(t) = 1 / (1 - t)
-Φ(t) = φ∞ · K(t)
-DualTransport: io = +Δx·K(t), oi = -Δx·K(t)
-TRANS-WARB: Sprung 3 → CUBIT → Sprung 4 → OI
-  </pre>
-</div>
-
-<div class="box">
-  <div class="title">Reise</div>
-  <pre>
-HOME → SCAN → OCR → NET/NC → TRANS-WARB → CUBIT → OUTPUT/OI
-  </pre>
-</div>
-
+<!-- Status -->
 <div class="box">
   <div class="title">Status</div>
   <pre>
-Online
+System: aktiv
+Matrix: geladen
+Vektoren: bereit
+NC: online
   </pre>
 </div>
 
