@@ -1,15 +1,27 @@
-<script src="IDkoop.js"></script>
-<script src="IDneutral.js"></script>
-<script src="IDpook.js"></script>
+<pre>
+ID {
+  VALUE: 50000,
+  ROOT: true,
 
-<script>
-function showID(mode) {
-    const map = {
-        koop: ID_KOOP,
-        neutral: ID_NEUTRAL,
-        pook: ID_POOK
-    };
-    const id = map[mode];
-    document.getElementById("id-info").innerText = id.info();
+  MASTER_ID: 1,
+  SLAVE_ID: 50000,
+
+  INDEX: pipeline,
+  STATUS: REAL,
+
+  IST: neu,
+  SOLL: aktiv,
+  IST_IST: ungleich,
+
+  STATE: LOCAL,
+  ACCESS: DIRECT,
+  SPRUNG: 0,
+
+  CUBIT: false,
+  AXIS: PIPELINE,
+
+  LOCALITY: reachable,
+  ENTRY: home,
+  EXIT: continuum
 }
-</script>
+</pre>
