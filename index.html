@@ -1,95 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>PIPELINE · Matrix · Vektor · CSV</title>
-
-<style>
-  body { background:#000; color:#0f0; font-family:monospace; padding:40px; }
-  h1 { color:#6cf; text-align:center; margin-bottom:30px; }
-  .box { background:#111; border:1px solid #333; padding:20px; margin-bottom:25px; }
-  .title { color:#6cf; font-size:18px; margin-bottom:10px; }
-  pre { background:#000; padding:10px; border-left:3px solid #6cf; white-space:pre-wrap; }
-  ul { list-style:none; padding:0; }
-  li { margin:8px 0; }
-  a { color:#6cf; text-decoration:none; }
-</style>
+    <meta charset="UTF-8">
+    <title>PIPELINE · Übersicht</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-top: 30px;
+            color: #222;
+        }
+        .block {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #eee;
+            text-align: left;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>PIPELINE · Matrix · Vektor · CSV</h1>
+<h1>PIPELINE · Systemübersicht</h1>
+<p>Dies ist die Hauptansicht des PIPELINE‑Systems.  
+Alle Module, Achsen und Dateien sind hier sauber und unverrutschbar dargestellt.</p>
 
-<!-- Navigation -->
-<div class="box">
-  <div class="title">Navigation</div>
-  <ul>
-    <li><a href="README.md">README</a></li>
-    <li><a href="id.html">ID</a></li>
-    <li><a href="3.csv">3 · Grundmatrix</a></li>
-    <li><a href="6.csv">6 · Funktionsmatrix</a></li>
-    <li><a href="9.csv">9 · Normmatrix</a></li>
-    <li><a href="axiom-dreieck-6.csv">Axiom Dreieck 6</a></li>
-    <li><a href="modul-io-8.csv">Modul IO 8</a></li>
-    <li><a href="funktion-beschreibung-6.csv">Funktion 6</a></li>
-    <li><a href="stufe-aufgabe-5.csv">Stufe Aufgabe 5</a></li>
-    <li><a href="ebene-achse-12 (1).csv">Ebene Achse 12</a></li>
-  </ul>
+<div class="block">
+    <h2>Systemfluss</h2>
+    <table>
+        <tr><th>Stufe</th><th>Funktion</th></tr>
+        <tr><td><a href="id.html">PIPELINE1</a></td><td>SCAN</td></tr>
+        <tr><td><a href="id.html">PIPELINE2</a></td><td>OCR</td></tr>
+        <tr><td><a href="id.html">PIPELINE3</a></td><td>NET/NC</td></tr>
+        <tr><td><a href="id.html">PIPELINE4</a></td><td>OUTPUT/OI</td></tr>
+    </table>
 </div>
 
-<!-- Vektor Module -->
-<div class="box">
-  <div class="title">Vektor Module (aus CSV)</div>
-  <pre>
-[ IO, Eingang, +Δx, aktiv ]
-[ X4, Multi, 4, stabil ]
-[ AIR, Aufstieg, +Φ, hoch ]
-  </pre>
+<div class="block">
+    <h2>Axiome</h2>
+    <ul>
+        <li>K(t) = 1 / (1 - t)</li>
+        <li>Φ(t) = φ∞ · K(t)</li>
+        <li>DualTransport: io = +Δx·K(t), oi = −Δx·K(t)</li>
+        <li>TRANS‑WARB: Sprung 3 → CUBIT → 4 → OI</li>
+    </ul>
 </div>
 
-<!-- 3 / 6 / 9 Matrix -->
-<div class="box">
-  <div class="title">Matrix 3 · 6 · 9</div>
-  <pre>
-3 = Grundvektoren (IX, XI, X4)
-6 = Funktionsachsen (IO, OI, AIR, AIV, ALLIN, ALLOUT)
-9 = Normmodule (FIT, FIX, MISS, RDY, ERROR, HELP)
-  </pre>
-</div>
-
-<!-- NC Mechanik -->
-<div class="box">
-  <div class="title">NC · Greifmechanik</div>
-  <pre>
-NC-GRIP  → Masse greifen
-NC-HOLD  → Masse halten
-NC-FLOW  → Masse transportieren
-NC-ORBIT → Masse umlaufen lassen
-  </pre>
-</div>
-
-<!-- Pipeline -->
-<div class="box">
-  <div class="title">Pipeline</div>
-  <pre>
-PIPELINE1 = SCAN
-PIPELINE2 = FUSION
-PIPELINE3 = NET/NC
-PIPELINE4 = OUTPUT/OI
-PIPELINE9 = Normmodul (FIT/FIX/MISS/RDY/ERROR/HELP)
-  </pre>
-</div>
-
-<!-- Status -->
-<div class="box">
-  <div class="title">Status</div>
-  <pre>
-System: aktiv
-Matrix: geladen
-Vektoren: bereit
-NC: online
-  </pre>
-</div>
-
-</body>
-</html>
+<div class="block">
+    <h2>Achsen</h2>
+    <table>
+        <tr><th>Achse</th><th>Bedeutung</th></tr>
+        <tr><td>3</td><td>Ursprung</td></tr>
+        <tr><td>6</td><td>Dreieck / Struktur</td></tr>
+        <tr><td>8</td><td>Bedeutung</td></tr>
+        <tr><td>9</td><td>Aggregatpunkt</td></tr>
+        <tr><td>10</td><td>Erweiterte Bedeutung</td></tr>
+        <tr><td>12</td><td>Raum‑Achse</td></tr>
+        <tr><td>27</td><td>Build‑Wurzel</td></tr>
+        <tr><td>81</td><td>Aggregatraum</td></tr>
+        <tr><td>
