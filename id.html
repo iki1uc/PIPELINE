@@ -1,27 +1,60 @@
-<pre>
-ID {
-  VALUE: 50000,
-  ROOT: true,
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>PIPELINE · ID</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-top: 30px;
+            color: #222;
+        }
+        .block {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #eee;
+            text-align: left;
+        }
+    </style>
+</head>
 
-  MASTER_ID: 1,
-  SLAVE_ID: 50000,
+<body>
 
-  INDEX: pipeline,
-  STATUS: REAL,
+<h1>PIPELINE · ID</h1>
+<p>Modul‑Identifikation des PIPELINE‑Systems. Alle Module, Achsen und Dateien sind hier sauber und unverrutschbar gelistet.</p>
 
-  IST: neu,
-  SOLL: aktiv,
-  IST_IST: ungleich,
+<div class="block">
+    <h2>Module</h2>
+    <table>
+        <tr><th>Modul</th><th>Funktion</th></tr>
+        <tr><td>PIPELINE1</td><td>SCAN</td></tr>
+        <tr><td>PIPELINE2</td><td>OCR</td></tr>
+        <tr><td>PIPELINE3</td><td>NET/NC</td></tr>
+        <tr><td>PIPELINE4</td><td>OUTPUT/OI</td></tr>
+    </table>
+</div>
 
-  STATE: LOCAL,
-  ACCESS: DIRECT,
-  SPRUNG: 0,
-
-  CUBIT: false,
-  AXIS: PIPELINE,
-
-  LOCALITY: reachable,
-  ENTRY: home,
-  EXIT: continuum
-}
-</pre>
+<div class="block">
+    <h2>Achsen</h2>
+    <table>
+        <tr><th>Achse</th><th>Bedeutung</th></tr>
+        <tr><td>3</td><td>Urs
