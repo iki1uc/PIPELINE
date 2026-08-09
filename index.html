@@ -1,86 +1,123 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>PIPELINE · Übersicht</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
-        h1, h2 {
-            margin-top: 30px;
-            color: #222;
-        }
-        .block {
-            background: #ffffff;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background: #eee;
-            text-align: left;
-        }
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>PIPELINE · Grundachse · iki1uc</title>
+
+<style>
+    body {
+        background:#000;
+        color:#0f0;
+        font-family:Consolas, monospace;
+        padding:20px;
+    }
+    h1 { color:#6cf; }
+    pre {
+        background:#111;
+        padding:12px;
+        border:1px solid #333;
+        border-radius:6px;
+        color:#0f0;
+    }
+    .block {
+        margin-bottom:20px;
+    }
+</style>
+
+<script type="module">
+import {
+    PIPELINE_3,
+    PIPELINE_6,
+    PIPELINE_9,
+    PIPELINE_12,
+    CONTINIUM_TRUTH,
+    WHIRL,
+    GATE,
+    WLOCH
+} from "./um.js";
+
+// =========================
+// CSV Loader
+// =========================
+
+async function loadCSV(name){
+    const res = await fetch(name);
+    const text = await res.text();
+    return text.split("\n").map(r => r.split(","));
+}
+
+// =========================
+// PIPELINE Start
+// =========================
+
+async function PIPELINE_START(){
+
+    // Pipeline‑Daten laden
+    const p3 = await loadCSV("3.csv");
+    const p6 = await loadCSV("6.csv");
+    const p9 = await loadCSV("9.csv");
+    const p12 = await loadCSV("datei-inhalt-12.csv");
+
+    // Achsen‑Bedeutung
+    const achse8 = await loadCSV("achse-bedeutung-8.csv");
+    const achse10 = await loadCSV("achse-bedeutung-10.csv");
+
+    // Stufen / Aufgaben
+    const stufe5 = await loadCSV("stufe-aufgabe-5.csv");
+
+    // Modul‑IO
+    const modul8 = await loadCSV("modul-io-8.csv");
+
+    // Axiom‑Dreieck
+    const axiom6 = await loadCSV("axiom-dreieck-6.csv");
+
+    // Wahrheit
+    const truth = CONTINIUM_TRUTH();
+
+    // WHIRL erzeugen
+    const whirl = WHIRL({ x: 9, y: 6, z: 3 });
+
+    // GATE + WLOCH
+    const gate = [GATE.ram(), GATE.cpu(), GATE.gpu()];
+    const wloch = [WLOCH.tmp(), WLOCH.trans(), WLOCH.warb()];
+
+    return {
+        pipeline: {
+            p3, p6, p9, p12
+        },
+        achsen: {
+            achse8, achse10
+        },
+        stufen: stufe5,
+        modul: modul8,
+        axiom: axiom6,
+        truth,
+        whirl,
+        gate,
+        wloch
+    };
+}
+
+// =========================
+// UI
+// =========================
+
+window.onload = async () => {
+    const out = await PIPELINE_START();
+    document.getElementById("out").textContent =
+        JSON.stringify(out, null, 2);
+};
+</script>
+
 </head>
 
 <body>
 
-<h1>PIPELINE · Systemübersicht</h1>
-<p>Dies ist die Hauptansicht des PIPELINE‑Systems.  
-Alle Module, Achsen und Dateien sind hier sauber und unverrutschbar dargestellt.</p>
+<h1>PIPELINE · Grundachse · iki1uc</h1>
 
 <div class="block">
-    <h2>Systemfluss</h2>
-    <table>
-        <tr><th>Stufe</th><th>Funktion</th></tr>
-        <tr><td><a href="id.html">PIPELINE1</a></td><td>SCAN</td></tr>
-        <tr><td><a href="id.html">PIPELINE2</a></td><td>OCR</td></tr>
-        <tr><td><a href="id.html">PIPELINE3</a></td><td>NET/NC</td></tr>
-        <tr><td><a href="id.html">PIPELINE4</a></td><td>OUTPUT/OI</td></tr>
-    </table>
+    <pre id="out">Lade PIPELINE…</pre>
 </div>
 
-<div class="block">
-    <h2>Axiome</h2>
-    <ul>
-        <li>K(t) = 1 / (1 - t)</li>
-        <li>Φ(t) = φ∞ · K(t)</li>
-        <li>DualTransport: io = +Δx·K(t), oi = −Δx·K(t)</li>
-        <li>TRANS‑WARB: Sprung 3 → CUBIT → 4 → OI</li>
-    </ul>
-</div>
-
-<div class="block">
-    <h2>Achsen</h2>
-    <table>
-        <tr><th>Achse</th><th>Bedeutung</th></tr>
-        <tr><td>3</td><td>Ursprung</td></tr>
-        <tr><td>6</td><td>Dreieck / Struktur</td></tr>
-        <tr><td>8</td><td>Bedeutung</td></tr>
-        <tr><td>9</td><td>Aggregatpunkt</td></tr>
-        <tr><td>10</td><td>Erweiterte Bedeutung</td></tr>
-        <tr><td>12</td><td>Raum‑Achse</td></tr>
-        <tr><td>27</td><td>Build‑Wurzel</td></tr>
-        <tr><td>81</td><td>Aggregatraum</td></tr>
-        <tr><td>
+</body>
+</html>
