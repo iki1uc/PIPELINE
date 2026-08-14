@@ -25,7 +25,7 @@ import { P1 } from "./pipelineP1.js";
 import { P2 } from "./pipelineP2.js";
 import { Pe } from "./pipelinePe.js";
 
-// --- GLOBAL OUTPUT (wie MXU-OS) ---
+// --- GLOBAL OUTPUT (MXU-OS Style) ---
 window.out = function(msg){
     document.getElementById("out").innerText = msg;
 };
@@ -52,65 +52,4 @@ window.qi_os = function(){
     out("QI · OS\n" + JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
 };
 
-window.qi_stage = function(){
-    out("QI · STAGE\n" + JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
-};
-
-window.qi_404 = function(){
-    out("QI · 404\n" + JSON.stringify(QI.scan({id:"404",stable:false,fn:false}), null, 2));
-};
-
-// =========================
-// PIPELINE — GLOBAL FUNCTIONS
-// =========================
-
-window.p4_switch = function(){
-    out("P4 · start\n" + JSON.stringify(P4.run(coreScan()), null, 2));
-};
-
-window.p0_switch = function(){
-    out("P0 · wake\n" + JSON.stringify(P0.run(coreScan()), null, 2));
-};
-
-window.p1_switch = function(){
-    out("P1 · melt\n" + JSON.stringify(P1.run(coreScan()), null, 2));
-};
-
-window.p2_switch = function(){
-    out("P2 · merge\n" + JSON.stringify(P2.run(coreScan()), null, 2));
-};
-
-window.pe_switch = function(){
-    out("Pe · finalize\n" + JSON.stringify(Pe.run(coreScan()), null, 2));
-};
-
-</script>
-
-</head>
-
-<body>
-
-<h1>PIPELINE · Station 0 · QI/IQQ · REAL</h1>
-
-<section>
-<h2>QI / IQQ</h2>
-<button onclick="qi_pipeline()">QI · PIPELINE</button>
-<button onclick="qi_master()">QI · MASTER-KERN</button>
-<button onclick="qi_respo()">QI · RESPO</button>
-<button onclick="qi_os()">QI · OS</button>
-<button onclick="qi_stage()">QI · STAGE</button>
-<button onclick="qi_404()">QI · 404</button>
-<pre id="out">Bereit…</pre>
-</section>
-
-<section>
-<h2>PIPELINE</h2>
-<button onclick="p4_switch()">P4 · start</button>
-<button onclick="p0_switch()">P0 · wake</button>
-<button onclick="p1_switch()">P1 · melt</button>
-<button onclick="p2_switch()">P2 · merge</button>
-<button onclick="pe_switch()">Pe · finalize</button>
-</section>
-
-</body>
-</html>
+window
