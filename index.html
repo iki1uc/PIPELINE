@@ -25,6 +25,9 @@ import { P1 } from "./pipelineP1.js";
 import { P2 } from "./pipelineP2.js";
 import { Pe } from "./pipelinePe.js";
 
+// externe 404-Funktion laden
+import "./win.qi_404.js";
+
 // --- GLOBAL OUTPUT (MXU-OS Style) ---
 window.out = function(msg){
     document.getElementById("out").innerText = msg;
@@ -49,11 +52,50 @@ window.qi_respo = function(){
 };
 
 window.qi_os = function(){
-    out("QI · OS\n" + JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
+    out("QI · OS\n" + JSON.stringify(QI.scan({
+        id:"OS",
+        core:true,
+        fn:true,
+        stable:true
+    }), null, 2));
 };
 
 window.qi_stage = function(){
-    out("QI · STAGE\n" + JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
+    out("QI · STAGE\n" + JSON.stringify(QI.scan({
+        id:"STAGE",
+        core:true,
+        fn:true,
+        ready:true
+    }), null, 2));
 };
 
-window.qi_404 = function
+</script>
+
+</head>
+
+<body>
+
+<h1>PIPELINE · Station 0 · QI/IQQ · REAL</h1>
+
+<section>
+<h2>QI / IQQ</h2>
+<button onclick="qi_pipeline()">QI · PIPELINE</button>
+<button onclick="qi_master()">QI · MASTER-KERN</button>
+<button onclick="qi_respo()">QI · RESPO</button>
+<button onclick="qi_os()">QI · OS</button>
+<button onclick="qi_stage()">QI · STAGE</button>
+<button onclick="qi_404()">QI · 404</button>
+<pre id="out">Bereit…</pre>
+</section>
+
+<section>
+<h2>PIPELINE</h2>
+<button onclick="p4_switch()">P4 · start</button>
+<button onclick="p0_switch()">P0 · wake</button>
+<button onclick="p1_switch()">P1 · melt</button>
+<button onclick="p2_switch()">P2 · merge</button>
+<button onclick="pe_switch()">Pe · finalize</button>
+</section>
+
+</body>
+</html>
