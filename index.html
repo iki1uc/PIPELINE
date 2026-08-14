@@ -15,6 +15,7 @@ button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;margin
 
 <script type="module">
 
+
 import { QI } from "./QI.js";
 import { coreScan } from "./coreScan.js";
 
@@ -29,21 +30,53 @@ function out(msg){
 }
 
 // QI
-window.qi_pipeline = () => out(JSON.stringify(QI.scan(P4.run(coreScan())), null, 2));
-window.qi_master   = () => out(JSON.stringify(QI.scan(coreScan()), null, 2));
-window.qi_respo    = () => out(JSON.stringify(QI.scan(coreScan().respo360), null, 2));
-window.qi_os       = () => out(JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
-window.qi_stage    = () => out(JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
-window.qi_404      = () => out(JSON.stringify(QI.scan({id:"404",stable:false,fn:false}), null, 2));
+window.qi_pipeline = function(){
+    out(JSON.stringify(QI.scan(P4.run(coreScan())), null, 2));
+};
+
+window.qi_master = function(){
+    out(JSON.stringify(QI.scan(coreScan()), null, 2));
+};
+
+window.qi_respo = function(){
+    out(JSON.stringify(QI.scan(coreScan().respo360), null, 2));
+};
+
+window.qi_os = function(){
+    out(JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
+};
+
+window.qi_stage = function(){
+    out(JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
+};
+
+window.qi_404 = function(){
+    out(JSON.stringify(QI.scan({id:"404",stable:false,fn:false}), null, 2));
+};
 
 // PIPELINE
-window.p4_switch = () => out(JSON.stringify(P4.run(coreScan()), null, 2));
-window.p0_switch = () => out(JSON.stringify(P0.run(coreScan()), null, 2));
-window.p1_switch = () => out(JSON.stringify(P1.run(coreScan()), null, 2));
-window.p2_switch = () => out(JSON.stringify(P2.run(coreScan()), null, 2));
-window.pe_switch = () => out(JSON.stringify(Pe.run(coreScan()), null, 2));
+window.p4_switch = function(){
+    out(JSON.stringify(P4.run(coreScan()), null, 2));
+};
+
+window.p0_switch = function(){
+    out(JSON.stringify(P0.run(coreScan()), null, 2));
+};
+
+window.p1_switch = function(){
+    out(JSON.stringify(P1.run(coreScan()), null, 2));
+};
+
+window.p2_switch = function(){
+    out(JSON.stringify(P2.run(coreScan()), null, 2));
+};
+
+window.pe_switch = function(){
+    out(JSON.stringify(Pe.run(coreScan()), null, 2));
+};
 
 </script>
+
 
 </head>
 
