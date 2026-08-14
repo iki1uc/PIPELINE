@@ -2,122 +2,148 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PIPELINE · Grundachse · iki1uc</title>
+<title>PIPELINE · Grundachse · Station 0 · QI/IQQ</title>
 
 <style>
-    body {
-        background:#000;
-        color:#0f0;
-        font-family:Consolas, monospace;
-        padding:20px;
-    }
-    h1 { color:#6cf; }
-    pre {
-        background:#111;
-        padding:12px;
-        border:1px solid #333;
-        border-radius:6px;
-        color:#0f0;
-    }
-    .block {
-        margin-bottom:20px;
-    }
+body{background:#000;color:#0ff;font-family:Consolas, monospace;padding:20px;}
+h1,h2{color:#6cf;text-shadow:0 0 12px #6cf;}
+section{background:#0b0b0b;border:1px solid #222;padding:15px;margin-bottom:20px;
+        border-radius:8px;box-shadow:0 0 12px #004466;}
+pre{background:#111;border:1px solid #333;padding:12px;white-space:pre-wrap;}
+button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;margin:5px;}
 </style>
 
 <script type="module">
-import {
-    PIPELINE_3,
-    PIPELINE_6,
-    PIPELINE_9,
-    PIPELINE_12,
-    CONTINIUM_TRUTH,
-    WHIRL,
-    GATE,
-    WLOCH
-} from "./um.js";
 
-// =========================
-// CSV Loader
-// =========================
+// QI ENGINE
+import { QI } from "./QI.js";
+import { QI_CSV } from "./QI_CSV.js";
 
-async function loadCSV(name){
-    const res = await fetch(name);
-    const text = await res.text();
-    return text.split("\n").map(r => r.split(","));
+// PIPELINE MODULES
+import { P4 } from "./pipelineP4.js";
+import { P0 } from "./pipelineP0.js";
+import { P1 } from "./pipelineP1.js";
+import { P2 } from "./pipelineP2.js";
+import { Pe } from "./pipelinePe.js";
+
+// CORE SCAN (MASTER-KERN)
+import { coreScan } from "./coreScan.js";
+
+// OUTPUT
+function out(msg){
+    document.getElementById("out").innerText = msg;
 }
 
-// =========================
-// PIPELINE Start
-// =========================
-
-async function PIPELINE_START(){
-
-    // Pipeline‑Daten laden
-    const p3 = await loadCSV("3.csv");
-    const p6 = await loadCSV("6.csv");
-    const p9 = await loadCSV("9.csv");
-    const p12 = await loadCSV("datei-inhalt-12.csv");
-
-    // Achsen‑Bedeutung
-    const achse8 = await loadCSV("achse-bedeutung-8.csv");
-    const achse10 = await loadCSV("achse-bedeutung-10.csv");
-
-    // Stufen / Aufgaben
-    const stufe5 = await loadCSV("stufe-aufgabe-5.csv");
-
-    // Modul‑IO
-    const modul8 = await loadCSV("modul-io-8.csv");
-
-    // Axiom‑Dreieck
-    const axiom6 = await loadCSV("axiom-dreieck-6.csv");
-
-    // Wahrheit
-    const truth = CONTINIUM_TRUTH();
-
-    // WHIRL erzeugen
-    const whirl = WHIRL({ x: 9, y: 6, z: 3 });
-
-    // GATE + WLOCH
-    const gate = [GATE.ram(), GATE.cpu(), GATE.gpu()];
-    const wloch = [WLOCH.tmp(), WLOCH.trans(), WLOCH.warb()];
-
-    return {
-        pipeline: {
-            p3, p6, p9, p12
-        },
-        achsen: {
-            achse8, achse10
-        },
-        stufen: stufe5,
-        modul: modul8,
-        axiom: axiom6,
-        truth,
-        whirl,
-        gate,
-        wloch
-    };
-}
-
-// =========================
-// UI
-// =========================
-
-window.onload = async () => {
-    const out = await PIPELINE_START();
-    document.getElementById("out").textContent =
-        JSON.stringify(out, null, 2);
+// QI BUTTONS
+window.qi_pipeline = () => {
+    const core = coreScan();
+    out("QI · PIPELINE\n" + JSON.stringify(QI.scan(P4.run(core)), null, 2));
 };
+
+window.qi_master = () => {
+    const core = coreScan();
+    out("QI · MASTER-KERN\n" + JSON.stringify(QI.scan(core), null, 2));
+};
+
+window.qi_csv = () => {
+    out("QI · CSV-Lagen aktiv.");
+};
+
+// PIPELINE BUTTONS
+window.p4_switch = () => {
+    const core = coreScan();
+    out("P4 · start\n" + JSON.stringify(P4.run(core), null, 2));
+};
+
+window.p0_switch = () => {
+    const core = coreScan();
+    out("P0 · wake\n" + JSON.stringify(P0.run(core), null, 2));
+};
+
+window.p1_switch = () => {
+    const core = coreScan();
+    out("P1 · melt\n" + JSON.stringify(P1.run(core), null, 2));
+};
+
+window.p2_switch = () => {
+    const core = coreScan();
+    out("P2 · merge\n" + JSON.stringify(P2.run(core), null, 2));
+};
+
+window.pe_switch = () => {
+    const core = coreScan();
+    out("Pe · finalize\n" + JSON.stringify(Pe.run(core), null, 2));
+};
+
+// CSV LOADER
+async function loadCSV(id,file){
+    try{
+        const txt = await fetch(file).then(r=>r.text());
+        document.getElementById(id).textContent = txt;
+    }catch{
+        document.getElementById(id).textContent = "Fehler: Datei nicht gefunden.";
+    }
+}
+
+// LOAD ALL
+window.onload = () => {
+
+    loadCSV("csv_achse10","achse-bedeutung-10.csv");
+    loadCSV("csv_achse8","achse-bedeutung-8.csv");
+    loadCSV("csv_dreieck6","axiom-dreieck-6.csv");
+    loadCSV("csv_inhalt10","datei-inhalt-10.csv");
+    loadCSV("csv_inhalt12","datei-inhalt-12.csv");
+    loadCSV("csv_ebene12","ebene-achse-12.csv");
+    loadCSV("csv_funktion6","funktion-beschreibung-6.csv");
+    loadCSV("csv_io8","modul-io-8.csv");
+    loadCSV("csv_stufe5","stufe-aufgabe-5.csv");
+    loadCSV("csv_3","3.csv");
+    loadCSV("csv_6","6.csv");
+    loadCSV("csv_9","9.csv");
+};
+
 </script>
 
 </head>
 
 <body>
 
-<h1>PIPELINE · Grundachse · iki1uc</h1>
+<h1>PIPELINE · Grundachse · Station 0</h1>
 
-<div class="block">
-    <pre id="out">Lade PIPELINE…</pre>
-</div>
+<section>
+<h2>QI / IQQ — Bewertung</h2>
+<button onclick="qi_pipeline()">QI · PIPELINE</button>
+<button onclick="qi_master()">QI · MASTER-KERN</button>
+<button onclick="qi_csv()">QI · CSV-Lagen</button>
+<pre id="out">Bereit…</pre>
+</section>
+
+<section>
+<h2>PIPELINE — Schalter</h2>
+<button onclick="p4_switch()">P4 · start</button>
+<button onclick="p0_switch()">P0 · wake</button>
+<button onclick="p1_switch()">P1 · melt</button>
+<button onclick="p2_switch()">P2 · merge</button>
+<button onclick="pe_switch()">Pe · finalize</button>
+</section>
+
+<section>
+<h2>CSV — Lagen</h2>
+
+<h3>Achse-Bedeutung (10)</h3><pre id="csv_achse10">lade…</pre>
+<h3>Achse-Bedeutung (8)</h3><pre id="csv_achse8">lade…</pre>
+<h3>Axiom-Dreieck (6)</h3><pre id="csv_dreieck6">lade…</pre>
+<h3>Datei-Inhalt (10)</h3><pre id="csv_inhalt10">lade…</pre>
+<h3>Datei-Inhalt (12)</h3><pre id="csv_inhalt12">lade…</pre>
+<h3>Ebene-Achse (12)</h3><pre id="csv_ebene12">lade…</pre>
+<h3>Funktion-Beschreibung (6)</h3><pre id="csv_funktion6">lade…</pre>
+<h3>Modul-IO (8)</h3><pre id="csv_io8">lade…</pre>
+<h3>Stufe-Aufgabe (5)</h3><pre id="csv_stufe5">lade…</pre>
+<h3>3.csv</h3><pre id="csv_3">lade…</pre>
+<h3>6.csv</h3><pre id="csv_6">lade…</pre>
+<h3>9.csv</h3><pre id="csv_9">lade…</pre>
+
+</section>
 
 </body>
 </html>
