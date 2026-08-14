@@ -52,4 +52,8 @@ window.qi_os = function(){
     out("QI · OS\n" + JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
 };
 
-window
+window.qi_stage = function(){
+    out("QI · STAGE\n" + JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
+};
+
+window.qi_404 = function
