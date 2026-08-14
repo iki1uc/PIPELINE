@@ -15,6 +15,7 @@ button{background:#111;color:#0ff;border:1px solid #0ff;padding:10px 20px;margin
 
 <script type="module">
 
+// MODULE IMPORTS
 import { QI } from "./QI.js";
 import { coreScan } from "./coreScan.js";
 
@@ -24,54 +25,63 @@ import { P1 } from "./pipelineP1.js";
 import { P2 } from "./pipelineP2.js";
 import { Pe } from "./pipelinePe.js";
 
+// --- GLOBAL OUTPUT (wie MXU-OS) ---
 window.out = function(msg){
     document.getElementById("out").innerText = msg;
 };
 
-// QI
+// =========================
+// QI — GLOBAL FUNCTIONS
+// =========================
+
 window.qi_pipeline = function(){
-    out(JSON.stringify(QI.scan(P4.run(coreScan())), null, 2));
+    const core = coreScan();
+    out("QI · PIPELINE\n" + JSON.stringify(QI.scan(P4.run(core)), null, 2));
 };
 
 window.qi_master = function(){
-    out(JSON.stringify(QI.scan(coreScan()), null, 2));
+    out("QI · MASTER-KERN\n" + JSON.stringify(QI.scan(coreScan()), null, 2));
 };
 
 window.qi_respo = function(){
-    out(JSON.stringify(QI.scan(coreScan().respo360), null, 2));
+    const core = coreScan();
+    out("QI · RESPO\n" + JSON.stringify(QI.scan(core.respo360), null, 2));
 };
 
 window.qi_os = function(){
-    out(JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
+    out("QI · OS\n" + JSON.stringify(QI.scan({id:"OS",core:true,fn:true,stable:true}), null, 2));
 };
 
 window.qi_stage = function(){
-    out(JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
+    out("QI · STAGE\n" + JSON.stringify(QI.scan({id:"STAGE",core:true,fn:true,ready:true}), null, 2));
 };
 
 window.qi_404 = function(){
-    out(JSON.stringify(QI.scan({id:"404",stable:false,fn:false}), null, 2));
+    out("QI · 404\n" + JSON.stringify(QI.scan({id:"404",stable:false,fn:false}), null, 2));
 };
 
-// PIPELINE
+// =========================
+// PIPELINE — GLOBAL FUNCTIONS
+// =========================
+
 window.p4_switch = function(){
-    out(JSON.stringify(P4.run(coreScan()), null, 2));
+    out("P4 · start\n" + JSON.stringify(P4.run(coreScan()), null, 2));
 };
 
 window.p0_switch = function(){
-    out(JSON.stringify(P0.run(coreScan()), null, 2));
+    out("P0 · wake\n" + JSON.stringify(P0.run(coreScan()), null, 2));
 };
 
 window.p1_switch = function(){
-    out(JSON.stringify(P1.run(coreScan()), null, 2));
+    out("P1 · melt\n" + JSON.stringify(P1.run(coreScan()), null, 2));
 };
 
 window.p2_switch = function(){
-    out(JSON.stringify(P2.run(coreScan()), null, 2));
+    out("P2 · merge\n" + JSON.stringify(P2.run(coreScan()), null, 2));
 };
 
 window.pe_switch = function(){
-    out(JSON.stringify(Pe.run(coreScan()), null, 2));
+    out("Pe · finalize\n" + JSON.stringify(Pe.run(coreScan()), null, 2));
 };
 
 </script>
