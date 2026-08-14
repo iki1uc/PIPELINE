@@ -1,6 +1,0 @@
-﻿Stufe,Aufgabe
-CAPTURE,erzeugt atomare RGBA‑Frames
-RGBA Serializer,wandelt CONTINIUM.room in Pixel
-FFmpeg RAW PIPE,nimmt Frames über stdin entgegen
-FFmpeg RTMP Encoder,wandelt Frames in RTMP‑Stream
-OBS,zeigt den Stream live
