@@ -3,662 +3,386 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PIPELINE · Tiefe · Das Fundament</title>
+
+<!-- EVO-GEOLEGAL -->
+<meta name="author" content="iki1uc (Ridvan)">
+<meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
+
+<title>🌀 RITH MASTER 2.0 · HUMAN · MECHANIC · EVO</title>
+
 <style>
-:root {
-    --bg: #0a0a0f;
-    --fg: #0f0;
-    --gold: #ffd700;
-    --p0: #ff6b6b;
-    --p1: #6bff6b;
-    --p2: #6b6bff;
-    --p4: #ffd93d;
-    --pe: #ff44ff;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Consolas', monospace;
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 6px;
-    padding: 10px;
-    overflow: hidden;
-}
+    :root {
+        --bg: #0a0a0f;
+        --fg: #0f0;
+        --gold: #ffd700;
+        --p0: #ff6b6b;
+        --p1: #6bff6b;
+        --p2: #6b6bff;
+        --rith: #ffd700;
+        --human: #ff44ff;
+        --mech: #00ccff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Consolas', monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+    }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: 6px;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-header h1 {
-    font-size: 16px;
-    color: var(--gold);
-    letter-spacing: 3px;
-}
-header h1 .pipe { color: var(--p0); }
-header h1 .line { color: var(--p1); }
-header h1 .deep { color: var(--p4); }
-#info-bar { font-size: 9px; color: #666; display: flex; gap: 8px; align-items: center; }
+    header {
+        border: 2px solid var(--gold);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(255,215,61,0.05), rgba(0,0,0,0.2));
+    }
+    header h1 {
+        font-size: 22px;
+        background: linear-gradient(90deg, var(--rith), var(--human), var(--mech));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 4px;
+        margin: 0;
+    }
+    header p {
+        font-size: 10px;
+        color: #888;
+        margin-top: 4px;
+        letter-spacing: 2px;
+    }
 
-main {
-    display: grid;
-    grid-template-columns: 3fr 1.2fr;
-    gap: 6px;
-    height: 100%;
-    min-height: 0;
-}
+    .panel {
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .panel h2 {
+        font-size: 14px;
+        color: var(--gold);
+        margin: 0;
+        border-bottom: 1px solid #333;
+        padding-bottom: 6px;
+    }
 
-#canvas-wrap {
-    background: #0a0a0f;
-    border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 6px;
-    position: relative;
-    overflow: hidden;
-}
-#canvas-wrap canvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 6px;
-    display: block;
-}
-#canvas-overlay {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    font-size: 7px;
-    color: #444;
-    pointer-events: none;
-    background: rgba(0,0,0,0.7);
-    padding: 3px 8px;
-    border-radius: 3px;
-}
-#canvas-overlay .pipe { color: var(--gold); }
+    /* RITH WERT ANZEIGE */
+    .rith-display {
+        font-size: 60px;
+        text-align: center;
+        color: var(--rith);
+        text-shadow: 0 0 30px rgba(255,215,61,0.5);
+        border: 2px solid var(--rith);
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+        margin: 0 auto;
+    }
 
-#panel {
-    background: #0a0a0f;
-    border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    overflow-y: auto;
-    max-height: 100%;
-}
-#panel h3 { font-size: 9px; color: #666; border-bottom: 1px solid #1a1a2a; padding-bottom: 3px; }
+    /* HUMAN / MECHANIC ANZEIGE */
+    .dual-status {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .dual-box {
+        flex: 1;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+    }
+    .dual-box.human {
+        border-color: var(--human);
+        background: rgba(255,68,255,0.05);
+    }
+    .dual-box.mech {
+        border-color: var(--mech);
+        background: rgba(0,204,255,0.05);
+    }
+    .dual-box .label {
+        font-size: 9px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .dual-box .value {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 4px;
+    }
+    .dual-box.human .value { color: var(--human); }
+    .dual-box.mech .value { color: var(--mech); }
 
-#steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3px;
-}
-.step {
-    background: rgba(255,255,255,0.02);
-    border-radius: 6px;
-    padding: 4px 6px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.04);
-    cursor: pointer;
-    transition: all 0.3s;
-}
-.step:hover {
-    border-color: var(--gold);
-    background: rgba(255,215,61,0.05);
-}
-.step .sym { font-size: 14px; display: block; }
-.step .label { color: #666; font-size: 5px; text-transform: uppercase; letter-spacing: 1px; }
-.step .desc { color: #444; font-size: 4px; }
-.step.active { border-color: var(--gold); background: rgba(255,215,61,0.08); }
+    /* EVO GRID */
+    .evo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    .evo-panel {
+        background: #0a0a0f;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .evo-panel h3 {
+        font-size: 13px;
+        margin: 0;
+        border-bottom: 1px solid #333;
+        padding-bottom: 4px;
+    }
+    .evo-panel.rev h3 { color: var(--human); border-color: var(--human); }
+    .evo-panel.upd h3 { color: var(--mech); border-color: var(--mech); }
+    .evo-panel.upg h3 { color: var(--gold); border-color: var(--gold); }
+    .evo-panel .stat {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: #888;
+        border-bottom: 1px dashed #222;
+        padding-bottom: 4px;
+    }
+    .evo-panel .stat b { font-size: 14px; }
+    .evo-panel.rev .stat b { color: var(--human); }
+    .evo-panel.upd .stat b { color: var(--mech); }
+    .evo-panel.upg .stat b { color: var(--gold); }
 
-#log {
-    flex: 1;
-    overflow-y: auto;
-    font-size: 7px;
-    color: #6a6a8a;
-    line-height: 1.3;
-    min-height: 30px;
-    max-height: 60px;
-    background: #06060a;
-    border-radius: 4px;
-    padding: 3px 5px;
-}
-#log .entry { padding: 1px 0; border-bottom: 1px solid #0a0a12; }
-#log .time { color: #444; }
-#log .msg.p0 { color: var(--p0); }
-#log .msg.p1 { color: var(--p1); }
-#log .msg.p2 { color: var(--p2); }
-#log .msg.p4 { color: var(--p4); }
-#log .msg.pe { color: var(--pe); }
-#log .msg.pipe { color: var(--gold); }
+    /* BUTTONS */
+    .btn-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    button {
+        background: #1a1a2a;
+        color: #fff;
+        border: 1px solid #444;
+        padding: 10px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    button:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+        transform: translateY(-2px);
+    }
+    button.rev { border-color: var(--human); color: var(--human); }
+    button.rev:hover { background: var(--human); color: #000; }
+    button.upd { border-color: var(--mech); color: var(--mech); }
+    button.upd:hover { background: var(--mech); color: #000; }
+    button.upg { border-color: var(--gold); color: var(--gold); }
+    button.upg:hover { background: var(--gold); color: #000; }
+    button.main { grid-column: span 3; font-size: 14px; border-color: var(--gold); color: var(--gold); }
+    button.main:hover { background: var(--gold); color: #000; }
 
-#metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 2px;
-}
-.metric {
-    background: #0e0e1a;
-    border-radius: 3px;
-    padding: 2px 3px;
-    text-align: center;
-    border: 1px solid #1a1a2a;
-}
-.metric .label { color: #666; font-size: 5px; text-transform: uppercase; }
-.metric .value { font-size: 9px; font-weight: bold; }
-.metric.p0 .value { color: var(--p0); }
-.metric.p1 .value { color: var(--p1); }
-.metric.p2 .value { color: var(--p2); }
-.metric.p4 .value { color: var(--p4); }
+    /* LOG */
+    .log {
+        background: #000;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 10px;
+        color: #888;
+        height: 120px;
+        overflow-y: auto;
+        line-height: 1.6;
+    }
+    .log .time { color: #444; }
+    .log .human { color: var(--human); }
+    .log .mech { color: var(--mech); }
 
-#controls {
-    display: flex;
-    gap: 2px;
-    flex-wrap: wrap;
-}
-button {
-    background: #111;
-    color: var(--fg);
-    border: 1px solid #333;
-    padding: 3px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 8px;
-    transition: all 0.2s;
-}
-button:hover { background: #1a1a2a; border-color: var(--gold); }
-button:active { transform: scale(0.95); }
-button.primary { border-color: var(--gold); color: var(--gold); }
-button.primary:hover { background: var(--gold); color: #000; }
-button.p0 { border-color: var(--p0); color: var(--p0); }
-button.p0:hover { background: var(--p0); color: #000; }
-button.p1 { border-color: var(--p1); color: var(--p1); }
-button.p1:hover { background: var(--p1); color: #000; }
-button.p2 { border-color: var(--p2); color: var(--p2); }
-button.p2:hover { background: var(--p2); color: #000; }
-button.p4 { border-color: var(--p4); color: var(--p4); }
-button.p4:hover { background: var(--p4); color: #000; }
-button.pe { border-color: var(--pe); color: var(--pe); }
-button.pe:hover { background: var(--pe); color: #000; }
-button.danger { border-color: #f44; color: #f44; }
-button.danger:hover { background: #f44; color: #000; }
-
-@media (max-width: 800px) {
-    main { grid-template-columns: 1fr; }
-    #panel { max-height: 180px; }
-    #steps { grid-template-columns: 1fr 1fr; }
-}
+    footer {
+        text-align: center;
+        color: #333;
+        font-size: 9px;
+        padding-top: 8px;
+        border-top: 1px solid #222;
+    }
 </style>
 </head>
 <body>
 
 <header>
-    <h1>
-        <span class="pipe">🔧 PIPELINE</span>
-        <span style="color:#666;">·</span>
-        <span class="line">⚡</span>
-        <span style="color:#666;">·</span>
-        <span class="deep">🌊 TIEFE</span>
-    </h1>
-    <div id="info-bar">
-        <span id="clock">⏱️ --:--:--</span>
-        <span id="state-display" style="color:var(--gold);">● bereit</span>
-        <span id="cycle-display" style="color:#666;">PIPE 0</span>
-    </div>
+    <h1>🌀 RITH MASTER 2.0</h1>
+    <p>HUMANISTISCHE &amp; MECHANISCHE ALGORITHMIK · RITH (4) · EVO</p>
 </header>
 
-<main>
-    <div id="canvas-wrap">
-        <canvas id="pipeCanvas"></canvas>
-        <div id="canvas-overlay">
-            <span class="pipe">🔧</span> PIPELINE · SCAN → OCR → NET/NC → OUTPUT
-        </div>
+<!-- RITH WERT -->
+<div class="panel">
+    <h2>🌀 RITH WERT (4)</h2>
+    <div class="rith-display" id="rithWert">4</div>
+    <div style="text-align:center; font-size:10px; color:#888;">RAW → STRUCTURE → VECTOR → FUSION</div>
+</div>
+
+<!-- HUMAN / MECHANIC STATUS -->
+<div class="dual-status">
+    <div class="dual-box human">
+        <div class="label">HUMAN</div>
+        <div class="value" id="humanState">WACH</div>
     </div>
-
-    <div id="panel">
-        <h3>🔧 PIPELINE · DAS FUNDAMENT</h3>
-
-        <div id="steps">
-            <div class="step active" data-step="wake">
-                <span class="sym">🌅</span>
-                <span class="label">P0</span>
-                <span class="desc">wake</span>
-            </div>
-            <div class="step" data-step="melt">
-                <span class="sym">🔥</span>
-                <span class="label">P1</span>
-                <span class="desc">melt</span>
-            </div>
-            <div class="step" data-step="merge">
-                <span class="sym">🔗</span>
-                <span class="label">P2</span>
-                <span class="desc">merge</span>
-            </div>
-            <div class="step" data-step="start">
-                <span class="sym">▶</span>
-                <span class="label">P4</span>
-                <span class="desc">start</span>
-            </div>
-            <div class="step" data-step="finalize">
-                <span class="sym">🏁</span>
-                <span class="label">Pe</span>
-                <span class="desc">finalize</span>
-            </div>
-            <div class="step" data-step="qi">
-                <span class="sym">📊</span>
-                <span class="label">QI</span>
-                <span class="desc">bewerten</span>
-            </div>
-        </div>
-
-        <div id="metrics">
-            <div class="metric p0"><div class="label">wake</div><div class="value" id="p0-value">0</div></div>
-            <div class="metric p1"><div class="label">melt</div><div class="value" id="p1-value">0</div></div>
-            <div class="metric p2"><div class="label">merge</div><div class="value" id="p2-value">0</div></div>
-            <div class="metric p4"><div class="label">start</div><div class="value" id="p4-value">0</div></div>
-        </div>
-
-        <div id="log">
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg pipe">🔧 PIPELINE · Das Fundament</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg p0">P0 · wake · Aufwachen</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg p1">P1 · melt · Schmelzen</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg p2">P2 · merge · Verschmelzen</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg p4">P4 · start · Starten</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg pe">Pe · finalize · Finalisieren</span></div>
-        </div>
-
-        <div id="controls">
-            <button class="primary" id="btn-start">▶ START</button>
-            <button class="p0" id="btn-p0">🌅 P0 wake</button>
-            <button class="p1" id="btn-p1">🔥 P1 melt</button>
-            <button class="p2" id="btn-p2">🔗 P2 merge</button>
-            <button class="p4" id="btn-p4">▶ P4 start</button>
-            <button class="pe" id="btn-pe">🏁 Pe finalize</button>
-            <button class="danger" id="btn-reset">⟲ RESET</button>
-            <button id="btn-auto">▶ AUTO</button>
-        </div>
+    <div class="dual-box mech">
+        <div class="label">MECHANIC</div>
+        <div class="value" id="mechState">BEREIT</div>
     </div>
-</main>
+</div>
+
+<!-- EVO: REV / UPD / UPG -->
+<div class="evo-grid">
+    <div class="evo-panel rev">
+        <h3>🔮 REV · Human</h3>
+        <div class="stat"><span>Score</span><b id="revScore">0</b></div>
+        <div class="stat"><span>Emotion</span><b id="revEmotion">NEUTRAL</b></div>
+        <button class="rev" onclick="runRev()">🔮 REVIEW</button>
+    </div>
+    <div class="evo-panel upd">
+        <h3>🔄 UPD · Mechanik</h3>
+        <div class="stat"><span>Changes</span><b id="updChanges">0</b></div>
+        <div class="stat"><span>Level</span><b id="updLevel">0</b></div>
+        <button class="upd" onclick="runUpd()">🔄 UPDATE</button>
+    </div>
+    <div class="evo-panel upg">
+        <h3>🚀 UPG · Evolution</h3>
+        <div class="stat"><span>Upgrades</span><b id="upgCount">0</b></div>
+        <div class="stat"><span>Level</span><b id="upgLevel">0</b></div>
+        <button class="upg" onclick="runUpg()">🚀 UPGRADE</button>
+    </div>
+</div>
+
+<!-- PIPELINE ACHSEN -->
+<div class="panel">
+    <h2>🌀 PIPELINE ACHSEN</h2>
+    <div class="btn-grid">
+        <button onclick="runP0()">🌅 P0 · WAKE</button>
+        <button onclick="runP1()">🔥 P1 · STRUCTURE</button>
+        <button onclick="runP2()">🔗 P2 · VECTOR</button>
+        <button class="main" onclick="runPipeline()">▶ FULL PIPELINE RUN</button>
+    </div>
+</div>
+
+<!-- LOG -->
+<div class="panel">
+    <h2>📜 NC PROTOKOLL</h2>
+    <div class="log" id="log">[init] RITH MASTER 2.0 initialisiert.</div>
+</div>
+
+<footer>⚖️ EVO-GEOLEGAL · iki1uc © · Code nutzbar, Logik unkopierbar.</footer>
 
 <script>
 // ============================================================
-// PIPELINE · DAS FUNDAMENT · TIEFE
+// RITH MASTER 2.0 · HUMANISTISCHE & MECHANISCHE ALGORITHMIK
 // ============================================================
 
-// --- PIPELINE KERN ---
-var PIPELINE = {
-    core: { id: 'CORE', core: true, fn: true, stable: true, ready: true },
-    steps: [],
-    count: { p0: 0, p1: 0, p2: 0, p4: 0, pe: 0 },
-    current: 'wake',
-    phase: 0
+// 1. STATE
+const state = {
+    rith: 4,
+    p0: false, p1: false, p2: false,
+    human: "WACH",
+    mech: "BEREIT",
+    rev: { score: 0, emotion: "NEUTRAL" },
+    upd: { changes: 0, level: 0 },
+    upg: { count: 0, level: 0 }
 };
 
-// --- P0 - wake ---
-function P0_run() {
-    PIPELINE.count.p0++;
-    var result = { id: 'P0', action: 'wake', core: PIPELINE.core, time: Date.now() };
-    PIPELINE.steps.push(result);
-    document.getElementById('p0-value').textContent = PIPELINE.count.p0;
-    log('🌅 P0 · wake · ' + PIPELINE.count.p0, 'p0');
-    return result;
+// 2. LOG
+function log(msg, type = "") {
+    const el = document.getElementById("log");
+    const e = document.createElement("div");
+    e.textContent = msg;
+    el.appendChild(e);
+    el.scrollTop = el.scrollHeight;
 }
 
-// --- P1 - melt ---
-function P1_run() {
-    PIPELINE.count.p1++;
-    var result = { id: 'P1', action: 'melt', core: PIPELINE.core, time: Date.now() };
-    PIPELINE.steps.push(result);
-    document.getElementById('p1-value').textContent = PIPELINE.count.p1;
-    log('🔥 P1 · melt · ' + PIPELINE.count.p1, 'p1');
-    return result;
+// 3. UPDATE UI
+function updateUI() {
+    document.getElementById("rithWert").textContent = state.rith;
+    document.getElementById("humanState").textContent = state.human;
+    document.getElementById("mechState").textContent = state.mech;
+
+    document.getElementById("revScore").textContent = state.rev.score;
+    document.getElementById("revEmotion").textContent = state.rev.emotion;
+    document.getElementById("updChanges").textContent = state.upd.changes;
+    document.getElementById("updLevel").textContent = state.upd.level;
+    document.getElementById("upgCount").textContent = state.upg.count;
+    document.getElementById("upgLevel").textContent = state.upg.level;
 }
 
-// --- P2 - merge ---
-function P2_run() {
-    PIPELINE.count.p2++;
-    var result = { id: 'P2', action: 'merge', core: PIPELINE.core, time: Date.now() };
-    PIPELINE.steps.push(result);
-    document.getElementById('p2-value').textContent = PIPELINE.count.p2;
-    log('🔗 P2 · merge · ' + PIPELINE.count.p2, 'p2');
-    return result;
+// 4. REV (Human)
+function runRev() {
+    const score = Math.floor(Math.random() * 100) + 1;
+    state.rev.score = score;
+    state.rev.emotion = score > 70 ? "FREUDE" : score > 40 ? "NEUTRAL" : "MÜDE";
+    state.human = state.rev.emotion;
+    log(`🔮 REV · Score ${score} · Emotion ${state.rev.emotion}`, "human");
+    updateUI();
 }
 
-// --- P4 - start ---
-function P4_run() {
-    PIPELINE.count.p4++;
-    var result = { id: 'P4', action: 'start', core: PIPELINE.core, ready: true, time: Date.now() };
-    PIPELINE.steps.push(result);
-    document.getElementById('p4-value').textContent = PIPELINE.count.p4;
-    log('▶ P4 · start · ' + PIPELINE.count.p4, 'p4');
-    return result;
+// 5. UPD (Mechanik)
+function runUpd() {
+    state.upd.changes++;
+    state.upd.level = Math.floor(state.upd.changes / 5);
+    state.mech = state.upd.changes % 2 === 0 ? "AKTIV" : "PAUSE";
+    log(`🔄 UPD · Changes ${state.upd.changes} · Level ${state.upd.level}`, "mech");
+    updateUI();
 }
 
-// --- Pe - finalize ---
-function Pe_run() {
-    PIPELINE.count.pe++;
-    var result = { id: 'Pe', action: 'finalize', core: PIPELINE.core, complete: true, time: Date.now() };
-    PIPELINE.steps.push(result);
-    log('🏁 Pe · finalize · ' + PIPELINE.count.pe, 'pe');
-    return result;
+// 6. UPG (Evolution)
+function runUpg() {
+    state.upg.count++;
+    state.upg.level = Math.floor(state.upg.count / 3);
+    log(`🚀 UPG · Count ${state.upg.count} · Level ${state.upg.level}`, "gold");
+    updateUI();
 }
 
-// --- QI - bewerten ---
-function QI_scan() {
-    var last = PIPELINE.steps[PIPELINE.steps.length - 1] || PIPELINE.core;
-    var result = {
-        id: last.id || 'CORE',
-        core: !!last.core,
-        fn: !!last.fn,
-        stable: !!last.stable || !!last.ready,
-        ready: !!last.ready || !!last.complete,
-        step: PIPELINE.steps.length,
-        time: Date.now()
-    };
-    log('📊 QI · ' + result.id + ' · ready:' + result.ready + ' · stable:' + result.stable, 'pipe');
-    return result;
+// 7. P0 · P1 · P2
+function runP0() {
+    state.p0 = true;
+    log(`🌅 P0 · RAW → WACH`, "mech");
+    updateUI();
 }
 
-// ============================================================
-// CANVAS SETUP
-// ============================================================
-var canvas = document.getElementById('pipeCanvas');
-var ctx = canvas.getContext('2d');
-var W, H, cx, cy, radius;
-
-function resizeCanvas() {
-    var wrap = document.getElementById('canvas-wrap');
-    var rect = wrap.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    W = canvas.width; H = canvas.height;
-    cx = W / 2; cy = H / 2;
-    radius = Math.min(W, H) * 0.38;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// ============================================================
-// STATE
-// ============================================================
-var state = {
-    running: false,
-    autoMode: false,
-    cycle: 0,
-    t: 0,
-    phase: 0
-};
-
-// ============================================================
-// LOG
-// ============================================================
-function log(msg, type) {
-    var logDiv = document.getElementById('log');
-    var entry = document.createElement('div');
-    entry.className = 'entry';
-    var time = new Date().toLocaleTimeString();
-    var cls = type === 'p0' ? 'p0' : type === 'p1' ? 'p1' :
-              type === 'p2' ? 'p2' : type === 'p4' ? 'p4' :
-              type === 'pe' ? 'pe' : type === 'pipe' ? 'pipe' : '';
-    entry.innerHTML = '<span class="time">[' + time + ']</span> <span class="msg ' + cls + '">' + msg + '</span>';
-    logDiv.appendChild(entry);
-    logDiv.scrollTop = logDiv.scrollHeight;
-    while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
+function runP1() {
+    state.p1 = true;
+    log(`🔥 P1 · STRUCTURE → GEORDNET`, "mech");
+    updateUI();
 }
 
-// ============================================================
-// RENDER
-// ============================================================
-function render() {
-    ctx.clearRect(0, 0, W, H);
-
-    var grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, W * 0.6);
-    grad.addColorStop(0, '#0a0a1a');
-    grad.addColorStop(1, '#000');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-
-    drawPipelineRing();
-    drawSteps();
-    drawCenter();
-
-    state.t += 0.008;
-    if (state.running) {
-        state.cycle++;
-        if (state.cycle % 15 === 0) {
-            var steps = ['wake', 'melt', 'merge', 'start', 'finalize'];
-            var idx = state.cycle % steps.length;
-            switch(steps[idx]) {
-                case 'wake': P0_run(); break;
-                case 'melt': P1_run(); break;
-                case 'merge': P2_run(); break;
-                case 'start': P4_run(); break;
-                case 'finalize': Pe_run(); break;
-            }
-            if (state.cycle % 30 === 0) QI_scan();
-        }
-        document.getElementById('cycle-display').textContent = 'PIPE ' + state.cycle;
-    }
-
-    requestAnimationFrame(render);
-}
-render();
-
-// ============================================================
-// ZEICHEN-FUNKTIONEN
-// ============================================================
-
-function drawPipelineRing() {
-    var r = radius * 0.7;
-
-    ctx.strokeStyle = 'rgba(255,215,61,0.04)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 8]);
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    var colors = ['#ff6b6b', '#6bff6b', '#6b6bff', '#ffd93d', '#ff44ff'];
-    var labels = ['P0 wake', 'P1 melt', 'P2 merge', 'P4 start', 'Pe finalize'];
-    var counts = [PIPELINE.count.p0, PIPELINE.count.p1, PIPELINE.count.p2, PIPELINE.count.p4, PIPELINE.count.pe];
-
-    for (var i = 0; i < 5; i++) {
-        var angle = (i / 5) * Math.PI * 2 + state.t * 0.02;
-        var x = cx + Math.cos(angle) * r * 0.85;
-        var y = cy + Math.sin(angle) * r * 0.85;
-        var isActive = i === state.phase % 5;
-        ctx.fillStyle = isActive ? colors[i] + '44' : colors[i] + '11';
-        ctx.shadowColor = isActive ? colors[i] : 'transparent';
-        ctx.shadowBlur = isActive ? 10 : 0;
-        ctx.beginPath();
-        ctx.arc(x, y, isActive ? 8 : 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = isActive ? colors[i] : '#333';
-        ctx.font = isActive ? '5px Consolas' : '4px Consolas';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        ctx.fillText(labels[i], x, y - 8);
-        ctx.fillStyle = '#444';
-        ctx.font = '3px Consolas';
-        ctx.textBaseline = 'top';
-        ctx.fillText(counts[i], x, y + 6);
-    }
-
-    ctx.fillStyle = 'rgba(255,215,61,0.05)';
-    ctx.font = '5px Consolas';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillText('🔧 PIPELINE', cx, cy + r + 8);
+function runP2() {
+    state.p2 = true;
+    log(`🔗 P2 · VECTOR → RICHTUNG`, "mech");
+    updateUI();
 }
 
-function drawSteps() {
-    var r = radius * 0.3;
-    var steps = ['wake', 'melt', 'merge', 'start', 'finalize'];
-    var colors = ['#ff6b6b', '#6bff6b', '#6b6bff', '#ffd93d', '#ff44ff'];
-    var syms = ['🌅', '🔥', '🔗', '▶', '🏁'];
-
-    for (var i = 0; i < 5; i++) {
-        var angle = (i / 5) * Math.PI * 2 + state.t * 0.03 + 0.3;
-        var x = cx + Math.cos(angle) * r * 0.6;
-        var y = cy + Math.sin(angle) * r * 0.6;
-        ctx.fillStyle = colors[i] + '33';
-        ctx.shadowColor = colors[i];
-        ctx.shadowBlur = 6;
-        ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = colors[i];
-        ctx.font = '6px Consolas';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(syms[i], x, y - 6);
-        ctx.fillStyle = '#444';
-        ctx.font = '3px Consolas';
-        ctx.textBaseline = 'top';
-        ctx.fillText(steps[i], x, y + 6);
-    }
+// 8. FULL PIPELINE
+function runPipeline() {
+    runP0();
+    setTimeout(runP1, 200);
+    setTimeout(runP2, 400);
+    setTimeout(runRev, 600);
+    setTimeout(runUpd, 800);
+    setTimeout(runUpg, 1000);
+    log(`🌀 FULL PIPELINE RUN`, "gold");
 }
 
-function drawCenter() {
-    var r = radius * 0.08;
-    var count = PIPELINE.steps.length;
-
-    ctx.fillStyle = 'rgba(255,215,61,0.1)';
-    ctx.shadowColor = '#ffd700';
-    ctx.shadowBlur = 20;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    ctx.fillStyle = '#ffd700';
-    ctx.font = 'bold 10px Consolas';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(count, cx, cy);
-
-    ctx.fillStyle = 'rgba(255,215,61,0.05)';
-    ctx.font = '3px Consolas';
-    ctx.textBaseline = 'top';
-    ctx.fillText('STEPS', cx, cy + r + 6);
-}
-
-// ============================================================
-// CONTROLS
-// ============================================================
-document.getElementById('btn-start').onclick = function() {
-    state.running = !state.running;
-    this.textContent = state.running ? '⏸ STOP' : '▶ START';
-    document.getElementById('state-display').textContent = state.running ? '● läuft' : '● gestoppt';
-    document.getElementById('state-display').style.color = state.running ? 'var(--gold)' : '#666';
-    log(state.running ? '▶ PIPELINE gestartet' : '⏸ PIPELINE gestoppt', 'pipe');
-};
-
-document.getElementById('btn-p0').onclick = function() { P0_run(); };
-document.getElementById('btn-p1').onclick = function() { P1_run(); };
-document.getElementById('btn-p2').onclick = function() { P2_run(); };
-document.getElementById('btn-p4').onclick = function() { P4_run(); };
-document.getElementById('btn-pe').onclick = function() { Pe_run(); };
-
-document.getElementById('btn-reset').onclick = function() {
-    state.running = false;
-    state.cycle = 0;
-    state.t = 0;
-    PIPELINE.steps = [];
-    PIPELINE.count = { p0: 0, p1: 0, p2: 0, p4: 0, pe: 0 };
-    document.getElementById('btn-start').textContent = '▶ START';
-    document.getElementById('state-display').textContent = '● reset';
-    document.getElementById('state-display').style.color = '#f44';
-    document.getElementById('cycle-display').textContent = 'PIPE 0';
-    document.getElementById('p0-value').textContent = '0';
-    document.getElementById('p1-value').textContent = '0';
-    document.getElementById('p2-value').textContent = '0';
-    document.getElementById('p4-value').textContent = '0';
-    log('⟲ RESET — PIPELINE zurückgesetzt', 'pipe');
-};
-
-document.getElementById('btn-auto').onclick = function() {
-    state.autoMode = !state.autoMode;
-    this.textContent = state.autoMode ? '⏸ PAUSE' : '▶ AUTO';
-    if (state.autoMode) {
-        state.running = true;
-        document.getElementById('btn-start').textContent = '⏸ STOP';
-        document.getElementById('state-display').textContent = '● auto';
-        document.getElementById('state-display').style.color = 'var(--gold)';
-        if (window.autoInterval) clearInterval(window.autoInterval);
-        window.autoInterval = setInterval(function() {
-            var steps = ['wake', 'melt', 'merge', 'start', 'finalize'];
-            var idx = state.cycle % steps.length;
-            switch(steps[idx]) {
-                case 'wake': P0_run(); break;
-                case 'melt': P1_run(); break;
-                case 'merge': P2_run(); break;
-                case 'start': P4_run(); break;
-                case 'finalize': Pe_run(); break;
-            }
-            log('🔄 ' + steps[idx].toUpperCase() + ' · ' + PIPELINE.steps.length, 'pipe');
-        }, 2000);
-        log('▶ AUTO · PIPELINE läuft', 'pipe');
-    } else {
-        clearInterval(window.autoInterval);
-        log('⏸ AUTO pausiert', 'pipe');
-    }
-};
-
-// ============================================================
-// TASTATUR
-// ============================================================
-document.addEventListener('keydown', function(e) {
-    if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-start').click(); }
-    if (e.key === '1') P0_run();
-    if (e.key === '2') P1_run();
-    if (e.key === '3') P2_run();
-    if (e.key === '4') P4_run();
-    if (e.key === '5') Pe_run();
-    if (e.key === 'q') QI_scan();
-    if (e.key === 'x') document.getElementById('btn-reset').click();
-    if (e.key === 'a') document.getElementById('btn-auto').click();
-});
-
-// ============================================================
-// UHR
-// ============================================================
-function updateClock() {
-    document.getElementById('clock').textContent = '⏱️ ' + new Date().toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-// ============================================================
 // INIT
-// ============================================================
-log('🔧 PIPELINE · Das Fundament', 'pipe');
-log('🌅 P0 · wake · Aufwachen', 'p0');
-log('🔥 P1 · melt · Schmelzen', 'p1');
-log('🔗 P2 · merge · Verschmelzen', 'p2');
-log('▶ P4 · start · Starten', 'p4');
-log('🏁 Pe · finalize · Finalisieren', 'pe');
-log('⌨️  1=P0 2=P1 3=P2 4=P4 5=Pe  q=QI  x=Reset  a=Auto', 'pipe');
-
-setTimeout(function() {
-    state.running = true;
-    document.getElementById('btn-start').textContent = '⏸ STOP';
-    document.getElementById('state-display').textContent = '● läuft';
-    document.getElementById('state-display').style.color = 'var(--gold)';
-    P0_run();
-    log('▶ PIPELINE automatisch gestartet · 🔧', 'pipe');
-}, 500);
+updateUI();
+log("🌀 RITH MASTER 2.0 · bereit.");
+log("🌀 Humanistisch & Mechanisch · RITH (4) · EVO");
 </script>
+
 </body>
 </html>
