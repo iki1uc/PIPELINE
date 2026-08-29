@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌀 NORM 8→9 · TAUGLICHKEITSPRÜFUNG · 3hoch3</title>
 
-    <!-- EVO-GEOLEGAL -->
-    <meta name="author" content="iki1uc (Ridvan)">
-    <meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
-    <title>🌀 RITH · WERT ENGINE 2.0 · LIVE</title>
     <style>
         body {
             background: #0a0a0f;
@@ -16,38 +13,28 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 20px;
             min-height: 100vh;
         }
+
         header {
             border: 2px solid #ffd700;
             border-radius: 12px;
-            padding: 20px;
-            width: 100%;
-            max-width: 420px;
+            padding: 15px;
             text-align: center;
-            background: rgba(255,215,0,0.05);
+            background: rgba(255, 215, 0, 0.05);
         }
-        header h1 { font-size: 24px; color: #ffd700; margin: 0; }
-        header p { font-size: 10px; color: #888; margin: 6px 0 0; }
-
-        .wert-anzeige {
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 30px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            box-sizing: border-box;
+        header h1 {
+            font-size: 20px;
+            color: #ffd700;
+            letter-spacing: 3px;
+            margin: 0;
         }
-        .wert-anzeige .big {
-            font-size: 40px;
-            font-weight: bold;
-            color: #6bffa9;
-            text-shadow: 0 0 20px rgba(107,255,169,0.3);
+        header p {
+            font-size: 10px;
+            color: #888;
+            margin: 6px 0 0 0;
         }
-        .wert-anzeige .sub { font-size: 10px; color: #888; margin-top: 6px; }
 
         .rule {
             background: #111;
@@ -57,35 +44,11 @@
             font-size: 11px;
             color: #9df;
             line-height: 1.6;
-            width: 100%;
-            max-width: 420px;
-            box-sizing: border-box;
         }
         .rule b { color: #ffd700; }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            width: 100%;
-            max-width: 420px;
-        }
-        .panel {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
-        .panel h3 { font-size: 13px; margin: 0 0 8px 0; color: #ffd700; border-bottom: 1px solid #333; padding-bottom: 4px; }
-        .panel .value { font-size: 24px; font-weight: bold; }
-        .panel.rev .value { color: #ff6b8a; }
-        .panel.upd .value { color: #6bffa9; }
-        .panel.upg .value { color: #b8a9ff; }
-
         table {
             width: 100%;
-            max-width: 420px;
             border-collapse: collapse;
             background: #111;
             border: 1px solid #333;
@@ -93,11 +56,35 @@
             overflow: hidden;
             font-size: 11px;
         }
-        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #222; }
-        th { background: #1a1a1a; color: #ffd700; font-size: 10px; letter-spacing: 1px; }
-        td.num { text-align: center; }
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+        th {
+            background: #1a1a1a;
+            color: #ffd700;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+        td.chain { color: #9df; font-size: 10px; }
+        td.num { color: #ccc; text-align: center; }
         .ok { color: #6bffa9; font-weight: bold; }
         .no { color: #ff6b8a; }
+
+        .summary {
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .summary .big {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .summary .big.ok { color: #6bffa9; }
+        .summary .big.no { color: #ff6b8a; }
+        .summary .sub { font-size: 10px; color: #888; margin-top: 4px; }
 
         button {
             background: #1a1a2a;
@@ -108,10 +95,13 @@
             font-family: inherit;
             font-size: 12px;
             cursor: pointer;
+            transition: all 0.3s;
             width: 100%;
-            max-width: 420px;
         }
-        button:hover { border-color: #ffd700; color: #ffd700; }
+        button:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+        }
 
         .log {
             background: #000;
@@ -120,66 +110,83 @@
             padding: 10px;
             font-size: 10px;
             color: #888;
-            height: 130px;
+            height: 120px;
             overflow-y: auto;
             line-height: 1.6;
-            width: 100%;
-            max-width: 420px;
-            box-sizing: border-box;
         }
-        footer { color: #333; font-size: 9px; text-align: center; }
+
+        .markt-header {
+            border: 2px solid #b8a9ff;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            background: rgba(184, 169, 255, 0.05);
+            margin-top: 10px;
+        }
+        .markt-header h2 {
+            font-size: 16px;
+            color: #b8a9ff;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        .markt-header p {
+            font-size: 10px;
+            color: #888;
+            margin: 6px 0 0 0;
+        }
+        td.rp { color: #b8a9ff; text-align: center; font-weight: bold; }
+        td.bar-cell { width: 30%; }
+        .bar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            background: #b8a9ff;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🌀 RITH · WERT ENGINE 2.0</h1>
-    <p>LIVE · Humanistisch &amp; Mechanisch · basiert auf echten 8→9 Segmenten</p>
+    <h1>🌀 NORM 8→9 · TAUGLICHKEITSPRÜFUNG</h1>
+    <p>Segmentmatrix-Auswertung · iki1uc-id · 3hoch3</p>
 </header>
 
-<div class="wert-anzeige">
-    <div class="big" id="rithWert">0</div>
-    <div class="sub" id="rithSub">wird berechnet …</div>
-</div>
-
 <div class="rule">
-    <b>RITH-Regel:</b> RITH = Anzahl real erreichter Stufen. <br>
-    <b>REV</b> fühlt (Score/Emotion) · <b>UPD</b> aktualisiert (Level) · <b>UPG</b> evolviert (Stufen).
+    <b>Norm-Definition:</b> Ein Segment gilt als 8→9-tauglich, wenn seine Kette genau
+    <b>8 Schritte (Kanten)</b> zwischen <b>9 Elementen (Knoten)</b> aufweist
+    <b>und</b> geschlossen ist (letztes Element = erstes Element, offene Kette wird zur Bildung).
+    Kein fester Wert mehr — jede Kette wird real geparst und geprüft.
 </div>
 
-<!-- EVO PANELS -->
-<div class="grid-2">
-    <div class="panel rev">
-        <h3>🔮 REV · Fühlen</h3>
-        <div class="value" id="revScore">0</div>
-        <div style="font-size:10px; color:#888;">Score · Emotion: <span id="revEmotion">NEUTRAL</span></div>
-    </div>
-    <div class="panel upd">
-        <h3>🔄 UPD · Mechanik</h3>
-        <div class="value" id="updLevel">0</div>
-        <div style="font-size:10px; color:#888;">Level · Changes: <span id="updChanges">0</span></div>
-    </div>
-    <div class="panel upg">
-        <h3>🚀 UPG · Evolution</h3>
-        <div class="value" id="upgLevel">0</div>
-        <div style="font-size:10px; color:#888;">Stufen · Upgrades: <span id="upgCount">0</span></div>
-    </div>
-</div>
-
-<!-- STUFEN Tabelle -->
-<table>
-    <thead><tr><th>Stufe</th><th>Bedingung</th><th>Status</th></tr></thead>
-    <tbody id="stufen-body"></tbody>
+<table id="tbl">
+    <thead>
+        <tr>
+            <th>Segment</th>
+            <th>Kette</th>
+            <th>Knoten</th>
+            <th>Kanten</th>
+            <th>Geschlossen</th>
+            <th>8→9</th>
+        </tr>
+    </thead>
+    <tbody id="tbl-body"></tbody>
 </table>
 
-<button onclick="runPipeline()">🌀 PIPELINE LIVE PRÜFEN</button>
+<div class="summary">
+    <div class="big" id="sum-big">–</div>
+    <div class="sub" id="sum-sub">–</div>
+</div>
 
-<div class="log" id="log">[init] RITH-Engine 2.0 bereit.</div>
+<button onclick="runCheck()">🌀 NORM PRÜFEN (8→9)</button>
 
-<footer>⚖️ EVO-GEOLEGAL · iki1uc ©</footer>
+<div class="log" id="log">[init] Segmentmatrix geladen, Prüfung bereit.</div>
 
-<!-- Segmentmatrix -->
-<div id="iki1uc-id" style="display:none">
+<!-- Original Segmentmatrix aus id.html -->
+<div id="iki1uc-id" class="segment-matrix" style="display:none">
   <div class="seg" data-type="HY">◉ → 3 → 9 → ◎ → 81 → 3 ↺</div>
   <div class="seg" data-type="PE">◉ → 9 → ◎ → 81 → ◆ → △ → ▣</div>
   <div class="seg" data-type="PER">3 → 9 → 81 → ◆ → 756 → △ → 27 → ▣ → 3</div>
@@ -191,84 +198,95 @@
   <div class="seg" data-type="TMP-gamma">◆ → 756 → △</div>
 </div>
 
+<div class="markt-header">
+    <h2>💠 RESPO-MARKT · EIGENE ARBEITSÖKONOMIE</h2>
+    <p>Geschlossenes System · Ertrag nur aus den Segmenten selbst · keine Außenwelt, keine externen Kurse/APIs</p>
+</div>
+
+<div class="rule">
+    <b>Markt-Regel:</b> Jedes Segment erwirtschaftet Respo-Punkte (RP) allein aus seiner eigenen Kette:
+    <b>RP = Knoten × Kanten</b>, verdoppelt bei 8→9-Tauglichkeit (Bonus für geschlossene, vollständige Bildung).
+    Pro Runde geben tauglich verdienende Segmente einen Teil ihres Ertrags intern an schwächere Segmente ab
+    (Umverteilung innerhalb der Matrix). Es fließt nichts von außen rein und nichts nach außen raus.
+</div>
+
+<table id="tbl-markt">
+    <thead>
+        <tr>
+            <th>Segment</th>
+            <th>RP (Kontostand)</th>
+            <th>Anteil am Markt</th>
+        </tr>
+    </thead>
+    <tbody id="tbl-markt-body"></tbody>
+</table>
+
+<div class="summary">
+    <div class="big" id="markt-big">–</div>
+    <div class="sub" id="markt-sub">–</div>
+</div>
+
+<button onclick="runMarketRound()">💠 MARKT-RUNDE SIMULIEREN</button>
+
+<div class="log" id="markt-log">[init] Respo-Markt bereit, noch keine Runde gelaufen.</div>
+
 <script>
 // ============================================================
-// RITH-WERT ENGINE 2.0
-// Humanistisch + Mechanisch, live auf echten Segmenten
+// NORM 8→9 · echte Tauglichkeitsprüfung auf Basis der Segmentmatrix
+// Regel: 8 Kanten zwischen 9 Knoten, Kette geschlossen (Start = Ende)
 // ============================================================
 
-// State
-const engineState = {
-    rith: 0,
-    rev: { score: 0, emotion: "NEUTRAL", runs: 0 },
-    upd: { changes: 0, level: 0 },
-    upg: { count: 0, level: 0 }
-};
-
-// Parse Funktion (aus Segmentmatrix)
 function parseSegment(el) {
     const type = el.dataset.type;
     const raw = el.textContent.trim();
-    const hasLoop = raw.includes('↺');
+    const hasLoopSymbol = raw.includes('↺');
     const clean = raw.replace('↺', '').trim();
     const tokens = clean.split('→').map(t => t.trim()).filter(Boolean);
+
     const nodes = tokens.length;
     const edges = nodes > 0 ? nodes - 1 : 0;
-    const closed = hasLoop || (nodes > 1 && tokens[0] === tokens[nodes-1]);
+    const closed = hasLoopSymbol || (nodes > 1 && tokens[0] === tokens[nodes - 1]);
     const norm89 = (edges === 8 && nodes === 9 && closed);
-    return { type, nodes, edges, closed, norm89 };
+
+    return { type, chain: tokens.join(' → '), nodes, edges, closed, norm89 };
 }
 
-function getStats() {
+function runCheck() {
     const segs = Array.from(document.querySelectorAll('#iki1uc-id .seg')).map(parseSegment);
-    const total = segs.length;
-    const geschlossen = segs.filter(s => s.closed).length;
-    const tauglich = segs.filter(s => s.norm89).length;
-    return { total, geschlossen, tauglich };
+    const body = document.getElementById('tbl-body');
+    body.innerHTML = '';
+
+    segs.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${s.type}</td>
+            <td class="chain">${s.chain}</td>
+            <td class="num">${s.nodes}</td>
+            <td class="num">${s.edges}</td>
+            <td class="num">${s.closed ? '✅' : '—'}</td>
+            <td class="num ${s.norm89 ? 'ok' : 'no'}">${s.norm89 ? '✅ TAUGLICH' : '❌'}</td>
+        `;
+        body.appendChild(tr);
+    });
+
+    const passed = segs.filter(s => s.norm89);
+    const sumBig = document.getElementById('sum-big');
+    const sumSub = document.getElementById('sum-sub');
+
+    if (passed.length > 0) {
+        sumBig.textContent = `✅ ${passed.length} / ${segs.length} SEGMENT(E) TAUGLICH`;
+        sumBig.className = 'big ok';
+        sumSub.textContent = 'Tauglich: ' + passed.map(s => s.type).join(', ');
+    } else {
+        sumBig.textContent = `❌ 0 / ${segs.length} TAUGLICH`;
+        sumBig.className = 'big no';
+        sumSub.textContent = 'Keine Kette erfüllt aktuell 8 Kanten / 9 Knoten / geschlossen';
+    }
+
+    log(`Prüfung abgeschlossen: ${passed.length} von ${segs.length} Segmenten erfüllen die 8→9-Norm.`);
+    passed.forEach(s => log(`  → ${s.type}: ${s.chain}`));
 }
 
-// Stufen bewerten
-function evaluateStufen(stats) {
-    return [
-        { name: 'RAW', bedingung: '≥1 Segment', erreicht: stats.total > 0 },
-        { name: 'STRUCTURE', bedingung: '≥1 geschlossen', erreicht: stats.geschlossen > 0 },
-        { name: 'VECTOR', bedingung: '≥1 8→9 tauglich', erreicht: stats.tauglich > 0 },
-        { name: 'FUSION', bedingung: 'alle tauglich', erreicht: stats.tauglich === stats.total }
-    ];
-}
-
-// UI Update
-function updateUI() {
-    document.getElementById('rithWert').textContent = engineState.rith;
-    document.getElementById('rithSub').textContent = `${engineState.rith} von 4 Stufen erreicht`;
-    document.getElementById('revScore').textContent = engineState.rev.score;
-    document.getElementById('revEmotion').textContent = engineState.rev.emotion;
-    document.getElementById('updLevel').textContent = engineState.upd.level;
-    document.getElementById('updChanges').textContent = engineState.upd.changes;
-    document.getElementById('upgLevel').textContent = engineState.upg.level;
-    document.getElementById('upgCount').textContent = engineState.upg.count;
-}
-
-// REV (Fühlen)
-function runRev(score) {
-    engineState.rev.runs++;
-    engineState.rev.score = score;
-    engineState.rev.emotion = score >= 70 ? "FREUDE" : score >= 40 ? "NEUTRAL" : "MÜDE";
-}
-
-// UPD (Mechanik)
-function runUpd() {
-    engineState.upd.changes++;
-    engineState.upd.level = Math.floor(engineState.upd.changes / 5);
-}
-
-// UPG (Evolution)
-function runUpg(newRith) {
-    engineState.upg.count++;
-    engineState.upg.level = newRith;
-}
-
-// Log
 function log(msg) {
     const el = document.getElementById('log');
     const e = document.createElement('div');
@@ -277,48 +295,94 @@ function log(msg) {
     el.scrollTop = el.scrollHeight;
 }
 
-// Live Pipeline
-function runPipeline() {
-    const stats = getStats();
-    const stufen = evaluateStufen(stats);
+// ============================================================
+// RESPO-MARKT · eigene, geschlossene Arbeitsökonomie
+// Keine Außenwelt: keine fetch()-Aufrufe, keine externen Kurse,
+// keine Wechselkurse. Der gesamte RP-Bestand entsteht ausschließlich
+// aus den Ketten der Segmente selbst und bleibt intern zirkulierend.
+// ============================================================
 
-    // RITH aus echten Stufen berechnen
-    let rith = 0;
-    for (const s of stufen) {
-        if (s.erreicht) rith++; else break;
-    }
-    engineState.rith = rith;
+let markt = null; // { type: rp } — Kontostände, existiert nur im Speicher dieser Seite
 
-    // REV Score = Anteil tauglicher Segmente
-    const score = Math.round((stats.tauglich / stats.total) * 100);
-    runRev(score);
-    runUpd();
-    runUpg(rith);
-
-    // UI + Tabelle
-    updateUI();
-    const body = document.getElementById('stufen-body');
-    body.innerHTML = '';
-    stufen.forEach(s => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${s.name}</td><td style="font-size:10px;color:#9df">${s.bedingung}</td><td class="num ${s.erreicht ? 'ok' : 'no'}">${s.erreicht ? '✅' : '❌'}</td>`;
-        body.appendChild(tr);
+function initMarkt(segs) {
+    markt = {};
+    segs.forEach(s => {
+        const basisErtrag = s.nodes * s.edges;      // Ertrag rein aus der eigenen Kette
+        const bonus = s.norm89 ? 2 : 1;              // Bonus nur bei echter 8→9-Tauglichkeit
+        markt[s.type] = basisErtrag * bonus;
     });
-
-    // Log
-    log(`Pipeline geprüft: RITH = ${engineState.rith}/4 · Score ${score} · Emotion ${engineState.rev.emotion}`);
-    log(`UPD: ${engineState.upd.changes} Changes · Level ${engineState.upd.level} · UPG: ${engineState.upg.count}`);
 }
 
-// Auto-Update (Atmung des Systems)
-setInterval(() => {
-    if (document.visibilityState === 'visible') runPipeline();
-}, 2000);
+function renderMarkt() {
+    const body = document.getElementById('tbl-markt-body');
+    body.innerHTML = '';
+    const total = Object.values(markt).reduce((a, b) => a + b, 0) || 1;
 
-// Init
-log("🌀 RITH-WERT ENGINE 2.0 initialisiert.");
-log("🌀 Humanistisch (REV) & Mechanisch (UPD/UPG) aktiv.");
-runPipeline();
+    Object.entries(markt)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([type, rp]) => {
+            const anteil = ((rp / total) * 100).toFixed(1);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${type}</td>
+                <td class="rp">${rp.toFixed(1)} RP</td>
+                <td class="bar-cell">
+                    <div class="bar-track"><div class="bar-fill" style="width:${anteil}%"></div></div>
+                </td>
+            `;
+            body.appendChild(tr);
+        });
+
+    document.getElementById('markt-big').textContent = `${total.toFixed(1)} RP GESAMT IM UMLAUF`;
+    document.getElementById('markt-sub').textContent = 'Geschlossene Ökonomie · nur interne Umverteilung, kein Zu-/Abfluss von außen';
+}
+
+function runMarketRound() {
+    const segs = Array.from(document.querySelectorAll('#iki1uc-id .seg')).map(parseSegment);
+
+    if (!markt) initMarkt(segs);
+
+    // Interne Umverteilung: tauglich verdienende Segmente geben 10% ihres
+    // Bestands an die Segmente ab, die (noch) nicht 8→9-tauglich sind.
+    // Die Verteilung erfolgt anteilig nach deren aktuellem RP-Bestand —
+    // rein arithmetisch innerhalb der Matrix, ohne externen Bezug.
+    const tauglich = segs.filter(s => s.norm89).map(s => s.type);
+    const nichtTauglich = segs.filter(s => !s.norm89).map(s => s.type);
+
+    if (tauglich.length > 0 && nichtTauglich.length > 0) {
+        let pool = 0;
+        tauglich.forEach(t => {
+            const abgabe = markt[t] * 0.10;
+            markt[t] -= abgabe;
+            pool += abgabe;
+        });
+
+        const zielSumme = nichtTauglich.reduce((a, t) => a + markt[t], 0) || 1;
+        nichtTauglich.forEach(t => {
+            const anteil = markt[t] / zielSumme;
+            markt[t] += pool * anteil;
+        });
+
+        marktLog(`Runde: ${tauglich.join(', ')} geben 10% intern an ${nichtTauglich.join(', ')} ab (Pool: ${pool.toFixed(1)} RP).`);
+    } else {
+        marktLog('Keine Umverteilung nötig — alle oder keine Segmente sind aktuell tauglich.');
+    }
+
+    renderMarkt();
+}
+
+function marktLog(msg) {
+    const el = document.getElementById('markt-log');
+    const e = document.createElement('div');
+    e.textContent = msg;
+    el.appendChild(e);
+    el.scrollTop = el.scrollHeight;
+}
+
+// Initialer Check beim Laden
+runCheck();
+initMarkt(Array.from(document.querySelectorAll('#iki1uc-id .seg')).map(parseSegment));
+renderMarkt();
 </script>
 
 </body>
