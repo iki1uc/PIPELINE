@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- EVO-GEOLEGAL -->
+    <meta name="author" content="iki1uc (Ridvan)">
+    <meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
+    <title>🌀 RITH · WERT ENGINE · ECHT</title>
+    <style>
+        body {
+            background: #0a0a0f;
+            color: #0f0;
+            font-family: 'Consolas', monospace;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            min-height: 100vh;
+        }
+        header {
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            background: rgba(255,215,0,0.05);
+        }
+        header h1 { font-size: 24px; color: #ffd700; margin: 0; }
+        header p { font-size: 10px; color: #888; margin: 6px 0 0; }
+
+        .wert-anzeige {
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .wert-anzeige .big {
+            font-size: 40px;
+            font-weight: bold;
+            color: #6bffa9;
+            text-shadow: 0 0 20px rgba(107,255,169,0.3);
+        }
+        .wert-anzeige .sub { font-size: 10px; color: #888; margin-top: 6px; }
+
+        .rule {
+            background: #111;
+            border: 1px dashed #444;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 11px;
+            color: #9df;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        .rule b { color: #ffd700; }
+
+        table {
+            width: 100%;
+            max-width: 420px;
+            border-collapse: collapse;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 11px;
+        }
+        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #222; }
+        th { background: #1a1a1a; color: #ffd700; font-size: 10px; letter-spacing: 1px; }
+        td.num { text-align: center; }
+        .ok { color: #6bffa9; font-weight: bold; }
+        .no { color: #ff6b8a; }
+
+        button {
+            background: #1a1a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 420px;
+        }
+        button:hover { border-color: #ffd700; color: #ffd700; }
+
+        .log {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 10px;
+            color: #888;
+            height: 130px;
+            overflow-y: auto;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        footer { color: #333; font-size: 9px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌀 RITH · WERT ENGINE</h1>
+    <p>PIPELINE4 · gemessen an den 8→9-Segmenten aus 3hoch3, nicht mehr fest oder zufällig</p>
+</header>
+
+<div class="wert-anzeige">
+    <div class="big" id="rithWert">0</div>
+    <div class="sub" id="rithSub">wird berechnet …</div>
+</div>
+
+<div class="rule">
+    <b>RITH-Regel:</b> RITH ist keine feste 4 mehr, sondern die Anzahl real erreichter Stufen (0–4).
+    Jede Stufe braucht eine echte Bedingung in der Segmentmatrix, keine wird automatisch gesetzt.
+</div>
+
+<table>
+    <thead><tr><th>Stufe</th><th>Bedingung</th><th>Status</th></tr></thead>
+    <tbody id="stufen-body"></tbody>
+</table>
+
+<div class="rule" id="rev-box">
+    <b>REV (Emotion/Score):</b> <span id="revText">–</span>
+</div>
+
+<button onclick="runPipeline()">🌀 PIPELINE PRÜFEN</button>
+
+<div class="log" id="log">[init] RITH-Engine bereit, noch keine Prüfung gelaufen.</div>
+
+<footer>⚖️ EVO-GEOLEGAL · iki1uc ©</footer>
+
+<!-- Segmentmatrix aus id.html (identisch zur 3hoch3-Prüfung) -->
+<div id="iki1uc-id" class="segment-matrix" style="display:none">
+  <div class="seg" data-type="HY">◉ → 3 → 9 → ◎ → 81 → 3 ↺</div>
+  <div class="seg" data-type="PE">◉ → 9 → ◎ → 81 → ◆ → △ → ▣</div>
+  <div class="seg" data-type="PER">3 → 9 → 81 → ◆ → 756 → △ → 27 → ▣ → 3</div>
+  <div class="seg" data-type="TRANS">◎ → 81 → ◆ → △</div>
+  <div class="seg" data-type="WARB">81 → ◆ → △ → 27</div>
+  <div class="seg" data-type="KANAL">756 → △ → 27 → ▣</div>
+  <div class="seg" data-type="TMP-alpha">3 → ◎ → 27</div>
+  <div class="seg" data-type="TMP-beta">9 → 81 → ▣</div>
+  <div class="seg" data-type="TMP-gamma">◆ → 756 → △</div>
+</div>
+
+<script>
+// ============================================================
+// RITH-WERT ENGINE · echte Prüfung statt fester Zahl / Zufall
+// RAW / STRUCTURE / VECTOR / FUSION werden ausschließlich aus der
+// realen Segmentmatrix (3hoch3, 8→9-Norm) abgeleitet.
+// ============================================================
+
+// -- gleiche Parse-Logik wie in der 8→9-Tauglichkeitsprüfung --
+function parseSegment(el) {
+    const type = el.dataset.type;
+    const raw = el.textContent.trim();
+    const hasLoopSymbol = raw.includes('↺');
+    const clean = raw.replace('↺', '').trim();
+    const tokens = clean.split('→').map(t => t.trim()).filter(Boolean);
+
+    const nodes = tokens.length;
+    const edges = nodes > 0 ? nodes - 1 : 0;
+    const closed = hasLoopSymbol || (nodes > 1 && tokens[0] === tokens[nodes - 1]);
+    const norm89 = (edges === 8 && nodes === 9 && closed);
+
+    return { type, nodes, edges, closed, norm89 };
+}
+
+function getMatrixStats() {
+    const segs = Array.from(document.querySelectorAll('#iki1uc-id .seg')).map(parseSegment);
+    const total = segs.length;
+    const geschlossen = segs.filter(s => s.closed).length;
+    const tauglich = segs.filter(s => s.norm89).length;
+    return { segs, total, geschlossen, tauglich };
+}
+
+// -- die 4 Stufen, jede mit einer ECHTEN Bedingung --
+function evaluateStufen(stats) {
+    return [
+        {
+            name: 'RAW',
+            bedingung: 'Segmentmatrix vorhanden (≥1 Segment)',
+            erreicht: stats.total > 0
+        },
+        {
+            name: 'STRUCTURE',
+            bedingung: 'mindestens 1 Segment geschlossen (Kette kehrt zum Start zurück)',
+            erreicht: stats.geschlossen > 0
+        },
+        {
+            name: 'VECTOR',
+            bedingung: 'mindestens 1 Segment erfüllt die 8→9-Norm vollständig',
+            erreicht: stats.tauglich > 0
+        },
+        {
+            name: 'FUSION',
+            bedingung: 'ALLE Segmente erfüllen die 8→9-Norm',
+            erreicht: stats.tauglich === stats.total
+        }
+    ];
+}
+
+function runPipeline() {
+    const stats = getMatrixStats();
+    const stufen = evaluateStufen(stats);
+
+    // RITH-WERT = Anzahl real erreichter Stufen in der richtigen Reihenfolge.
+    // Eine spätere Stufe zählt nur, wenn alle vorherigen ebenfalls erreicht sind —
+    // sonst wäre "Kompetenz-Ordnung" nicht eingehalten.
+    let rith = 0;
+    for (const s of stufen) {
+        if (s.erreicht) rith++; else break;
+    }
+
+    document.getElementById('rithWert').textContent = rith;
+    document.getElementById('rithSub').textContent =
+        `${rith} von 4 Stufen real erreicht (${stats.tauglich}/${stats.total} Segmente 8→9-tauglich)`;
+
+    const body = document.getElementById('stufen-body');
+    body.innerHTML = '';
+    stufen.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${s.name}</td>
+            <td style="font-size:10px;color:#9df">${s.bedingung}</td>
+            <td class="num ${s.erreicht ? 'ok' : 'no'}">${s.erreicht ? '✅' : '❌'}</td>
+        `;
+        body.appendChild(tr);
+    });
+
+    // -- REV: Score/Emotion aus echten Werten, kein Zufall mehr --
+    const score = Math.round((stats.tauglich / stats.total) * 100);
+    const emotion = score >= 70 ? 'FREUDE' : score >= 40 ? 'NEUTRAL' : 'MÜDE';
+    document.getElementById('revText').textContent =
+        `Score ${score} (Anteil tauglicher Segmente) · Emotion: ${emotion}`;
+
+    log(`Pipeline geprüft: RITH = ${rith}/4 · REV-Score = ${score} (${emotion})`);
+    stufen.forEach(s => log(`  ${s.erreicht ? '✅' : '❌'} ${s.name}: ${s.bedingung}`));
+}
+
+function log(msg) {
+    const el = document.getElementById('log');
+    const e = document.createElement('div');
+    e.textContent = msg;
+    el.appendChild(e);
+    el.scrollTop = el.scrollHeight;
+}
+
+// initialer Lauf
+runPipeline();
+</script>
+</body>
+</html>
