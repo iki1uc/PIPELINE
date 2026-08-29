@@ -2,386 +2,173 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- EVO-GEOLEGAL -->
-<meta name="author" content="iki1uc (Ridvan)">
-<meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
-
-<title>🌀 RITH MASTER 2.0 · HUMAN · MECHANIC · EVO</title>
+<title>🌀 TYQ · LEBENSMATRIX · RITH MASTER 2.0</title>
 
 <style>
-    :root {
-        --bg: #0a0a0f;
-        --fg: #0f0;
-        --gold: #ffd700;
-        --p0: #ff6b6b;
-        --p1: #6bff6b;
-        --p2: #6b6bff;
-        --rith: #ffd700;
-        --human: #ff44ff;
-        --mech: #00ccff;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-        background: var(--bg);
-        color: var(--fg);
-        font-family: 'Consolas', monospace;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px;
-    }
-
-    header {
-        border: 2px solid var(--gold);
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        background: linear-gradient(135deg, rgba(255,215,61,0.05), rgba(0,0,0,0.2));
-    }
-    header h1 {
-        font-size: 22px;
-        background: linear-gradient(90deg, var(--rith), var(--human), var(--mech));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 4px;
-        margin: 0;
-    }
-    header p {
-        font-size: 10px;
-        color: #888;
-        margin-top: 4px;
-        letter-spacing: 2px;
-    }
-
-    .panel {
-        background: #111;
-        border: 1px solid #333;
-        border-radius: 10px;
-        padding: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .panel h2 {
-        font-size: 14px;
-        color: var(--gold);
-        margin: 0;
-        border-bottom: 1px solid #333;
-        padding-bottom: 6px;
-    }
-
-    /* RITH WERT ANZEIGE */
-    .rith-display {
-        font-size: 60px;
-        text-align: center;
-        color: var(--rith);
-        text-shadow: 0 0 30px rgba(255,215,61,0.5);
-        border: 2px solid var(--rith);
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        line-height: 120px;
-        margin: 0 auto;
-    }
-
-    /* HUMAN / MECHANIC ANZEIGE */
-    .dual-status {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-    }
-    .dual-box {
-        flex: 1;
-        border: 1px solid #444;
-        border-radius: 8px;
-        padding: 10px;
-        text-align: center;
-    }
-    .dual-box.human {
-        border-color: var(--human);
-        background: rgba(255,68,255,0.05);
-    }
-    .dual-box.mech {
-        border-color: var(--mech);
-        background: rgba(0,204,255,0.05);
-    }
-    .dual-box .label {
-        font-size: 9px;
-        color: #666;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .dual-box .value {
-        font-size: 18px;
-        font-weight: bold;
-        margin-top: 4px;
-    }
-    .dual-box.human .value { color: var(--human); }
-    .dual-box.mech .value { color: var(--mech); }
-
-    /* EVO GRID */
-    .evo-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-    }
-    .evo-panel {
-        background: #0a0a0f;
-        border: 1px solid #333;
-        border-radius: 8px;
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-    .evo-panel h3 {
-        font-size: 13px;
-        margin: 0;
-        border-bottom: 1px solid #333;
-        padding-bottom: 4px;
-    }
-    .evo-panel.rev h3 { color: var(--human); border-color: var(--human); }
-    .evo-panel.upd h3 { color: var(--mech); border-color: var(--mech); }
-    .evo-panel.upg h3 { color: var(--gold); border-color: var(--gold); }
-    .evo-panel .stat {
-        display: flex;
-        justify-content: space-between;
-        font-size: 10px;
-        color: #888;
-        border-bottom: 1px dashed #222;
-        padding-bottom: 4px;
-    }
-    .evo-panel .stat b { font-size: 14px; }
-    .evo-panel.rev .stat b { color: var(--human); }
-    .evo-panel.upd .stat b { color: var(--mech); }
-    .evo-panel.upg .stat b { color: var(--gold); }
-
-    /* BUTTONS */
-    .btn-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-    button {
-        background: #1a1a2a;
-        color: #fff;
-        border: 1px solid #444;
-        padding: 10px;
-        border-radius: 8px;
-        font-family: inherit;
-        font-size: 11px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    button:hover {
-        border-color: var(--gold);
-        color: var(--gold);
-        transform: translateY(-2px);
-    }
-    button.rev { border-color: var(--human); color: var(--human); }
-    button.rev:hover { background: var(--human); color: #000; }
-    button.upd { border-color: var(--mech); color: var(--mech); }
-    button.upd:hover { background: var(--mech); color: #000; }
-    button.upg { border-color: var(--gold); color: var(--gold); }
-    button.upg:hover { background: var(--gold); color: #000; }
-    button.main { grid-column: span 3; font-size: 14px; border-color: var(--gold); color: var(--gold); }
-    button.main:hover { background: var(--gold); color: #000; }
-
-    /* LOG */
-    .log {
-        background: #000;
-        border: 1px solid #333;
-        border-radius: 8px;
-        padding: 10px;
-        font-size: 10px;
-        color: #888;
-        height: 120px;
-        overflow-y: auto;
-        line-height: 1.6;
-    }
-    .log .time { color: #444; }
-    .log .human { color: var(--human); }
-    .log .mech { color: var(--mech); }
-
-    footer {
-        text-align: center;
-        color: #333;
-        font-size: 9px;
-        padding-top: 8px;
-        border-top: 1px solid #222;
-    }
+  body { background:#0a0a0f; color:#0f0; font-family:Consolas; padding:20px; }
+  .log { font-size:12px; color:#7f7; padding:10px; background:#000; height:140px; overflow-y:auto; }
+  .panel { border:1px solid #333; padding:12px; margin-top:12px; border-radius:8px; }
+  .rith-display { font-size:60px; text-align:center; color:#ffd700; border:2px solid #ffd700; border-radius:50%; width:120px; height:120px; line-height:120px; margin:auto; }
 </style>
 </head>
 <body>
 
-<header>
-    <h1>🌀 RITH MASTER 2.0</h1>
-    <p>HUMANISTISCHE &amp; MECHANISCHE ALGORITHMIK · RITH (4) · EVO</p>
-</header>
+<h2>🌀 TYQ · LEBENSMATRIX</h2>
+<div id="log" class="log">[init] LEBENSMATRIX gestartet…</div>
 
-<!-- RITH WERT -->
+<!-- RITH MASTER 2.0 UI -->
 <div class="panel">
-    <h2>🌀 RITH WERT (4)</h2>
+    <h2>🌀 RITH WERT</h2>
     <div class="rith-display" id="rithWert">4</div>
-    <div style="text-align:center; font-size:10px; color:#888;">RAW → STRUCTURE → VECTOR → FUSION</div>
 </div>
 
-<!-- HUMAN / MECHANIC STATUS -->
-<div class="dual-status">
-    <div class="dual-box human">
-        <div class="label">HUMAN</div>
-        <div class="value" id="humanState">WACH</div>
-    </div>
-    <div class="dual-box mech">
-        <div class="label">MECHANIC</div>
-        <div class="value" id="mechState">BEREIT</div>
-    </div>
-</div>
-
-<!-- EVO: REV / UPD / UPG -->
-<div class="evo-grid">
-    <div class="evo-panel rev">
-        <h3>🔮 REV · Human</h3>
-        <div class="stat"><span>Score</span><b id="revScore">0</b></div>
-        <div class="stat"><span>Emotion</span><b id="revEmotion">NEUTRAL</b></div>
-        <button class="rev" onclick="runRev()">🔮 REVIEW</button>
-    </div>
-    <div class="evo-panel upd">
-        <h3>🔄 UPD · Mechanik</h3>
-        <div class="stat"><span>Changes</span><b id="updChanges">0</b></div>
-        <div class="stat"><span>Level</span><b id="updLevel">0</b></div>
-        <button class="upd" onclick="runUpd()">🔄 UPDATE</button>
-    </div>
-    <div class="evo-panel upg">
-        <h3>🚀 UPG · Evolution</h3>
-        <div class="stat"><span>Upgrades</span><b id="upgCount">0</b></div>
-        <div class="stat"><span>Level</span><b id="upgLevel">0</b></div>
-        <button class="upg" onclick="runUpg()">🚀 UPGRADE</button>
-    </div>
-</div>
-
-<!-- PIPELINE ACHSEN -->
 <div class="panel">
-    <h2>🌀 PIPELINE ACHSEN</h2>
-    <div class="btn-grid">
-        <button onclick="runP0()">🌅 P0 · WAKE</button>
-        <button onclick="runP1()">🔥 P1 · STRUCTURE</button>
-        <button onclick="runP2()">🔗 P2 · VECTOR</button>
-        <button class="main" onclick="runPipeline()">▶ FULL PIPELINE RUN</button>
-    </div>
+    <h2>🧠 HUMAN / ⚙️ MECHANIC</h2>
+    <div>Human: <b id="humanState">WACH</b></div>
+    <div>Mech: <b id="mechState">BEREIT</b></div>
 </div>
 
-<!-- LOG -->
 <div class="panel">
-    <h2>📜 NC PROTOKOLL</h2>
-    <div class="log" id="log">[init] RITH MASTER 2.0 initialisiert.</div>
+    <h2>🔮 REV / 🔄 UPD / 🚀 UPG</h2>
+    <div>REV Score: <b id="revScore">0</b></div>
+    <div>REV Emotion: <b id="revEmotion">NEUTRAL</b></div>
+    <div>UPD Changes: <b id="updChanges">0</b></div>
+    <div>UPD Level: <b id="updLevel">0</b></div>
+    <div>UPG Count: <b id="upgCount">0</b></div>
+    <div>UPG Level: <b id="upgLevel">0</b></div>
+
+    <button onclick="runRev()">🔮 REVIEW</button>
+    <button onclick="runUpd()">🔄 UPDATE</button>
+    <button onclick="runUpg()">🚀 UPGRADE</button>
 </div>
 
-<footer>⚖️ EVO-GEOLEGAL · iki1uc © · Code nutzbar, Logik unkopierbar.</footer>
+<div class="panel">
+    <h2>🌀 PIPELINE</h2>
+    <button onclick="runP0()">🌅 P0</button>
+    <button onclick="runP1()">🔥 P1</button>
+    <button onclick="runP2()">🔗 P2</button>
+    <button onclick="runPipeline()">▶ FULL PIPELINE</button>
+</div>
 
 <script>
-// ============================================================
-// RITH MASTER 2.0 · HUMANISTISCHE & MECHANISCHE ALGORITHMIK
-// ============================================================
+// ─────────────────────────────────────────────
+// LEBENS-KERN · TMP-Loader
+// ─────────────────────────────────────────────
 
-// 1. STATE
+const CORE = {
+  modules: [
+    "OS_CORE.js",
+    "3.js",          // PIPELINE sort()
+    "TYQ.js",
+    "RITH.html",
+    "EVO.html",
+    "final.html",
+    "team.html",
+    "work.html"
+  ],
+
+  async init() {
+    log("🌀 LEBENSMATRIX: Module werden geladen…");
+
+    for (const m of this.modules) {
+      try {
+        await import(`./${m}?tmp=${Date.now()}`);
+        log(`🟢 Modul geladen: ${m}`);
+      } catch {
+        log(`🔴 Modul fehlt: ${m}`);
+      }
+    }
+
+    log("🌀 TMP aktiviert: Achsen 3,9,27,81,243,756");
+    log("🌀 TMP aktiviert: PUMP-Engine");
+    log("🌀 TMP aktiviert: sortComplex()");
+    log("🌀 TMP aktiviert: PIPELINE sort()");
+  }
+};
+
+CORE.init();
+
+// ─────────────────────────────────────────────
+// RITH MASTER 2.0 STATE
+// ─────────────────────────────────────────────
+
 const state = {
     rith: 4,
-    p0: false, p1: false, p2: false,
     human: "WACH",
     mech: "BEREIT",
     rev: { score: 0, emotion: "NEUTRAL" },
     upd: { changes: 0, level: 0 },
-    upg: { count: 0, level: 0 }
+    upg: { count: 0, level: 0 },
+    p0:false,p1:false,p2:false
 };
 
-// 2. LOG
-function log(msg, type = "") {
+// LOG
+function log(msg) {
     const el = document.getElementById("log");
-    const e = document.createElement("div");
-    e.textContent = msg;
-    el.appendChild(e);
+    el.innerHTML += msg + "<br>";
     el.scrollTop = el.scrollHeight;
 }
 
-// 3. UPDATE UI
+// UPDATE UI
 function updateUI() {
-    document.getElementById("rithWert").textContent = state.rith;
-    document.getElementById("humanState").textContent = state.human;
-    document.getElementById("mechState").textContent = state.mech;
-
-    document.getElementById("revScore").textContent = state.rev.score;
-    document.getElementById("revEmotion").textContent = state.rev.emotion;
-    document.getElementById("updChanges").textContent = state.upd.changes;
-    document.getElementById("updLevel").textContent = state.upd.level;
-    document.getElementById("upgCount").textContent = state.upg.count;
-    document.getElementById("upgLevel").textContent = state.upg.level;
+    rithWert.textContent = state.rith;
+    humanState.textContent = state.human;
+    mechState.textContent = state.mech;
+    revScore.textContent = state.rev.score;
+    revEmotion.textContent = state.rev.emotion;
+    updChanges.textContent = state.upd.changes;
+    updLevel.textContent = state.upd.level;
+    upgCount.textContent = state.upg.count;
+    upgLevel.textContent = state.upg.level;
 }
 
-// 4. REV (Human)
+// ─────────────────────────────────────────────
+// REV / UPD / UPG mit sortComplex()
+// ─────────────────────────────────────────────
+
 function runRev() {
-    const score = Math.floor(Math.random() * 100) + 1;
-    state.rev.score = score;
-    state.rev.emotion = score > 70 ? "FREUDE" : score > 40 ? "NEUTRAL" : "MÜDE";
+    const r = sortComplex([3,9,27,81,243], { mode:"RITH", axis:"3,9,27,81,243" });
+    state.rev.score = r.sorted.numeric.length;
+    state.rev.emotion = r.sorted.percent[0];
     state.human = state.rev.emotion;
-    log(`🔮 REV · Score ${score} · Emotion ${state.rev.emotion}`, "human");
+    log(`🔮 REV → ${state.rev.score} / ${state.rev.emotion}`);
     updateUI();
 }
 
-// 5. UPD (Mechanik)
 function runUpd() {
-    state.upd.changes++;
-    state.upd.level = Math.floor(state.upd.changes / 5);
-    state.mech = state.upd.changes % 2 === 0 ? "AKTIV" : "PAUSE";
-    log(`🔄 UPD · Changes ${state.upd.changes} · Level ${state.upd.level}`, "mech");
+    const u = sortComplex([1,2,3,4,5], { mode:"TMP", pump:true });
+    state.upd.changes = u.sorted.numeric.length;
+    state.upd.level = Math.floor(state.upd.changes / 2);
+    state.mech = u.pump ? "AKTIV" : "PAUSE";
+    log(`🔄 UPD → ${state.upd.changes} / Level ${state.upd.level}`);
     updateUI();
 }
 
-// 6. UPG (Evolution)
 function runUpg() {
-    state.upg.count++;
-    state.upg.level = Math.floor(state.upg.count / 3);
-    log(`🚀 UPG · Count ${state.upg.count} · Level ${state.upg.level}`, "gold");
+    const g = sortComplex([1,4,16,64,256], { mode:"EVO", axis:"3,9,27,81,243" });
+    state.upg.count = g.sorted.evo.length;
+    state.upg.level = g.sorted.evo[g.sorted.evo.length-1].stage;
+    log(`🚀 UPG → ${state.upg.count} / Level ${state.upg.level}`);
     updateUI();
 }
 
-// 7. P0 · P1 · P2
-function runP0() {
-    state.p0 = true;
-    log(`🌅 P0 · RAW → WACH`, "mech");
-    updateUI();
-}
+// PIPELINE
+function runP0(){ state.p0=true; log("🌅 P0 RAW"); updateUI(); }
+function runP1(){ state.p1=true; log("🔥 P1 STRUCTURE"); updateUI(); }
+function runP2(){ state.p2=true; log("🔗 P2 VECTOR"); updateUI(); }
 
-function runP1() {
-    state.p1 = true;
-    log(`🔥 P1 · STRUCTURE → GEORDNET`, "mech");
-    updateUI();
-}
-
-function runP2() {
-    state.p2 = true;
-    log(`🔗 P2 · VECTOR → RICHTUNG`, "mech");
-    updateUI();
-}
-
-// 8. FULL PIPELINE
-function runPipeline() {
+function runPipeline(){
     runP0();
-    setTimeout(runP1, 200);
-    setTimeout(runP2, 400);
-    setTimeout(runRev, 600);
-    setTimeout(runUpd, 800);
-    setTimeout(runUpg, 1000);
-    log(`🌀 FULL PIPELINE RUN`, "gold");
+    setTimeout(runP1,200);
+    setTimeout(runP2,400);
+    setTimeout(runRev,600);
+    setTimeout(runUpd,800);
+    setTimeout(runUpg,1000);
+    log("🌀 FULL PIPELINE RUN");
 }
 
-// INIT
 updateUI();
-log("🌀 RITH MASTER 2.0 · bereit.");
-log("🌀 Humanistisch & Mechanisch · RITH (4) · EVO");
+log("🌀 RITH MASTER 2.0 aktiv.");
 </script>
 
 </body>
