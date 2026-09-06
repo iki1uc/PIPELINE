@@ -5,58 +5,348 @@
 <title>🌀 TYQ · LEBENSMATRIX · RITH MASTER 2.0</title>
 
 <style>
-  body { background:#0a0a0f; color:#0f0; font-family:Consolas; padding:20px; }
-  .log { font-size:12px; color:#7f7; padding:10px; background:#000; height:140px; overflow-y:auto; }
-  .panel { border:1px solid #333; padding:12px; margin-top:12px; border-radius:8px; }
-  .rith-display { font-size:60px; text-align:center; color:#ffd700; border:2px solid #ffd700; border-radius:50%; width:120px; height:120px; line-height:120px; margin:auto; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    background: #0a0a0f;
+    color: #0f0;
+    font-family: 'Consolas', monospace;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    max-width: 900px;
+    width: 100%;
+  }
+  h2 { color: #0f0; font-weight: 300; letter-spacing: 2px; margin: 8px 0; }
+  .log {
+    font-size: 12px;
+    color: #7f7;
+    padding: 10px;
+    background: #000;
+    height: 140px;
+    overflow-y: auto;
+    border: 1px solid #1a2a3a;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-family: 'Consolas', monospace;
+    line-height: 1.5;
+  }
+  .panel {
+    border: 1px solid #2a3a4a;
+    padding: 14px 16px;
+    margin-top: 12px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3);
+  }
+  .panel h2 { font-size: 14px; color: #8cf0d0; margin: 0 0 8px 0; border-bottom: 1px solid #1a2a3a; padding-bottom: 4px; }
+  .panel .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #0e1620; font-size: 13px; }
+  .panel .row .label { color: #5a7a8a; }
+  .panel .row .value { color: #d0e0e8; font-weight: bold; }
+  .rith-display {
+    font-size: 60px;
+    text-align: center;
+    color: #ffd700;
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    margin: 8px auto;
+    box-shadow: 0 0 30px rgba(255,215,0,0.1);
+  }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  button {
+    background: #141e28;
+    color: #d0d8e0;
+    border: 1px solid #2a3a4a;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: .2s;
+  }
+  button:hover { background: #1e2a36; border-color: #6cf; color: #fff; }
+  button.primary { border-color: #ffd700; color: #ffd700; }
+  button.primary:hover { background: #ffd70022; }
+  button.danger { border-color: #ff6b6b; color: #ff6b6b; }
+  button.danger:hover { background: #ff6b6b22; }
+  button.pipeline { border-color: #b388ff; color: #b388ff; }
+  button.pipeline:hover { background: #b388ff22; }
+  .pipeline-status {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .pipeline-status .step {
+    padding: 2px 12px;
+    border-radius: 12px;
+    border: 1px solid #2a3a4a;
+    background: #0a0a0f;
+    color: #5a7a8a;
+  }
+  .pipeline-status .step.active {
+    border-color: #b388ff;
+    color: #b388ff;
+    background: #1a1a2a;
+    box-shadow: 0 0 16px rgba(179,136,255,0.1);
+  }
+  .pipeline-status .step.done {
+    border-color: #8cf0d0;
+    color: #8cf0d0;
+  }
+  .footnote { font-size: 10px; color: #3a4a5a; margin-top: 12px; border-top: 1px solid #1a2a3a; padding-top: 8px; text-align: center; }
 </style>
 </head>
 <body>
 
-<h2>🌀 TYQ · LEBENSMATRIX</h2>
-<div id="log" class="log">[init] LEBENSMATRIX gestartet…</div>
+<div class="container">
 
-<div class="panel">
+  <h2>🌀 TYQ · LEBENSMATRIX <span style="font-size:12px;color:#5a7a8a;">RITH MASTER 2.0</span></h2>
+
+  <!-- LOG -->
+  <div class="log" id="log">[init] LEBENSMATRIX gestartet…</div>
+
+  <!-- RITH -->
+  <div class="panel">
     <h2>🌀 RITH WERT</h2>
     <div class="rith-display" id="rithWert">4</div>
-</div>
+    <div style="text-align:center;font-size:11px;color:#5a7a8a;margin-top:4px;">RITH = (REV + UPD + UPG) / 3</div>
+  </div>
 
-<div class="panel">
+  <!-- HUMAN / MECHANIC -->
+  <div class="panel">
     <h2>🧠 HUMAN / ⚙️ MECHANIC</h2>
-    <div>Human: <b id="humanState">WACH</b></div>
-    <div>Mech: <b id="mechState">BEREIT</b></div>
-</div>
+    <div class="row"><span class="label">Human</span><span class="value" id="humanState">WACH</span></div>
+    <div class="row"><span class="label">Mechanic</span><span class="value" id="mechState">BEREIT</span></div>
+  </div>
 
-<div class="panel">
+  <!-- REV / UPD / UPG -->
+  <div class="panel">
     <h2>🔮 REV / 🔄 UPD / 🚀 UPG</h2>
-    <div>REV Score: <b id="revScore">0</b></div>
-    <div>REV Emotion: <b id="revEmotion">NEUTRAL</b></div>
-    <div>UPD Changes: <b id="updChanges">0</b></div>
-    <div>UPD Level: <b id="updLevel">0</b></div>
-    <div>UPG Count: <b id="upgCount">0</b></div>
-    <div>UPG Level: <b id="upgLevel">0</b></div>
+    <div class="row"><span class="label">REV Score</span><span class="value" id="revScore">0</span></div>
+    <div class="row"><span class="label">REV Emotion</span><span class="value" id="revEmotion">NEUTRAL</span></div>
+    <div class="row"><span class="label">UPD Changes</span><span class="value" id="updChanges">0</span></div>
+    <div class="row"><span class="label">UPD Level</span><span class="value" id="updLevel">0</span></div>
+    <div class="row"><span class="label">UPG Count</span><span class="value" id="upgCount">0</span></div>
+    <div class="row"><span class="label">UPG Level</span><span class="value" id="upgLevel">0</span></div>
+    <div class="btn-group">
+      <button class="primary" onclick="runRev()">🔮 REVIEW</button>
+      <button class="primary" onclick="runUpd()">🔄 UPDATE</button>
+      <button class="primary" onclick="runUpg()">🚀 UPGRADE</button>
+    </div>
+  </div>
 
-    <button onclick="runRev()">🔮 REVIEW</button>
-    <button onclick="runUpd()">🔄 UPDATE</button>
-    <button onclick="runUpg()">🚀 UPGRADE</button>
-</div>
+  <!-- PIPELINE -->
+  <div class="panel">
+    <h2>🌀 PIPELINE · WORK</h2>
 
-<div class="panel">
-    <h2>🌀 PIPELINE</h2>
-    <button onclick="runP0()">🌅 P0</button>
-    <button onclick="runP1()">🔥 P1</button>
-    <button onclick="runP2()">🔗 P2</button>
-    <button onclick="runPipeline()">▶ FULL PIPELINE</button>
+    <div class="pipeline-status">
+      <span style="color:#5a7a8a;">Work Pipeline:</span>
+      <span class="step" id="pStep0">P0</span>
+      <span class="step" id="pStep1">P1</span>
+      <span class="step" id="pStep2">P2</span>
+      <span style="color:#5a7a8a;font-size:11px;" id="pipelineLabel">⏸ bereit</span>
+    </div>
+
+    <div class="btn-group">
+      <button class="pipeline" onclick="runP0()">🌅 P0</button>
+      <button class="pipeline" onclick="runP1()">🔥 P1</button>
+      <button class="pipeline" onclick="runP2()">🔗 P2</button>
+      <button class="primary" onclick="runPipeline()">▶ FULL PIPELINE</button>
+      <button class="danger" onclick="resetPipeline()">⟲ RESET</button>
+    </div>
+  </div>
+
+  <div class="footnote">
+    Pipeline-Status: P0 = Analyse · P1 = Synthese · P2 = Integration
+  </div>
+
 </div>
 
 <script>
-// ─────────────────────────────────────────────
-// FUNKTIONIERENDE sortComplex() – Kernfunktion
-// ─────────────────────────────────────────────
-function sortComplex(arr, opts = {}) {
-    return {
-        sorted: {
-            numeric: arr.slice().sort((a,b)=>a-b),
-            percent: ["NEUTRAL","LOW","MID","HIGH"],
-            evo: arr.map((v,i)=>({value:v,stage:i+1}))
-        },
+"use strict";
+
+// ─── LOG ───────────────────────────────────────────────────────────
+function log(msg) {
+  const el = document.getElementById('log');
+  const time = new Date().toLocaleTimeString();
+  el.innerHTML += `<br>[${time}] ${msg}`;
+  el.scrollTop = el.scrollHeight;
+  while (el.children.length > 50) el.removeChild(el.firstChild);
+}
+
+// ─── STATE ────────────────────────────────────────────────────────
+const state = {
+  rith: 4,
+  human: 'WACH',
+  mech: 'BEREIT',
+  rev: { score: 0, emotion: 'NEUTRAL' },
+  upd: { changes: 0, level: 0 },
+  upg: { count: 0, level: 0 },
+  pipeline: 0, // 0 = P0, 1 = P1, 2 = P2
+  pipelineRunning: false
+};
+
+// ─── UI UPDATE ──────────────────────────────────────────────────
+function updateUI() {
+  document.getElementById('rithWert').textContent = state.rith;
+  document.getElementById('humanState').textContent = state.human;
+  document.getElementById('mechState').textContent = state.mech;
+  document.getElementById('revScore').textContent = state.rev.score;
+  document.getElementById('revEmotion').textContent = state.rev.emotion;
+  document.getElementById('updChanges').textContent = state.upd.changes;
+  document.getElementById('updLevel').textContent = state.upd.level;
+  document.getElementById('upgCount').textContent = state.upg.count;
+  document.getElementById('upgLevel').textContent = state.upg.level;
+
+  // Pipeline-Steps
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('pStep' + i);
+    el.className = 'step';
+    if (i < state.pipeline) el.classList.add('done');
+    else if (i === state.pipeline) el.classList.add('active');
+  }
+
+  const label = document.getElementById('pipelineLabel');
+  const labels = ['⏳ Analyse (P0)', '⚙️ Synthese (P1)', '🚀 Integration (P2)'];
+  label.textContent = state.pipeline === 0 && !state.pipelineRunning ? '⏸ bereit' :
+                     state.pipelineRunning ? '▶ läuft…' :
+                     labels[state.pipeline] || '⏸ bereit';
+}
+
+// ─── RITH BERECHNEN ─────────────────────────────────────────────
+function calcRith() {
+  const avg = (state.rev.score + state.upd.level + state.upg.level) / 3;
+  state.rith = Math.round(avg * 10) / 10;
+  updateUI();
+}
+
+// ─── REV ──────────────────────────────────────────────────────────
+function runRev() {
+  state.rev.score += 1 + Math.floor(Math.random() * 3);
+  const emotions = ['NEUTRAL', 'FREUDE', 'ZUFRIEDEN', 'NACHDENKEN', 'ENTSCHEIDUNG'];
+  state.rev.emotion = emotions[Math.floor(Math.random() * emotions.length)];
+  state.human = state.rev.emotion === 'ENTSCHEIDUNG' ? 'ENTSCHEIDET' : 'WACH';
+  calcRith();
+  log(`🔮 REVIEW · Score: ${state.rev.score} · Emotion: ${state.rev.emotion}`);
+  updateUI();
+}
+
+// ─── UPD ──────────────────────────────────────────────────────────
+function runUpd() {
+  state.upd.changes += 1 + Math.floor(Math.random() * 2);
+  state.upd.level = Math.min(10, state.upd.level + 1);
+  state.mech = state.upd.level > 5 ? 'AKTIV' : 'BEREIT';
+  calcRith();
+  log(`🔄 UPDATE · Changes: ${state.upd.changes} · Level: ${state.upd.level}`);
+  updateUI();
+}
+
+// ─── UPG ──────────────────────────────────────────────────────────
+function runUpg() {
+  state.upg.count += 1;
+  state.upg.level = Math.min(10, state.upg.level + 2);
+  state.mech = state.upg.level > 6 ? 'UPGRADED' : 'BEREIT';
+  calcRith();
+  log(`🚀 UPGRADE · Count: ${state.upg.count} · Level: ${state.upg.level}`);
+  updateUI();
+}
+
+// ─── PIPELINE ─────────────────────────────────────────────────────
+function setPipeline(step) {
+  state.pipeline = Math.max(0, Math.min(2, step));
+  updateUI();
+}
+
+function runP0() {
+  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
+  state.pipeline = 0;
+  state.pipelineRunning = true;
+  log('🌅 P0 · Analyse gestartet');
+  updateUI();
+  setTimeout(() => {
+    log('✅ P0 · Analyse abgeschlossen');
+    state.pipelineRunning = false;
+    updateUI();
+  }, 800);
+}
+
+function runP1() {
+  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
+  if (state.pipeline < 1) { log('⚠️ P1 erst nach P0 möglich'); return; }
+  state.pipeline = 1;
+  state.pipelineRunning = true;
+  log('🔥 P1 · Synthese gestartet');
+  updateUI();
+  setTimeout(() => {
+    log('✅ P1 · Synthese abgeschlossen');
+    state.pipelineRunning = false;
+    updateUI();
+  }, 800);
+}
+
+function runP2() {
+  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
+  if (state.pipeline < 2) { log('⚠️ P2 erst nach P1 möglich'); return; }
+  state.pipeline = 2;
+  state.pipelineRunning = true;
+  log('🔗 P2 · Integration gestartet');
+  updateUI();
+  setTimeout(() => {
+    log('✅ P2 · Integration abgeschlossen · Pipeline vollständig');
+    state.pipelineRunning = false;
+    updateUI();
+    // Bonus: UPG auslösen
+    runUpg();
+  }, 800);
+}
+
+function runPipeline() {
+  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
+  log('▶ FULL PIPELINE gestartet');
+  state.pipeline = 0;
+  state.pipelineRunning = true;
+  updateUI();
+
+  // P0
+  setTimeout(() => {
+    log('✅ P0 abgeschlossen');
+    state.pipeline = 1;
+    updateUI();
+    // P1
+    setTimeout(() => {
+      log('✅ P1 abgeschlossen');
+      state.pipeline = 2;
+      updateUI();
+      // P2
+      setTimeout(() => {
+        log('✅ P2 abgeschlossen · Pipeline fertig');
+        state.pipelineRunning = false;
+        updateUI();
+        runUpg(); // Bonus am Ende
+      }, 700);
+    }, 700);
+  }, 700);
+}
+
+function resetPipeline() {
+  if (state.pipelineRunning) { log('⚠️ Pipeline läuft noch – kann nicht zurückgesetzt werden'); return; }
+  state.pipeline = 0;
+  state.pipelineRunning = false;
+  log('⟲ Pipeline zurückgesetzt');
+  updateUI();
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────
+log('🌀 TYQ · LEBENSMATRIX geladen');
+log('📌 Pipeline: P0 = Analyse · P1 = Synthese · P2 = Integration');
+updateUI();
+</script>
+
+</body>
+</html>
