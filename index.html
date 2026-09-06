@@ -1,352 +1,580 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>🌀 TYQ · LEBENSMATRIX · RITH MASTER 2.0</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧬 RAWATOR · ANIME · QUECKSILBER · 81 HOLOGRAMM</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: radial-gradient(ellipse at 20% 30%, #0a0e1a, #000000);
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Consolas', monospace;
+      color: #c0d0d0;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 1400px;
+      width: 100%;
+      background: rgba(6,8,16,0.6);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 20px 24px 30px;
+      border: 1px solid rgba(160,200,240,0.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 80px rgba(100,180,255,0.02);
+    }
 
-<style>
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body {
-    background: #0a0a0f;
-    color: #0f0;
-    font-family: 'Consolas', monospace;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-  }
-  .container {
-    max-width: 900px;
-    width: 100%;
-  }
-  h2 { color: #0f0; font-weight: 300; letter-spacing: 2px; margin: 8px 0; }
-  .log {
-    font-size: 12px;
-    color: #7f7;
-    padding: 10px;
-    background: #000;
-    height: 140px;
-    overflow-y: auto;
-    border: 1px solid #1a2a3a;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    font-family: 'Consolas', monospace;
-    line-height: 1.5;
-  }
-  .panel {
-    border: 1px solid #2a3a4a;
-    padding: 14px 16px;
-    margin-top: 12px;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.3);
-  }
-  .panel h2 { font-size: 14px; color: #8cf0d0; margin: 0 0 8px 0; border-bottom: 1px solid #1a2a3a; padding-bottom: 4px; }
-  .panel .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #0e1620; font-size: 13px; }
-  .panel .row .label { color: #5a7a8a; }
-  .panel .row .value { color: #d0e0e8; font-weight: bold; }
-  .rith-display {
-    font-size: 60px;
-    text-align: center;
-    color: #ffd700;
-    border: 2px solid #ffd700;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    line-height: 120px;
-    margin: 8px auto;
-    box-shadow: 0 0 30px rgba(255,215,0,0.1);
-  }
-  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-  button {
-    background: #141e28;
-    color: #d0d8e0;
-    border: 1px solid #2a3a4a;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: .2s;
-  }
-  button:hover { background: #1e2a36; border-color: #6cf; color: #fff; }
-  button.primary { border-color: #ffd700; color: #ffd700; }
-  button.primary:hover { background: #ffd70022; }
-  button.danger { border-color: #ff6b6b; color: #ff6b6b; }
-  button.danger:hover { background: #ff6b6b22; }
-  button.pipeline { border-color: #b388ff; color: #b388ff; }
-  button.pipeline:hover { background: #b388ff22; }
-  .pipeline-status {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    padding: 6px 0;
-    font-size: 13px;
-  }
-  .pipeline-status .step {
-    padding: 2px 12px;
-    border-radius: 12px;
-    border: 1px solid #2a3a4a;
-    background: #0a0a0f;
-    color: #5a7a8a;
-  }
-  .pipeline-status .step.active {
-    border-color: #b388ff;
-    color: #b388ff;
-    background: #1a1a2a;
-    box-shadow: 0 0 16px rgba(179,136,255,0.1);
-  }
-  .pipeline-status .step.done {
-    border-color: #8cf0d0;
-    color: #8cf0d0;
-  }
-  .footnote { font-size: 10px; color: #3a4a5a; margin-top: 12px; border-top: 1px solid #1a2a3a; padding-top: 8px; text-align: center; }
-</style>
+    .header {
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
+      border-bottom: 1px solid rgba(160,200,240,0.06); padding-bottom: 6px; margin-bottom: 14px;
+    }
+    .header h1 {
+      font-size: 24px; font-weight: 300; letter-spacing: 4px;
+      background: linear-gradient(135deg, #e0e8f0, #b0c8d8, #8098b0, #c0d8e8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .header h1 small { font-size: 12px; letter-spacing: 2px; -webkit-text-fill-color: #4a5a6a; color: #4a5a6a; }
+
+    .status-badge { display: flex; gap: 16px; font-size: 11px; color: #5a7a8a; flex-wrap: wrap; }
+    .status-badge span { display: flex; align-items: center; gap: 5px; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2a4a5a; transition: 0.3s; }
+    .dot.on { background: #8cf0d0; box-shadow: 0 0 12px #8cf0d0; }
+    .dot.gold { background: #f0d080; box-shadow: 0 0 12px #f0d080; }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 10px 0;
+    }
+    @media (max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .canvas-wrap {
+      position: relative;
+      border-radius: 20px;
+      background: rgba(4,6,10,0.85);
+      border: 1px solid rgba(120,160,190,0.04);
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.7);
+      aspect-ratio: 4/3;
+      width: 100%;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+    #gooCanvas, #highlightCanvas {
+      position: absolute; top:0; left:0; width:100%; height:100%;
+    }
+    #gooCanvas { filter: blur(9px) contrast(26); }
+    #highlightCanvas { pointer-events: none; }
+
+    .hint {
+      position: absolute; bottom: 8px; left: 12px;
+      font-size: 10px; color: rgba(200,220,240,0.35);
+      letter-spacing: 1px; pointer-events: none;
+    }
+
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 8px 12px;
+      align-items: center; margin: 8px 0; padding: 6px 4px;
+      border-top: 1px solid rgba(100,140,170,0.04);
+    }
+    .controls button {
+      background: rgba(20,28,36,0.5);
+      border: 1px solid rgba(120,160,190,0.08);
+      color: #9ab0c0;
+      padding: 5px 14px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .controls button:hover { background: rgba(40,70,90,0.3); border-color: rgba(160,200,240,0.2); color: #d0e8f8; }
+    .controls button.primary { border-color: rgba(180,220,255,0.15); color: #c0dce8; }
+    .controls button.primary.active { background: rgba(80,200,255,0.15); border-color: #80c0e0; }
+    .controls button.ds9 { border-color: rgba(255,215,0,0.1); color: #e8d080; }
+    .controls button.ds9.active { background: rgba(255,215,0,0.12); border-color: #f0d080; }
+    .controls button.danger { border-color: rgba(255,80,80,0.08); color: #d06060; }
+
+    .info-row {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      font-size: 11px; color: #4a6a7a; padding: 4px 0;
+      border-top: 1px solid rgba(100,140,170,0.03); margin-top: 4px;
+    }
+    .info-row .val { color: #aac8d8; font-weight: 400; }
+
+    /* 81-HOLOGRAMM-RASTER */
+    .hologram-wrap {
+      background: rgba(0,0,0,0.25);
+      border-radius: 16px;
+      padding: 10px;
+      border: 1px solid rgba(100,180,255,0.03);
+      margin-top: 10px;
+    }
+    .hologram-wrap h3 {
+      font-size: 11px; color: #f0d080; letter-spacing: 2px;
+      border-bottom: 1px solid rgba(255,215,0,0.04); padding-bottom: 4px; margin-bottom: 6px;
+    }
+    .holo-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 2px;
+    }
+    .holo-cell {
+      background: rgba(24,32,40,0.25);
+      border: 1px solid rgba(100,140,170,0.03);
+      border-radius: 2px;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #5a7a8a;
+      transition: 0.2s;
+    }
+    .holo-cell.active {
+      background: rgba(100,200,255,0.2);
+      border-color: #70c8ff;
+      color: #b0d0e0;
+      box-shadow: 0 0 12px rgba(100,200,255,0.1);
+    }
+
+    .log {
+      background: rgba(0,0,0,0.3);
+      border-radius: 14px;
+      padding: 6px 14px;
+      font-size: 10px;
+      color: #4a6a7a;
+      max-height: 70px;
+      overflow-y: auto;
+      border: 1px solid rgba(100,140,170,0.02);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .log .ok { color: #80d0b0; }
+    .log .flow { color: #d0b080; }
+    .log .ds9 { color: #e8d080; }
+
+    .footer {
+      text-align: center; margin-top: 12px; color: #1a2a30; font-size: 9px; letter-spacing: 3px;
+    }
+    .footer .gold { color: #e8d080; }
+
+    @media (max-width:700px){
+      .container { padding:12px; }
+      .header h1 { font-size:18px; letter-spacing:2px; }
+      .controls button { font-size:10px; padding:4px 10px; }
+      .holo-cell { font-size:8px; }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
 
-  <h2>🌀 TYQ · LEBENSMATRIX <span style="font-size:12px;color:#5a7a8a;">RITH MASTER 2.0</span></h2>
-
-  <!-- LOG -->
-  <div class="log" id="log">[init] LEBENSMATRIX gestartet…</div>
-
-  <!-- RITH -->
-  <div class="panel">
-    <h2>🌀 RITH WERT</h2>
-    <div class="rith-display" id="rithWert">4</div>
-    <div style="text-align:center;font-size:11px;color:#5a7a8a;margin-top:4px;">RITH = (REV + UPD + UPG) / 3</div>
-  </div>
-
-  <!-- HUMAN / MECHANIC -->
-  <div class="panel">
-    <h2>🧠 HUMAN / ⚙️ MECHANIC</h2>
-    <div class="row"><span class="label">Human</span><span class="value" id="humanState">WACH</span></div>
-    <div class="row"><span class="label">Mechanic</span><span class="value" id="mechState">BEREIT</span></div>
-  </div>
-
-  <!-- REV / UPD / UPG -->
-  <div class="panel">
-    <h2>🔮 REV / 🔄 UPD / 🚀 UPG</h2>
-    <div class="row"><span class="label">REV Score</span><span class="value" id="revScore">0</span></div>
-    <div class="row"><span class="label">REV Emotion</span><span class="value" id="revEmotion">NEUTRAL</span></div>
-    <div class="row"><span class="label">UPD Changes</span><span class="value" id="updChanges">0</span></div>
-    <div class="row"><span class="label">UPD Level</span><span class="value" id="updLevel">0</span></div>
-    <div class="row"><span class="label">UPG Count</span><span class="value" id="upgCount">0</span></div>
-    <div class="row"><span class="label">UPG Level</span><span class="value" id="upgLevel">0</span></div>
-    <div class="btn-group">
-      <button class="primary" onclick="runRev()">🔮 REVIEW</button>
-      <button class="primary" onclick="runUpd()">🔄 UPDATE</button>
-      <button class="primary" onclick="runUpg()">🚀 UPGRADE</button>
+  <div class="header">
+    <h1>🧬 RAWATOR · QUECKSILBER <small>ANIME · 81 HOLOGRAMM</small></h1>
+    <div class="status-badge">
+      <span><span class="dot on" id="dotMagnet"></span> MAGNET</span>
+      <span><span class="dot" id="dotDs9"></span> DS9</span>
+      <span><span class="dot gold" id="dotVital"></span> VITAL</span>
     </div>
   </div>
 
-  <!-- PIPELINE -->
-  <div class="panel">
-    <h2>🌀 PIPELINE · WORK</h2>
+  <div class="main-grid">
 
-    <div class="pipeline-status">
-      <span style="color:#5a7a8a;">Work Pipeline:</span>
-      <span class="step" id="pStep0">P0</span>
-      <span class="step" id="pStep1">P1</span>
-      <span class="step" id="pStep2">P2</span>
-      <span style="color:#5a7a8a;font-size:11px;" id="pipelineLabel">⏸ bereit</span>
+    <!-- Linke Spalte: Canvas + Steuerung -->
+    <div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="gooCanvas"></canvas>
+        <canvas id="highlightCanvas"></canvas>
+        <div class="hint">Klick auf Tropfen = teilen · Klick auf Leerraum = neuer Tropfen</div>
+      </div>
+
+      <div class="controls">
+        <button class="primary" id="btnMagnet">🧲 MAGNET</button>
+        <button id="btnAdd">💧 TROPFEN +</button>
+        <button id="btnSplit">✂ SPLIT</button>
+        <button id="btnQuake">⚡ QUAKE</button>
+        <button class="ds9" id="btnDs9">★ DS9</button>
+        <button class="danger" id="btnReset">⟲ RESET</button>
+      </div>
+
+      <div class="info-row">
+        <span>TROPFEN: <span class="val" id="countDisplay">0</span></span>
+        <span>MASSE (Σr²): <span class="val" id="massDisplay">0</span></span>
+        <span>VITAL: <span class="val" id="vitalDisplay">0.00</span></span>
+        <span>SHUFFLE: <span class="val" id="shuffleDisplay">0</span></span>
+      </div>
     </div>
 
-    <div class="btn-group">
-      <button class="pipeline" onclick="runP0()">🌅 P0</button>
-      <button class="pipeline" onclick="runP1()">🔥 P1</button>
-      <button class="pipeline" onclick="runP2()">🔗 P2</button>
-      <button class="primary" onclick="runPipeline()">▶ FULL PIPELINE</button>
-      <button class="danger" onclick="resetPipeline()">⟲ RESET</button>
+    <!-- Rechte Spalte: Hologramm + Status -->
+    <div>
+      <div class="hologram-wrap">
+        <h3>🌀 81-HOLOGRAMM · ANIME-FRAMES</h3>
+        <div class="holo-grid" id="holoGrid"></div>
+        <div style="display:flex; gap:12px; margin-top:6px; font-size:10px; color:#5a7a8a; flex-wrap:wrap; justify-content:center;">
+          <span>CO₂: <span id="co2Display" style="color:#70c8ff;">0.00</span></span>
+          <span>H₂O: <span id="wasserDisplay" style="color:#70c8ff;">0.00</span></span>
+          <span>O₂: <span id="o2Display" style="color:#70c8ff;">0.00</span></span>
+        </div>
+      </div>
+
+      <div class="log" id="log">[🧬] RAWATOR · Quecksilber · Anime · 81-Hologramm bereit</div>
     </div>
+
   </div>
 
-  <div class="footnote">
-    Pipeline-Status: P0 = Analyse · P1 = Synthese · P2 = Integration
+  <div class="footer">
+    <span class="gold">★</span> QUECKSILBER-MÜNZEN · LEBENDIGE MATRIX · <span class="gold">81</span>
   </div>
 
 </div>
 
 <script>
-"use strict";
+// ================================================================
+//  RAWATOR · ANIME · QUECKSILBER · 81 HOLOGRAMM
+//  All-in-One: Metaball-Physik + 81-Frame-Raster + Lebensdaten
+// ================================================================
 
-// ─── LOG ───────────────────────────────────────────────────────────
-function log(msg) {
-  const el = document.getElementById('log');
-  const time = new Date().toLocaleTimeString();
-  el.innerHTML += `<br>[${time}] ${msg}`;
-  el.scrollTop = el.scrollHeight;
-  while (el.children.length > 50) el.removeChild(el.firstChild);
+// ─── 1. PHYSIK-KONSTANTEN ─────────────────────────────────────────
+const GRAVITY = 0.25;
+const DAMP = 0.986;
+const WALL_BOUNCE = 0.55;
+const MAGNET_STRENGTH = 0.9;
+const MERGE_FACTOR = 0.6;
+const REPEL_FACTOR = 0.015;
+const MIN_SPLIT_R = 15;
+const MAX_DROPS = 60;
+
+// ─── 2. CANVAS SETUP ──────────────────────────────────────────────
+const wrap = document.getElementById('canvasWrap');
+const gooCanvas = document.getElementById('gooCanvas');
+const hiCanvas = document.getElementById('highlightCanvas');
+const gooCtx = gooCanvas.getContext('2d');
+const hiCtx = hiCanvas.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+
+function resize() {
+  const rect = wrap.getBoundingClientRect();
+  W = rect.width; H = rect.height;
+  DPR = window.devicePixelRatio || 1;
+  [gooCanvas, hiCanvas].forEach(c => {
+    c.width = W * DPR; c.height = H * DPR;
+  });
+  gooCtx.setTransform(DPR,0,0,DPR,0,0);
+  hiCtx.setTransform(DPR,0,0,DPR,0,0);
+}
+window.addEventListener('resize', resize);
+
+// ─── 3. DROP-CLASS ────────────────────────────────────────────────
+class Drop {
+  constructor(x, y, r, vx = 0, vy = 0) {
+    this.x = x; this.y = y; this.r = r; this.vx = vx; this.vy = vy;
+  }
 }
 
-// ─── STATE ────────────────────────────────────────────────────────
-const state = {
-  rith: 4,
-  human: 'WACH',
-  mech: 'BEREIT',
-  rev: { score: 0, emotion: 'NEUTRAL' },
-  upd: { changes: 0, level: 0 },
-  upg: { count: 0, level: 0 },
-  pipeline: 0, // 0 = P0, 1 = P1, 2 = P2
-  pipelineRunning: false
-};
+let drops = [];
+let mergeCount = 0, splitCount = 0;
+let magnetOn = false, ds9On = false;
+const mouse = { x: -1000, y: -1000, active: false };
 
-// ─── UI UPDATE ──────────────────────────────────────────────────
-function updateUI() {
-  document.getElementById('rithWert').textContent = state.rith;
-  document.getElementById('humanState').textContent = state.human;
-  document.getElementById('mechState').textContent = state.mech;
-  document.getElementById('revScore').textContent = state.rev.score;
-  document.getElementById('revEmotion').textContent = state.rev.emotion;
-  document.getElementById('updChanges').textContent = state.upd.changes;
-  document.getElementById('updLevel').textContent = state.upd.level;
-  document.getElementById('upgCount').textContent = state.upg.count;
-  document.getElementById('upgLevel').textContent = state.upg.level;
+function spawnDrop(x, y, r) {
+  if (drops.length >= MAX_DROPS) return null;
+  const d = new Drop(x, y, r, (Math.random()-0.5)*1.5, (Math.random()-0.5)*1.5);
+  drops.push(d);
+  return d;
+}
 
-  // Pipeline-Steps
-  for (let i = 0; i < 3; i++) {
-    const el = document.getElementById('pStep' + i);
-    el.className = 'step';
-    if (i < state.pipeline) el.classList.add('done');
-    else if (i === state.pipeline) el.classList.add('active');
+function initDrops() {
+  drops = [];
+  mergeCount = 0; splitCount = 0;
+  for (let i=0; i<12; i++) {
+    spawnDrop(
+      40 + Math.random()*(W-80),
+      20 + Math.random()*(H*0.4),
+      12 + Math.random()*16
+    );
+  }
+}
+
+// ─── 4. PHYSIK ────────────────────────────────────────────────────
+function step() {
+  for (const d of drops) {
+    if (magnetOn && mouse.active) {
+      const dx = mouse.x - d.x, dy = mouse.y - d.y;
+      const dist = Math.hypot(dx,dy) || 1;
+      d.vx += (dx/dist) * MAGNET_STRENGTH * 0.4;
+      d.vy += (dy/dist) * MAGNET_STRENGTH * 0.4;
+    } else {
+      d.vy += GRAVITY;
+    }
+    d.vx *= DAMP; d.vy *= DAMP;
+    d.x += d.vx; d.y += d.vy;
+
+    if (d.x - d.r < 0) { d.x = d.r; d.vx *= -WALL_BOUNCE; }
+    if (d.x + d.r > W) { d.x = W - d.r; d.vx *= -WALL_BOUNCE; }
+    if (d.y - d.r < 0) { d.y = d.r; d.vy *= -WALL_BOUNCE; }
+    if (d.y + d.r > H) { d.y = H - d.r; d.vy *= -WALL_BOUNCE; }
   }
 
-  const label = document.getElementById('pipelineLabel');
-  const labels = ['⏳ Analyse (P0)', '⚙️ Synthese (P1)', '🚀 Integration (P2)'];
-  label.textContent = state.pipeline === 0 && !state.pipelineRunning ? '⏸ bereit' :
-                     state.pipelineRunning ? '▶ läuft…' :
-                     labels[state.pipeline] || '⏸ bereit';
+  // Verschmelzung
+  const toRemove = new Set();
+  let mergedThisFrame = 0;
+  for (let i=0; i<drops.length; i++) {
+    if (toRemove.has(i)) continue;
+    for (let j=i+1; j<drops.length; j++) {
+      if (toRemove.has(j)) continue;
+      const a = drops[i], b = drops[j];
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const dist = Math.hypot(dx,dy) || 0.001;
+      const sumR = a.r + b.r;
+
+      if (dist < sumR * MERGE_FACTOR) {
+        const ma = a.r*a.r, mb = b.r*b.r, total = ma+mb;
+        a.x = (a.x*ma + b.x*mb) / total;
+        a.y = (a.y*ma + b.y*mb) / total;
+        a.vx = (a.vx*ma + b.vx*mb) / total;
+        a.vy = (a.vy*ma + b.vy*mb) / total;
+        a.r = Math.sqrt(total);
+        toRemove.add(j);
+        mergedThisFrame++;
+      } else if (dist < sumR) {
+        const overlap = sumR - dist;
+        const nx = dx/dist, ny = dy/dist;
+        const push = overlap * REPEL_FACTOR;
+        a.vx -= nx*push; a.vy -= ny*push;
+        b.vx += nx*push; b.vy += ny*push;
+      }
+    }
+  }
+  if (toRemove.size) {
+    drops = drops.filter((_,idx) => !toRemove.has(idx));
+    mergeCount += mergedThisFrame;
+    log(`🔗 ${mergedThisFrame} Verschmelzung(en) · Masse bleibt erhalten`, 'ok');
+  }
 }
 
-// ─── RITH BERECHNEN ─────────────────────────────────────────────
-function calcRith() {
-  const avg = (state.rev.score + state.upd.level + state.upg.level) / 3;
-  state.rith = Math.round(avg * 10) / 10;
-  updateUI();
+// ─── 5. SPLIT ─────────────────────────────────────────────────────
+function splitDrop(idx) {
+  const d = drops[idx];
+  if (!d || d.r < MIN_SPLIT_R || drops.length >= MAX_DROPS) return false;
+  const newR = d.r / Math.sqrt(2);
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 1.2 + Math.random() * 1.2;
+  const d1 = new Drop(
+    d.x - Math.cos(angle)*newR*0.5,
+    d.y - Math.sin(angle)*newR*0.5,
+    newR,
+    d.vx - Math.cos(angle)*speed,
+    d.vy - Math.sin(angle)*speed
+  );
+  const d2 = new Drop(
+    d.x + Math.cos(angle)*newR*0.5,
+    d.y + Math.sin(angle)*newR*0.5,
+    newR,
+    d.vx + Math.cos(angle)*speed,
+    d.vy + Math.sin(angle)*speed
+  );
+  drops.splice(idx, 1, d1, d2);
+  splitCount++;
+  return true;
 }
 
-// ─── REV ──────────────────────────────────────────────────────────
-function runRev() {
-  state.rev.score += 1 + Math.floor(Math.random() * 3);
-  const emotions = ['NEUTRAL', 'FREUDE', 'ZUFRIEDEN', 'NACHDENKEN', 'ENTSCHEIDUNG'];
-  state.rev.emotion = emotions[Math.floor(Math.random() * emotions.length)];
-  state.human = state.rev.emotion === 'ENTSCHEIDUNG' ? 'ENTSCHEIDET' : 'WACH';
-  calcRith();
-  log(`🔮 REVIEW · Score: ${state.rev.score} · Emotion: ${state.rev.emotion}`);
-  updateUI();
+function findDropAt(x,y) {
+  for (let i=drops.length-1; i>=0; i--) {
+    if (Math.hypot(drops[i].x - x, drops[i].y - y) <= drops[i].r) return i;
+  }
+  return -1;
 }
 
-// ─── UPD ──────────────────────────────────────────────────────────
-function runUpd() {
-  state.upd.changes += 1 + Math.floor(Math.random() * 2);
-  state.upd.level = Math.min(10, state.upd.level + 1);
-  state.mech = state.upd.level > 5 ? 'AKTIV' : 'BEREIT';
-  calcRith();
-  log(`🔄 UPDATE · Changes: ${state.upd.changes} · Level: ${state.upd.level}`);
-  updateUI();
+// ─── 6. RENDER ────────────────────────────────────────────────────
+function render() {
+  gooCtx.fillStyle = '#05070c';
+  gooCtx.fillRect(0,0,W,H);
+
+  for (const d of drops) {
+    const grad = gooCtx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r);
+    grad.addColorStop(0, '#eaf4fb');
+    grad.addColorStop(0.5, '#a8c4d8');
+    grad.addColorStop(1, '#4a6a7a');
+    gooCtx.fillStyle = grad;
+    gooCtx.beginPath();
+    gooCtx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+    gooCtx.fill();
+  }
+
+  hiCtx.clearRect(0,0,W,H);
+  if (ds9On) {
+    hiCtx.fillStyle = 'rgba(255,215,0,0.05)';
+    hiCtx.fillRect(0,0,W,H);
+  }
+
+  for (const d of drops) {
+    const hx = d.x - d.r*0.35, hy = d.y - d.r*0.35, hr = d.r*0.28;
+    const hg = hiCtx.createRadialGradient(hx, hy, 0, hx, hy, hr);
+    hg.addColorStop(0, ds9On ? 'rgba(255,240,190,0.85)' : 'rgba(255,255,255,0.75)');
+    hg.addColorStop(1, 'rgba(255,255,255,0)');
+    hiCtx.fillStyle = hg;
+    hiCtx.beginPath();
+    hiCtx.arc(hx, hy, hr, 0, Math.PI*2);
+    hiCtx.fill();
+  }
 }
 
-// ─── UPG ──────────────────────────────────────────────────────────
-function runUpg() {
-  state.upg.count += 1;
-  state.upg.level = Math.min(10, state.upg.level + 2);
-  state.mech = state.upg.level > 6 ? 'UPGRADED' : 'BEREIT';
-  calcRith();
-  log(`🚀 UPGRADE · Count: ${state.upg.count} · Level: ${state.upg.level}`);
-  updateUI();
+// ─── 7. STATS ─────────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('countDisplay').textContent = drops.length;
+  const mass = drops.reduce((s,d) => s + d.r*d.r, 0);
+  document.getElementById('massDisplay').textContent = Math.round(mass);
+
+  // Vital = durchschnittliche Tropfengröße / 20 (skaliert 0-1)
+  const avgR = drops.length ? drops.reduce((s,d) => s + d.r, 0) / drops.length : 0;
+  const vital = Math.min(1, avgR / 20);
+  document.getElementById('vitalDisplay').textContent = vital.toFixed(2);
+  document.getElementById('dotVital').className = 'dot gold';
+
+  // CO2, H2O, O2 – simulierte Werte
+  const co2 = 0.3 + vital * 0.5 + Math.random() * 0.05;
+  const wasser = 0.4 + vital * 0.4 + Math.random() * 0.05;
+  const o2 = 0.5 + vital * 0.3 + Math.random() * 0.05;
+  document.getElementById('co2Display').textContent = co2.toFixed(2);
+  document.getElementById('wasserDisplay').textContent = wasser.toFixed(2);
+  document.getElementById('o2Display').textContent = o2.toFixed(2);
+  document.getElementById('shuffleDisplay').textContent = drops.length + mergeCount;
 }
 
-// ─── PIPELINE ─────────────────────────────────────────────────────
-function setPipeline(step) {
-  state.pipeline = Math.max(0, Math.min(2, step));
-  updateUI();
+// ─── 8. 81-HOLOGRAMM (Anime-Frames) ──────────────────────────────
+const SYMBOLS = [
+  '▲','▼','◄','►','◆','◇','○','●','■','□','✦','✧','✪','✫','✬','✭','✮','✯',
+  '☀','☾','⊕','⚑','⚐','⚙','✹','✸','✶','✷','✳','✴','✱','✲','✢','✣','✤','✥',
+  '✦','✧','✩','✪','✫','✬','✭','✮','✯','✰','✱','✲','✳','✴','✵','✶','✷','✸',
+  '✹','✺','✻','✼','✽','✾','✿','❀','❁','❂','❃','❄','❅','❆','❇','❈','❉','❊',
+  '🌀','🌊','⚡','🔥','❄️','🌈','⭐','🌙','☄️'
+];
+
+function renderHologram() {
+  const grid = document.getElementById('holoGrid');
+  grid.innerHTML = '';
+  const activeCount = drops.length;
+  for (let i=0; i<81; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'holo-cell';
+    const sym = SYMBOLS[i % SYMBOLS.length];
+    cell.textContent = sym;
+    // Aktiv, wenn i < Tropfenanzahl (simuliert "lebendige" Frames)
+    if (i < activeCount % 81) cell.classList.add('active');
+    grid.appendChild(cell);
+  }
 }
 
-function runP0() {
-  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
-  state.pipeline = 0;
-  state.pipelineRunning = true;
-  log('🌅 P0 · Analyse gestartet');
-  updateUI();
-  setTimeout(() => {
-    log('✅ P0 · Analyse abgeschlossen');
-    state.pipelineRunning = false;
-    updateUI();
-  }, 800);
+// ─── 9. INTERAKTION ──────────────────────────────────────────────
+wrap.addEventListener('mousemove', e => {
+  const rect = wrap.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+  mouse.active = true;
+});
+wrap.addEventListener('mouseleave', () => { mouse.active = false; });
+wrap.addEventListener('touchmove', e => {
+  const rect = wrap.getBoundingClientRect();
+  const t = e.touches[0];
+  mouse.x = t.clientX - rect.left;
+  mouse.y = t.clientY - rect.top;
+  mouse.active = true;
+  e.preventDefault();
+}, { passive: false });
+
+wrap.addEventListener('click', e => {
+  const rect = wrap.getBoundingClientRect();
+  const x = e.clientX - rect.left, y = e.clientY - rect.top;
+  const idx = findDropAt(x,y);
+  if (idx >= 0) {
+    if (splitDrop(idx)) log('✂ Tropfen geteilt', 'flow');
+    else log('… Tropfen zu klein zum Teilen', 'flow');
+  } else {
+    spawnDrop(x, y, 10 + Math.random()*10);
+    log('💧 neuer Tropfen', 'flow');
+  }
+});
+
+// ─── 10. BUTTONS ──────────────────────────────────────────────────
+document.getElementById('btnMagnet').addEventListener('click', () => {
+  magnetOn = !magnetOn;
+  document.getElementById('btnMagnet').classList.toggle('active', magnetOn);
+  document.getElementById('dotMagnet').className = 'dot' + (magnetOn ? ' on' : '');
+  log(magnetOn ? '🧲 MAGNET aktiv' : '🧲 MAGNET aus', 'flow');
+});
+
+document.getElementById('btnAdd').addEventListener('click', () => {
+  spawnDrop(W/2 + (Math.random()-0.5)*60, 20, 12 + Math.random()*16);
+  log('💧 Tropfen hinzugefügt', 'flow');
+});
+
+document.getElementById('btnSplit').addEventListener('click', () => {
+  if (!drops.length) return;
+  let maxIdx = 0;
+  for (let i=1; i<drops.length; i++) if (drops[i].r > drops[maxIdx].r) maxIdx = i;
+  if (splitDrop(maxIdx)) log('✂ größter Tropfen geteilt', 'flow');
+  else log('… kein Tropfen groß genug', 'flow');
+});
+
+document.getElementById('btnQuake').addEventListener('click', () => {
+  drops.forEach(d => {
+    d.vx += (Math.random()-0.5)*8;
+    d.vy += (Math.random()-0.5)*8 - 2;
+  });
+  log('⚡ QUAKE · alle Tropfen erschüttert', 'flow');
+});
+
+document.getElementById('btnDs9').addEventListener('click', () => {
+  ds9On = !ds9On;
+  document.getElementById('btnDs9').classList.toggle('active', ds9On);
+  document.getElementById('dotDs9').className = 'dot' + (ds9On ? ' gold' : '');
+  log(ds9On ? '★ DS9 · goldener Schimmer' : '★ DS9 · inaktiv', 'ds9');
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  initDrops();
+  log('⟲ RESET · Quecksilber neu formatiert', 'flow');
+});
+
+// ─── 11. LOOP ─────────────────────────────────────────────────────
+function loop() {
+  step();
+  render();
+  updateStats();
+  renderHologram();
+  requestAnimationFrame(loop);
 }
 
-function runP1() {
-  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
-  if (state.pipeline < 1) { log('⚠️ P1 erst nach P0 möglich'); return; }
-  state.pipeline = 1;
-  state.pipelineRunning = true;
-  log('🔥 P1 · Synthese gestartet');
-  updateUI();
-  setTimeout(() => {
-    log('✅ P1 · Synthese abgeschlossen');
-    state.pipelineRunning = false;
-    updateUI();
-  }, 800);
+// ─── 12. LOG ──────────────────────────────────────────────────────
+function log(msg, type='ok') {
+  const el = document.getElementById('log');
+  const time = new Date().toLocaleTimeString();
+  const cls = ['ok','flow','ds9'].includes(type) ? type : 'ok';
+  el.innerHTML += `<div>[${time}] <span class="${cls}">${msg}</span></div>`;
+  el.scrollTop = el.scrollHeight;
+  while (el.children.length > 20) el.removeChild(el.firstChild);
 }
 
-function runP2() {
-  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
-  if (state.pipeline < 2) { log('⚠️ P2 erst nach P1 möglich'); return; }
-  state.pipeline = 2;
-  state.pipelineRunning = true;
-  log('🔗 P2 · Integration gestartet');
-  updateUI();
-  setTimeout(() => {
-    log('✅ P2 · Integration abgeschlossen · Pipeline vollständig');
-    state.pipelineRunning = false;
-    updateUI();
-    // Bonus: UPG auslösen
-    runUpg();
-  }, 800);
-}
+// ─── 13. TASTATUR ────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === ' ') { e.preventDefault(); document.getElementById('btnAdd').click(); }
+  if (e.key === 'm' || e.key === 'M') document.getElementById('btnMagnet').click();
+  if (e.key === 's' || e.key === 'S') document.getElementById('btnSplit').click();
+  if (e.key === 'q' || e.key === 'Q') document.getElementById('btnQuake').click();
+  if (e.key === 'd' || e.key === 'D') document.getElementById('btnDs9').click();
+  if (e.key === 'x' || e.key === 'X') document.getElementById('btnReset').click();
+});
 
-function runPipeline() {
-  if (state.pipelineRunning) { log('⚠️ Pipeline läuft bereits'); return; }
-  log('▶ FULL PIPELINE gestartet');
-  state.pipeline = 0;
-  state.pipelineRunning = true;
-  updateUI();
-
-  // P0
-  setTimeout(() => {
-    log('✅ P0 abgeschlossen');
-    state.pipeline = 1;
-    updateUI();
-    // P1
-    setTimeout(() => {
-      log('✅ P1 abgeschlossen');
-      state.pipeline = 2;
-      updateUI();
-      // P2
-      setTimeout(() => {
-        log('✅ P2 abgeschlossen · Pipeline fertig');
-        state.pipelineRunning = false;
-        updateUI();
-        runUpg(); // Bonus am Ende
-      }, 700);
-    }, 700);
-  }, 700);
-}
-
-function resetPipeline() {
-  if (state.pipelineRunning) { log('⚠️ Pipeline läuft noch – kann nicht zurückgesetzt werden'); return; }
-  state.pipeline = 0;
-  state.pipelineRunning = false;
-  log('⟲ Pipeline zurückgesetzt');
-  updateUI();
-}
-
-// ─── INIT ──────────────────────────────────────────────────────────
-log('🌀 TYQ · LEBENSMATRIX geladen');
-log('📌 Pipeline: P0 = Analyse · P1 = Synthese · P2 = Integration');
-updateUI();
+// ─── 14. INIT ─────────────────────────────────────────────────────
+resize();
+initDrops();
+log('🧬 RAWATOR · Quecksilber · Anime · 81-Hologramm gestartet', 'ds9');
+log('⌨️  space=Tropfen  m=Magnet  s=Split  q=Quake  d=DS9  x=Reset', 'flow');
+loop();
 </script>
-
 </body>
 </html>
