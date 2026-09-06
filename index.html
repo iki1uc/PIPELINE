@@ -1,580 +1,1067 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🧬 RAWATOR · ANIME · QUECKSILBER · 81 HOLOGRAMM</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: radial-gradient(ellipse at 20% 30%, #0a0e1a, #000000);
-      min-height: 100vh;
-      font-family: 'Segoe UI', 'Consolas', monospace;
-      color: #c0d0d0;
-      padding: 12px;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      max-width: 1400px;
-      width: 100%;
-      background: rgba(6,8,16,0.6);
-      backdrop-filter: blur(4px);
-      border-radius: 40px;
-      padding: 20px 24px 30px;
-      border: 1px solid rgba(160,200,240,0.05);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 80px rgba(100,180,255,0.02);
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pipeline · reFINAL</title>
 
-    .header {
-      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
-      border-bottom: 1px solid rgba(160,200,240,0.06); padding-bottom: 6px; margin-bottom: 14px;
-    }
-    .header h1 {
-      font-size: 24px; font-weight: 300; letter-spacing: 4px;
-      background: linear-gradient(135deg, #e0e8f0, #b0c8d8, #8098b0, #c0d8e8);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .header h1 small { font-size: 12px; letter-spacing: 2px; -webkit-text-fill-color: #4a5a6a; color: #4a5a6a; }
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    .status-badge { display: flex; gap: 16px; font-size: 11px; color: #5a7a8a; flex-wrap: wrap; }
-    .status-badge span { display: flex; align-items: center; gap: 5px; }
-    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2a4a5a; transition: 0.3s; }
-    .dot.on { background: #8cf0d0; box-shadow: 0 0 12px #8cf0d0; }
-    .dot.gold { background: #f0d080; box-shadow: 0 0 12px #f0d080; }
+    <style>
+        /* ---------- reset & base ---------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin: 10px 0;
-    }
-    @media (max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
+        :root {
+            --bg-primary: #0b0d11;
+            --bg-secondary: #13171e;
+            --bg-card: #1a1f2a;
+            --bg-card-hover: #232a38;
+            --border-color: #2c3444;
+            --text-primary: #f0f2f8;
+            --text-secondary: #9aa4b8;
+            --text-muted: #6b768a;
+            --accent-blue: #4b7cf7;
+            --accent-blue-dim: rgba(75, 124, 247, 0.15);
+            --accent-green: #2ed98c;
+            --accent-green-dim: rgba(46, 217, 140, 0.15);
+            --accent-yellow: #f5b342;
+            --accent-yellow-dim: rgba(245, 179, 66, 0.15);
+            --accent-red: #f25a6a;
+            --accent-red-dim: rgba(242, 90, 106, 0.15);
+            --accent-purple: #a78bfa;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .canvas-wrap {
-      position: relative;
-      border-radius: 20px;
-      background: rgba(4,6,10,0.85);
-      border: 1px solid rgba(120,160,190,0.04);
-      box-shadow: inset 0 0 40px rgba(0,0,0,0.7);
-      aspect-ratio: 4/3;
-      width: 100%;
-      overflow: hidden;
-      cursor: crosshair;
-    }
-    #gooCanvas, #highlightCanvas {
-      position: absolute; top:0; left:0; width:100%; height:100%;
-    }
-    #gooCanvas { filter: blur(9px) contrast(26); }
-    #highlightCanvas { pointer-events: none; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
 
-    .hint {
-      position: absolute; bottom: 8px; left: 12px;
-      font-size: 10px; color: rgba(200,220,240,0.35);
-      letter-spacing: 1px; pointer-events: none;
-    }
+        /* ---------- main container ---------- */
+        .pipeline-dashboard {
+            max-width: 1360px;
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            padding: 32px 36px 40px;
+            transition: var(--transition);
+        }
 
-    .controls {
-      display: flex; flex-wrap: wrap; gap: 8px 12px;
-      align-items: center; margin: 8px 0; padding: 6px 4px;
-      border-top: 1px solid rgba(100,140,170,0.04);
-    }
-    .controls button {
-      background: rgba(20,28,36,0.5);
-      border: 1px solid rgba(120,160,190,0.08);
-      color: #9ab0c0;
-      padding: 5px 14px;
-      border-radius: 30px;
-      font-size: 11px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .controls button:hover { background: rgba(40,70,90,0.3); border-color: rgba(160,200,240,0.2); color: #d0e8f8; }
-    .controls button.primary { border-color: rgba(180,220,255,0.15); color: #c0dce8; }
-    .controls button.primary.active { background: rgba(80,200,255,0.15); border-color: #80c0e0; }
-    .controls button.ds9 { border-color: rgba(255,215,0,0.1); color: #e8d080; }
-    .controls button.ds9.active { background: rgba(255,215,0,0.12); border-color: #f0d080; }
-    .controls button.danger { border-color: rgba(255,80,80,0.08); color: #d06060; }
+        /* ---------- header ---------- */
+        .dashboard-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            gap: 16px;
+        }
 
-    .info-row {
-      display: flex; flex-wrap: wrap; justify-content: space-between;
-      font-size: 11px; color: #4a6a7a; padding: 4px 0;
-      border-top: 1px solid rgba(100,140,170,0.03); margin-top: 4px;
-    }
-    .info-row .val { color: #aac8d8; font-weight: 400; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-    /* 81-HOLOGRAMM-RASTER */
-    .hologram-wrap {
-      background: rgba(0,0,0,0.25);
-      border-radius: 16px;
-      padding: 10px;
-      border: 1px solid rgba(100,180,255,0.03);
-      margin-top: 10px;
-    }
-    .hologram-wrap h3 {
-      font-size: 11px; color: #f0d080; letter-spacing: 2px;
-      border-bottom: 1px solid rgba(255,215,0,0.04); padding-bottom: 4px; margin-bottom: 6px;
-    }
-    .holo-grid {
-      display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      gap: 2px;
-    }
-    .holo-cell {
-      background: rgba(24,32,40,0.25);
-      border: 1px solid rgba(100,140,170,0.03);
-      border-radius: 2px;
-      aspect-ratio: 1/1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #5a7a8a;
-      transition: 0.2s;
-    }
-    .holo-cell.active {
-      background: rgba(100,200,255,0.2);
-      border-color: #70c8ff;
-      color: #b0d0e0;
-      box-shadow: 0 0 12px rgba(100,200,255,0.1);
-    }
+        .header-left .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-blue);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(75, 124, 247, 0.3);
+        }
 
-    .log {
-      background: rgba(0,0,0,0.3);
-      border-radius: 14px;
-      padding: 6px 14px;
-      font-size: 10px;
-      color: #4a6a7a;
-      max-height: 70px;
-      overflow-y: auto;
-      border: 1px solid rgba(100,140,170,0.02);
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-    .log .ok { color: #80d0b0; }
-    .log .flow { color: #d0b080; }
-    .log .ds9 { color: #e8d080; }
+        .header-left h1 {
+            font-weight: 700;
+            font-size: 26px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #f0f2f8 0%, #9aa4b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .footer {
-      text-align: center; margin-top: 12px; color: #1a2a30; font-size: 9px; letter-spacing: 3px;
-    }
-    .footer .gold { color: #e8d080; }
+        .header-left h1 span {
+            font-weight: 400;
+            -webkit-text-fill-color: var(--text-secondary);
+            opacity: 0.6;
+        }
 
-    @media (max-width:700px){
-      .container { padding:12px; }
-      .header h1 { font-size:18px; letter-spacing:2px; }
-      .controls button { font-size:10px; padding:4px 10px; }
-      .holo-cell { font-size:8px; }
-    }
-  </style>
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .pipeline-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 6px 18px 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pipeline-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-actions button {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions button:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        /* ---------- stats row ---------- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            border-color: #3a4558;
+        }
+
+        .stat-card .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 4px;
+            letter-spacing: -0.01em;
+        }
+
+        .stat-card .stat-value.green {
+            color: var(--accent-green);
+        }
+        .stat-card .stat-value.blue {
+            color: var(--accent-blue);
+        }
+        .stat-card .stat-value.yellow {
+            color: var(--accent-yellow);
+        }
+        .stat-card .stat-value.red {
+            color: var(--accent-red);
+        }
+        .stat-card .stat-value.purple {
+            color: var(--accent-purple);
+        }
+
+        .stat-card .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ---------- pipeline visualisation ---------- */
+        .pipeline-flow {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .pipeline-flow .flow-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flow-title i {
+            color: var(--accent-blue);
+        }
+
+        .pipeline-stages {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+            min-width: fit-content;
+            padding: 4px 0;
+        }
+
+        .stage-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 110px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .stage-node .node-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            color: var(--text-muted);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-node .node-circle .status-ring {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .stage-node .node-circle .status-ring.pending {
+            border-color: var(--text-muted);
+            opacity: 0.3;
+        }
+        .stage-node .node-circle .status-ring.running {
+            border-color: var(--accent-yellow);
+            border-top-color: transparent;
+            animation: spin 1.2s linear infinite;
+        }
+        .stage-node .node-circle .status-ring.success {
+            border-color: var(--accent-green);
+        }
+        .stage-node .node-circle .status-ring.failed {
+            border-color: var(--accent-red);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .stage-node .node-label {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stage-node .node-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        /* status colours */
+        .stage-node.success .node-circle {
+            border-color: var(--accent-green);
+            background: var(--accent-green-dim);
+            color: var(--accent-green);
+        }
+        .stage-node.success .node-label {
+            color: var(--accent-green);
+        }
+
+        .stage-node.running .node-circle {
+            border-color: var(--accent-yellow);
+            background: var(--accent-yellow-dim);
+            color: var(--accent-yellow);
+        }
+        .stage-node.running .node-label {
+            color: var(--accent-yellow);
+        }
+
+        .stage-node.failed .node-circle {
+            border-color: var(--accent-red);
+            background: var(--accent-red-dim);
+            color: var(--accent-red);
+        }
+        .stage-node.failed .node-label {
+            color: var(--accent-red);
+        }
+
+        .stage-node.pending .node-circle {
+            border-color: var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+        }
+        .stage-node.pending .node-label {
+            color: var(--text-muted);
+        }
+
+        /* connector line */
+        .stage-connector {
+            flex: 0 0 48px;
+            height: 3px;
+            background: var(--border-color);
+            position: relative;
+            border-radius: 2px;
+            transition: var(--transition);
+            min-width: 24px;
+        }
+
+        .stage-connector.active {
+            background: var(--accent-blue);
+            box-shadow: 0 0 12px rgba(75, 124, 247, 0.3);
+        }
+
+        .stage-connector.success {
+            background: var(--accent-green);
+            box-shadow: 0 0 12px rgba(46, 217, 140, 0.3);
+        }
+
+        .stage-connector.failed {
+            background: var(--accent-red);
+            box-shadow: 0 0 12px rgba(242, 90, 106, 0.3);
+        }
+
+        .stage-connector::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 8px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .stage-connector.active::after {
+            border-left-color: var(--accent-blue);
+        }
+        .stage-connector.success::after {
+            border-left-color: var(--accent-green);
+        }
+        .stage-connector.failed::after {
+            border-left-color: var(--accent-red);
+        }
+
+        /* ---------- log / activity ---------- */
+        .activity-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 820px) {
+            .activity-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .activity-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 20px 22px;
+        }
+
+        .activity-panel .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .activity-panel .panel-head h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-panel .panel-head h3 i {
+            color: var(--accent-blue);
+        }
+
+        .activity-panel .panel-head .badge-count {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 2px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .log-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .log-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .log-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+        .log-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+            transition: var(--transition);
+            font-size: 13px;
+        }
+
+        .log-item .log-icon {
+            font-size: 14px;
+            margin-top: 1px;
+            flex-shrink: 0;
+            width: 20px;
+            text-align: center;
+        }
+
+        .log-item .log-content {
+            flex: 1;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .log-item .log-content strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .log-item .log-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .log-item.success {
+            border-left-color: var(--accent-green);
+        }
+        .log-item.success .log-icon {
+            color: var(--accent-green);
+        }
+
+        .log-item.error {
+            border-left-color: var(--accent-red);
+        }
+        .log-item.error .log-icon {
+            color: var(--accent-red);
+        }
+
+        .log-item.warning {
+            border-left-color: var(--accent-yellow);
+        }
+        .log-item.warning .log-icon {
+            color: var(--accent-yellow);
+        }
+
+        .log-item.info {
+            border-left-color: var(--accent-blue);
+        }
+        .log-item.info .log-icon {
+            color: var(--accent-blue);
+        }
+
+        /* ---------- trigger button ---------- */
+        .trigger-area {
+            margin-top: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .trigger-area .trigger-info {
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .trigger-area .trigger-info i {
+            color: var(--accent-blue);
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 32px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(75, 124, 247, 0.25);
+            font-family: inherit;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary:hover {
+            background: #3b6be0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(75, 124, 247, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 16px rgba(75, 124, 247, 0.2);
+        }
+
+        .btn-primary i {
+            font-size: 16px;
+        }
+
+        /* ---------- responsive ---------- */
+        @media (max-width: 720px) {
+            .pipeline-dashboard {
+                padding: 20px 16px;
+            }
+            .header-left h1 {
+                font-size: 20px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .pipeline-stages {
+                gap: 4px;
+            }
+            .stage-node {
+                min-width: 80px;
+            }
+            .stage-node .node-circle {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+            .stage-connector {
+                flex: 0 0 28px;
+                min-width: 16px;
+            }
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 440px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card .stat-value {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <div class="pipeline-dashboard">
 
-  <div class="header">
-    <h1>🧬 RAWATOR · QUECKSILBER <small>ANIME · 81 HOLOGRAMM</small></h1>
-    <div class="status-badge">
-      <span><span class="dot on" id="dotMagnet"></span> MAGNET</span>
-      <span><span class="dot" id="dotDs9"></span> DS9</span>
-      <span><span class="dot gold" id="dotVital"></span> VITAL</span>
-    </div>
-  </div>
+        <!-- HEADER -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo-icon"><i class="fas fa-code-branch"></i></div>
+                <h1>pipeline <span>· reFINAL</span></h1>
+            </div>
+            <div class="header-right">
+                <div class="pipeline-badge">
+                    <span class="dot"></span>
+                    <span>#build-2026-09-06</span>
+                </div>
+                <div class="header-actions">
+                    <button title="Refresh" id="refreshBtn"><i class="fas fa-rotate"></i></button>
+                    <button title="Settings"><i class="fas fa-sliders-h"></i></button>
+                </div>
+            </div>
+        </header>
 
-  <div class="main-grid">
-
-    <!-- Linke Spalte: Canvas + Steuerung -->
-    <div>
-      <div class="canvas-wrap" id="canvasWrap">
-        <canvas id="gooCanvas"></canvas>
-        <canvas id="highlightCanvas"></canvas>
-        <div class="hint">Klick auf Tropfen = teilen · Klick auf Leerraum = neuer Tropfen</div>
-      </div>
-
-      <div class="controls">
-        <button class="primary" id="btnMagnet">🧲 MAGNET</button>
-        <button id="btnAdd">💧 TROPFEN +</button>
-        <button id="btnSplit">✂ SPLIT</button>
-        <button id="btnQuake">⚡ QUAKE</button>
-        <button class="ds9" id="btnDs9">★ DS9</button>
-        <button class="danger" id="btnReset">⟲ RESET</button>
-      </div>
-
-      <div class="info-row">
-        <span>TROPFEN: <span class="val" id="countDisplay">0</span></span>
-        <span>MASSE (Σr²): <span class="val" id="massDisplay">0</span></span>
-        <span>VITAL: <span class="val" id="vitalDisplay">0.00</span></span>
-        <span>SHUFFLE: <span class="val" id="shuffleDisplay">0</span></span>
-      </div>
-    </div>
-
-    <!-- Rechte Spalte: Hologramm + Status -->
-    <div>
-      <div class="hologram-wrap">
-        <h3>🌀 81-HOLOGRAMM · ANIME-FRAMES</h3>
-        <div class="holo-grid" id="holoGrid"></div>
-        <div style="display:flex; gap:12px; margin-top:6px; font-size:10px; color:#5a7a8a; flex-wrap:wrap; justify-content:center;">
-          <span>CO₂: <span id="co2Display" style="color:#70c8ff;">0.00</span></span>
-          <span>H₂O: <span id="wasserDisplay" style="color:#70c8ff;">0.00</span></span>
-          <span>O₂: <span id="o2Display" style="color:#70c8ff;">0.00</span></span>
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Gesamt</div>
+                <div class="stat-value blue">6</div>
+                <div class="stat-sub">Stufen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Erfolgreich</div>
+                <div class="stat-value green" id="successCount">3</div>
+                <div class="stat-sub">✓ abgeschlossen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Laufend</div>
+                <div class="stat-value yellow" id="runningCount">1</div>
+                <div class="stat-sub"><i class="fas fa-spinner fa-spin"></i> in Bearbeitung</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Fehlgeschlagen</div>
+                <div class="stat-value red" id="failedCount">0</div>
+                <div class="stat-sub"><i class="fas fa-exclamation-circle"></i> Fehler</div>
+            </div>
         </div>
-      </div>
 
-      <div class="log" id="log">[🧬] RAWATOR · Quecksilber · Anime · 81-Hologramm bereit</div>
+        <!-- PIPELINE FLOW -->
+        <div class="pipeline-flow">
+            <div class="flow-title">
+                <i class="fas fa-arrow-right"></i> Pipeline · Ausführungsfluss
+            </div>
+            <div class="pipeline-stages" id="pipelineStages">
+                <!-- Stages werden per JS eingefügt -->
+            </div>
+        </div>
+
+        <!-- ACTIVITY / LOGS -->
+        <div class="activity-section">
+            <!-- Logs -->
+            <div class="activity-panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-terminal"></i> Live-Logs</h3>
+                    <span class="badge-count">4 Einträge</span>
+                </div>
+                <div class="log-list" id="logList">
+                    <!-- Logs per JS -->
+                </div>
+            </div>
+
+            <!-- Details / nächste Schritte -->
+            <div class="activity-panel">
+                <div class="panel-head">
+                    <h3><i class="fas fa-clock"></i> Nächste Schritte</h3>
+                    <span class="badge-count">geplant</span>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:12px; font-size:13px; color:var(--text-secondary);">
+                    <div style="display:flex; align-items:center; gap:12px; padding:8px 12px; background:var(--bg-secondary); border-radius:8px; border-left:3px solid var(--accent-yellow);">
+                        <i class="fas fa-play" style="color:var(--accent-yellow);"></i>
+                        <span><strong style="color:var(--text-primary);">Deployment</strong> · Stage 5 wartet</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px; padding:8px 12px; background:var(--bg-secondary); border-radius:8px; border-left:3px solid var(--accent-blue);">
+                        <i class="fas fa-vial" style="color:var(--accent-blue);"></i>
+                        <span><strong style="color:var(--text-primary);">Integrationstests</strong> · 2 offen</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px; padding:8px 12px; background:var(--bg-secondary); border-radius:8px; border-left:3px solid var(--text-muted);">
+                        <i class="fas fa-check-circle" style="color:var(--accent-green);"></i>
+                        <span><strong style="color:var(--text-primary);">Code-Review</strong> · abgeschlossen</span>
+                    </div>
+                    <div style="margin-top:6px; padding:10px 14px; background:var(--bg-secondary); border-radius:8px; border:1px dashed var(--border-color); text-align:center; color:var(--text-muted); font-size:12px;">
+                        <i class="fas fa-arrows-spin" style="margin-right:8px;"></i> Nächste Ausführung in <strong style="color:var(--text-secondary);">~2 min</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRIGGER -->
+        <div class="trigger-area">
+            <div class="trigger-info">
+                <i class="fas fa-circle-info"></i>
+                <span>Letzte Aktualisierung: <strong id="lastUpdate">vor wenigen Sekunden</strong></span>
+            </div>
+            <button class="btn-primary" id="triggerBtn">
+                <i class="fas fa-play"></i> Pipeline auslösen
+            </button>
+        </div>
+
     </div>
 
-  </div>
+    <script>
+        (function() {
+            'use strict';
 
-  <div class="footer">
-    <span class="gold">★</span> QUECKSILBER-MÜNZEN · LEBENDIGE MATRIX · <span class="gold">81</span>
-  </div>
+            // ---------- DATA ----------
+            const stagesData = [
+                { id: 'clone', label: 'Clone', icon: 'fa-solid fa-code', status: 'success' },
+                { id: 'build', label: 'Build', icon: 'fa-solid fa-hammer', status: 'success' },
+                { id: 'test', label: 'Test', icon: 'fa-solid fa-flask', status: 'success' },
+                { id: 'analyze', label: 'Analyze', icon: 'fa-solid fa-magnifying-glass-chart', status: 'running' },
+                { id: 'deploy', label: 'Deploy', icon: 'fa-solid fa-rocket', status: 'pending' },
+                { id: 'verify', label: 'Verify', icon: 'fa-solid fa-check-double', status: 'pending' }
+            ];
 
-</div>
+            const logEntries = [
+                { icon: '✅', text: '<strong>Clone</strong> · Repository erfolgreich geklont', time: '10:32:12',
+                    type: 'success' },
+                { icon: '⚙️', text: '<strong>Build</strong> · 120 Module kompiliert', time: '10:32:45',
+                type: 'success' },
+                { icon: '🧪', text: '<strong>Test</strong> · 47 Tests bestanden, 0 Fehler', time: '10:33:20',
+                    type: 'success' },
+                { icon: '📊', text: '<strong>Analyze</strong> · Code-Scan läuft …', time: '10:33:58', type: 'warning' }
+            ];
 
-<script>
-// ================================================================
-//  RAWATOR · ANIME · QUECKSILBER · 81 HOLOGRAMM
-//  All-in-One: Metaball-Physik + 81-Frame-Raster + Lebensdaten
-// ================================================================
+            // ---------- DOM refs ----------
+            const stagesContainer = document.getElementById('pipelineStages');
+            const logContainer = document.getElementById('logList');
+            const triggerBtn = document.getElementById('triggerBtn');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const lastUpdateEl = document.getElementById('lastUpdate');
 
-// ─── 1. PHYSIK-KONSTANTEN ─────────────────────────────────────────
-const GRAVITY = 0.25;
-const DAMP = 0.986;
-const WALL_BOUNCE = 0.55;
-const MAGNET_STRENGTH = 0.9;
-const MERGE_FACTOR = 0.6;
-const REPEL_FACTOR = 0.015;
-const MIN_SPLIT_R = 15;
-const MAX_DROPS = 60;
+            const successCountEl = document.getElementById('successCount');
+            const runningCountEl = document.getElementById('runningCount');
+            const failedCountEl = document.getElementById('failedCount');
 
-// ─── 2. CANVAS SETUP ──────────────────────────────────────────────
-const wrap = document.getElementById('canvasWrap');
-const gooCanvas = document.getElementById('gooCanvas');
-const hiCanvas = document.getElementById('highlightCanvas');
-const gooCtx = gooCanvas.getContext('2d');
-const hiCtx = hiCanvas.getContext('2d');
-let W = 0, H = 0, DPR = 1;
+            let currentStages = JSON.parse(JSON.stringify(stagesData));
+            let currentLogs = [...logEntries];
+            let isRunning = false;
 
-function resize() {
-  const rect = wrap.getBoundingClientRect();
-  W = rect.width; H = rect.height;
-  DPR = window.devicePixelRatio || 1;
-  [gooCanvas, hiCanvas].forEach(c => {
-    c.width = W * DPR; c.height = H * DPR;
-  });
-  gooCtx.setTransform(DPR,0,0,DPR,0,0);
-  hiCtx.setTransform(DPR,0,0,DPR,0,0);
-}
-window.addEventListener('resize', resize);
+            // ---------- render pipeline ----------
+            function renderStages() {
+                let html = '';
+                currentStages.forEach((stage, index) => {
+                    const statusClass = stage.status;
+                    let ringClass = 'pending';
+                    if (statusClass === 'running') ringClass = 'running';
+                    else if (statusClass === 'success') ringClass = 'success';
+                    else if (statusClass === 'failed') ringClass = 'failed';
 
-// ─── 3. DROP-CLASS ────────────────────────────────────────────────
-class Drop {
-  constructor(x, y, r, vx = 0, vy = 0) {
-    this.x = x; this.y = y; this.r = r; this.vx = vx; this.vy = vy;
-  }
-}
+                    html += `
+                            <div class="stage-node ${statusClass}">
+                                <div class="node-circle">
+                                    <span class="status-ring ${ringClass}"></span>
+                                    <i class="${stage.icon}"></i>
+                                </div>
+                                <div class="node-label">${stage.label}</div>
+                                <div class="node-sub">${statusClass === 'running' ? 'läuft …' : statusClass === 'success' ? '✓ fertig' : statusClass === 'failed' ? '✗ fehler' : '⏳ wartet'}</div>
+                            </div>
+                        `;
 
-let drops = [];
-let mergeCount = 0, splitCount = 0;
-let magnetOn = false, ds9On = false;
-const mouse = { x: -1000, y: -1000, active: false };
+                    // connector (nicht nach letztem)
+                    if (index < currentStages.length - 1) {
+                        const nextStatus = currentStages[index + 1].status;
+                        let connClass = '';
+                        if (stage.status === 'success' && (nextStatus === 'success' || nextStatus === 'running' ||
+                                nextStatus === 'failed')) {
+                            connClass = 'success';
+                        } else if (stage.status === 'running') {
+                            connClass = 'active';
+                        } else if (stage.status === 'failed') {
+                            connClass = 'failed';
+                        } else {
+                            connClass = '';
+                        }
+                        html += `<div class="stage-connector ${connClass}"></div>`;
+                    }
+                });
+                stagesContainer.innerHTML = html;
+                updateStats();
+            }
 
-function spawnDrop(x, y, r) {
-  if (drops.length >= MAX_DROPS) return null;
-  const d = new Drop(x, y, r, (Math.random()-0.5)*1.5, (Math.random()-0.5)*1.5);
-  drops.push(d);
-  return d;
-}
+            // ---------- render logs ----------
+            function renderLogs() {
+                let html = '';
+                currentLogs.forEach(log => {
+                    html += `
+                            <div class="log-item ${log.type}">
+                                <div class="log-icon">${log.icon}</div>
+                                <div class="log-content">${log.text}</div>
+                                <div class="log-time">${log.time}</div>
+                            </div>
+                        `;
+                });
+                logContainer.innerHTML = html;
+            }
 
-function initDrops() {
-  drops = [];
-  mergeCount = 0; splitCount = 0;
-  for (let i=0; i<12; i++) {
-    spawnDrop(
-      40 + Math.random()*(W-80),
-      20 + Math.random()*(H*0.4),
-      12 + Math.random()*16
-    );
-  }
-}
+            // ---------- update stats ----------
+            function updateStats() {
+                const success = currentStages.filter(s => s.status === 'success').length;
+                const running = currentStages.filter(s => s.status === 'running').length;
+                const failed = currentStages.filter(s => s.status === 'failed').length;
+                successCountEl.textContent = success;
+                runningCountEl.textContent = running;
+                failedCountEl.textContent = failed;
+            }
 
-// ─── 4. PHYSIK ────────────────────────────────────────────────────
-function step() {
-  for (const d of drops) {
-    if (magnetOn && mouse.active) {
-      const dx = mouse.x - d.x, dy = mouse.y - d.y;
-      const dist = Math.hypot(dx,dy) || 1;
-      d.vx += (dx/dist) * MAGNET_STRENGTH * 0.4;
-      d.vy += (dy/dist) * MAGNET_STRENGTH * 0.4;
-    } else {
-      d.vy += GRAVITY;
-    }
-    d.vx *= DAMP; d.vy *= DAMP;
-    d.x += d.vx; d.y += d.vy;
+            // ---------- update timestamp ----------
+            function updateTimestamp() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const s = String(now.getSeconds()).padStart(2, '0');
+                lastUpdateEl.textContent = `${h}:${m}:${s}`;
+            }
 
-    if (d.x - d.r < 0) { d.x = d.r; d.vx *= -WALL_BOUNCE; }
-    if (d.x + d.r > W) { d.x = W - d.r; d.vx *= -WALL_BOUNCE; }
-    if (d.y - d.r < 0) { d.y = d.r; d.vy *= -WALL_BOUNCE; }
-    if (d.y + d.r > H) { d.y = H - d.r; d.vy *= -WALL_BOUNCE; }
-  }
+            // ---------- simulate pipeline run ----------
+            function runPipeline() {
+                if (isRunning) return;
+                isRunning = true;
+                triggerBtn.disabled = true;
+                triggerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> läuft …';
 
-  // Verschmelzung
-  const toRemove = new Set();
-  let mergedThisFrame = 0;
-  for (let i=0; i<drops.length; i++) {
-    if (toRemove.has(i)) continue;
-    for (let j=i+1; j<drops.length; j++) {
-      if (toRemove.has(j)) continue;
-      const a = drops[i], b = drops[j];
-      const dx = b.x - a.x, dy = b.y - a.y;
-      const dist = Math.hypot(dx,dy) || 0.001;
-      const sumR = a.r + b.r;
+                // reset to initial state (mit ersten 3 success, 4 running, rest pending)
+                currentStages = JSON.parse(JSON.stringify(stagesData));
+                // setze ersten 3 auf success
+                for (let i = 0; i < 3; i++) {
+                    if (currentStages[i]) currentStages[i].status = 'success';
+                }
+                if (currentStages[3]) currentStages[3].status = 'running';
+                for (let i = 4; i < currentStages.length; i++) {
+                    currentStages[i].status = 'pending';
+                }
 
-      if (dist < sumR * MERGE_FACTOR) {
-        const ma = a.r*a.r, mb = b.r*b.r, total = ma+mb;
-        a.x = (a.x*ma + b.x*mb) / total;
-        a.y = (a.y*ma + b.y*mb) / total;
-        a.vx = (a.vx*ma + b.vx*mb) / total;
-        a.vy = (a.vy*ma + b.vy*mb) / total;
-        a.r = Math.sqrt(total);
-        toRemove.add(j);
-        mergedThisFrame++;
-      } else if (dist < sumR) {
-        const overlap = sumR - dist;
-        const nx = dx/dist, ny = dy/dist;
-        const push = overlap * REPEL_FACTOR;
-        a.vx -= nx*push; a.vy -= ny*push;
-        b.vx += nx*push; b.vy += ny*push;
-      }
-    }
-  }
-  if (toRemove.size) {
-    drops = drops.filter((_,idx) => !toRemove.has(idx));
-    mergeCount += mergedThisFrame;
-    log(`🔗 ${mergedThisFrame} Verschmelzung(en) · Masse bleibt erhalten`, 'ok');
-  }
-}
+                // logs zurücksetzen
+                currentLogs = [
+                    { icon: '🔄', text: '<strong>Pipeline</strong> · Neustart initiiert', time: '--:--:--',
+                        type: 'info' },
+                    { icon: '📦', text: '<strong>Clone</strong> · Repository wird geladen …', time: '--:--:--',
+                        type: 'info' }
+                ];
+                renderLogs();
+                renderStages();
+                updateTimestamp();
 
-// ─── 5. SPLIT ─────────────────────────────────────────────────────
-function splitDrop(idx) {
-  const d = drops[idx];
-  if (!d || d.r < MIN_SPLIT_R || drops.length >= MAX_DROPS) return false;
-  const newR = d.r / Math.sqrt(2);
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 1.2 + Math.random() * 1.2;
-  const d1 = new Drop(
-    d.x - Math.cos(angle)*newR*0.5,
-    d.y - Math.sin(angle)*newR*0.5,
-    newR,
-    d.vx - Math.cos(angle)*speed,
-    d.vy - Math.sin(angle)*speed
-  );
-  const d2 = new Drop(
-    d.x + Math.cos(angle)*newR*0.5,
-    d.y + Math.sin(angle)*newR*0.5,
-    newR,
-    d.vx + Math.cos(angle)*speed,
-    d.vy + Math.sin(angle)*speed
-  );
-  drops.splice(idx, 1, d1, d2);
-  splitCount++;
-  return true;
-}
+                // simulation steps
+                let step = 0;
+                const totalSteps = 8;
 
-function findDropAt(x,y) {
-  for (let i=drops.length-1; i>=0; i--) {
-    if (Math.hypot(drops[i].x - x, drops[i].y - y) <= drops[i].r) return i;
-  }
-  return -1;
-}
+                const interval = setInterval(() => {
+                    step++;
 
-// ─── 6. RENDER ────────────────────────────────────────────────────
-function render() {
-  gooCtx.fillStyle = '#05070c';
-  gooCtx.fillRect(0,0,W,H);
+                    if (step === 1) {
+                        // clone → success
+                        currentStages[0].status = 'success';
+                        currentLogs.push({ icon: '✅', text: '<strong>Clone</strong> · Repository erfolgreich geklont',
+                            time: getTime(), type: 'success' });
+                    } else if (step === 2) {
+                        // build → success
+                        currentStages[1].status = 'success';
+                        currentLogs.push({ icon: '⚙️', text: '<strong>Build</strong> · 120 Module kompiliert',
+                            time: getTime(), type: 'success' });
+                    } else if (step === 3) {
+                        // test → success
+                        currentStages[2].status = 'success';
+                        currentLogs.push({ icon: '🧪', text: '<strong>Test</strong> · 47 Tests bestanden',
+                            time: getTime(), type: 'success' });
+                    } else if (step === 4) {
+                        // analyze → running → success
+                        currentStages[3].status = 'success';
+                        currentLogs.push({ icon: '📊', text: '<strong>Analyze</strong> · Code-Scan abgeschlossen (keine Issues)',
+                            time: getTime(), type: 'success' });
+                        // starte deploy
+                        if (currentStages[4]) {
+                            currentStages[4].status = 'running';
+                            currentLogs.push({ icon: '🚀', text: '<strong>Deploy</strong> · Starte Ausrollung …',
+                                time: getTime(), type: 'warning' });
+                        }
+                    } else if (step === 5) {
+                        // deploy → success
+                        if (currentStages[4]) {
+                            currentStages[4].status = 'success';
+                            currentLogs.push({ icon: '✅', text: '<strong>Deploy</strong> · erfolgreich ausgerollt',
+                                time: getTime(), type: 'success' });
+                        }
+                        if (currentStages[5]) {
+                            currentStages[5].status = 'running';
+                            currentLogs.push({ icon: '🔍', text: '<strong>Verify</strong> · Prüfe Bereitstellung …',
+                                time: getTime(), type: 'warning' });
+                        }
+                    } else if (step === 6) {
+                        // verify → success
+                        if (currentStages[5]) {
+                            currentStages[5].status = 'success';
+                            currentLogs.push({ icon: '🎉', text: '<strong>Verify</strong> · Bereitstellung verifiziert!',
+                                time: getTime(), type: 'success' });
+                        }
+                    } else if (step === 7) {
+                        // alles fertig
+                        currentLogs.push({ icon: '🏁', text: '<strong>Pipeline</strong> · Alle Stufen erfolgreich abgeschlossen',
+                            time: getTime(), type: 'success' });
+                        clearInterval(interval);
+                        isRunning = false;
+                        triggerBtn.disabled = false;
+                        triggerBtn.innerHTML = '<i class="fas fa-play"></i> Pipeline auslösen';
+                        renderStages();
+                        renderLogs();
+                        updateTimestamp();
+                        return;
+                    }
 
-  for (const d of drops) {
-    const grad = gooCtx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r);
-    grad.addColorStop(0, '#eaf4fb');
-    grad.addColorStop(0.5, '#a8c4d8');
-    grad.addColorStop(1, '#4a6a7a');
-    gooCtx.fillStyle = grad;
-    gooCtx.beginPath();
-    gooCtx.arc(d.x, d.y, d.r, 0, Math.PI*2);
-    gooCtx.fill();
-  }
+                    renderStages();
+                    renderLogs();
+                    updateTimestamp();
 
-  hiCtx.clearRect(0,0,W,H);
-  if (ds9On) {
-    hiCtx.fillStyle = 'rgba(255,215,0,0.05)';
-    hiCtx.fillRect(0,0,W,H);
-  }
+                }, 800);
+            }
 
-  for (const d of drops) {
-    const hx = d.x - d.r*0.35, hy = d.y - d.r*0.35, hr = d.r*0.28;
-    const hg = hiCtx.createRadialGradient(hx, hy, 0, hx, hy, hr);
-    hg.addColorStop(0, ds9On ? 'rgba(255,240,190,0.85)' : 'rgba(255,255,255,0.75)');
-    hg.addColorStop(1, 'rgba(255,255,255,0)');
-    hiCtx.fillStyle = hg;
-    hiCtx.beginPath();
-    hiCtx.arc(hx, hy, hr, 0, Math.PI*2);
-    hiCtx.fill();
-  }
-}
+            function getTime() {
+                const now = new Date();
+                return String(now.getHours()).padStart(2, '0') + ':' +
+                    String(now.getMinutes()).padStart(2, '0') + ':' +
+                    String(now.getSeconds()).padStart(2, '0');
+            }
 
-// ─── 7. STATS ─────────────────────────────────────────────────────
-function updateStats() {
-  document.getElementById('countDisplay').textContent = drops.length;
-  const mass = drops.reduce((s,d) => s + d.r*d.r, 0);
-  document.getElementById('massDisplay').textContent = Math.round(mass);
+            // ---------- reset / refresh ----------
+            function resetPipeline() {
+                if (isRunning) return;
+                currentStages = JSON.parse(JSON.stringify(stagesData));
+                // setze ersten 3 success, 4 running, rest pending
+                for (let i = 0; i < 3; i++) {
+                    if (currentStages[i]) currentStages[i].status = 'success';
+                }
+                if (currentStages[3]) currentStages[3].status = 'running';
+                for (let i = 4; i < currentStages.length; i++) {
+                    currentStages[i].status = 'pending';
+                }
 
-  // Vital = durchschnittliche Tropfengröße / 20 (skaliert 0-1)
-  const avgR = drops.length ? drops.reduce((s,d) => s + d.r, 0) / drops.length : 0;
-  const vital = Math.min(1, avgR / 20);
-  document.getElementById('vitalDisplay').textContent = vital.toFixed(2);
-  document.getElementById('dotVital').className = 'dot gold';
+                currentLogs = [
+                    { icon: '🔄', text: '<strong>Pipeline</strong> · Zustand zurückgesetzt', time: getTime(),
+                        type: 'info' },
+                    { icon: '📋', text: '<strong>System</strong> · Bereit für neue Ausführung', time: getTime(),
+                        type: 'info' }
+                ];
+                renderStages();
+                renderLogs();
+                updateTimestamp();
+            }
 
-  // CO2, H2O, O2 – simulierte Werte
-  const co2 = 0.3 + vital * 0.5 + Math.random() * 0.05;
-  const wasser = 0.4 + vital * 0.4 + Math.random() * 0.05;
-  const o2 = 0.5 + vital * 0.3 + Math.random() * 0.05;
-  document.getElementById('co2Display').textContent = co2.toFixed(2);
-  document.getElementById('wasserDisplay').textContent = wasser.toFixed(2);
-  document.getElementById('o2Display').textContent = o2.toFixed(2);
-  document.getElementById('shuffleDisplay').textContent = drops.length + mergeCount;
-}
+            // ---------- event listeners ----------
+            triggerBtn.addEventListener('click', runPipeline);
 
-// ─── 8. 81-HOLOGRAMM (Anime-Frames) ──────────────────────────────
-const SYMBOLS = [
-  '▲','▼','◄','►','◆','◇','○','●','■','□','✦','✧','✪','✫','✬','✭','✮','✯',
-  '☀','☾','⊕','⚑','⚐','⚙','✹','✸','✶','✷','✳','✴','✱','✲','✢','✣','✤','✥',
-  '✦','✧','✩','✪','✫','✬','✭','✮','✯','✰','✱','✲','✳','✴','✵','✶','✷','✸',
-  '✹','✺','✻','✼','✽','✾','✿','❀','❁','❂','❃','❄','❅','❆','❇','❈','❉','❊',
-  '🌀','🌊','⚡','🔥','❄️','🌈','⭐','🌙','☄️'
-];
+            refreshBtn.addEventListener('click', function() {
+                if (!isRunning) {
+                    resetPipeline();
+                } else {
+                    // nur timestamp aktualisieren
+                    updateTimestamp();
+                }
+            });
 
-function renderHologram() {
-  const grid = document.getElementById('holoGrid');
-  grid.innerHTML = '';
-  const activeCount = drops.length;
-  for (let i=0; i<81; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'holo-cell';
-    const sym = SYMBOLS[i % SYMBOLS.length];
-    cell.textContent = sym;
-    // Aktiv, wenn i < Tropfenanzahl (simuliert "lebendige" Frames)
-    if (i < activeCount % 81) cell.classList.add('active');
-    grid.appendChild(cell);
-  }
-}
+            // ---------- init ----------
+            function init() {
+                // initial state: 3 success, 1 running, rest pending
+                for (let i = 0; i < 3; i++) {
+                    if (currentStages[i]) currentStages[i].status = 'success';
+                }
+                if (currentStages[3]) currentStages[3].status = 'running';
+                for (let i = 4; i < currentStages.length; i++) {
+                    currentStages[i].status = 'pending';
+                }
+                renderStages();
+                renderLogs();
+                updateTimestamp();
+            }
 
-// ─── 9. INTERAKTION ──────────────────────────────────────────────
-wrap.addEventListener('mousemove', e => {
-  const rect = wrap.getBoundingClientRect();
-  mouse.x = e.clientX - rect.left;
-  mouse.y = e.clientY - rect.top;
-  mouse.active = true;
-});
-wrap.addEventListener('mouseleave', () => { mouse.active = false; });
-wrap.addEventListener('touchmove', e => {
-  const rect = wrap.getBoundingClientRect();
-  const t = e.touches[0];
-  mouse.x = t.clientX - rect.left;
-  mouse.y = t.clientY - rect.top;
-  mouse.active = true;
-  e.preventDefault();
-}, { passive: false });
+            init();
 
-wrap.addEventListener('click', e => {
-  const rect = wrap.getBoundingClientRect();
-  const x = e.clientX - rect.left, y = e.clientY - rect.top;
-  const idx = findDropAt(x,y);
-  if (idx >= 0) {
-    if (splitDrop(idx)) log('✂ Tropfen geteilt', 'flow');
-    else log('… Tropfen zu klein zum Teilen', 'flow');
-  } else {
-    spawnDrop(x, y, 10 + Math.random()*10);
-    log('💧 neuer Tropfen', 'flow');
-  }
-});
+            // auto-refresh timestamp jede 10s
+            setInterval(() => {
+                if (!isRunning) updateTimestamp();
+            }, 10000);
 
-// ─── 10. BUTTONS ──────────────────────────────────────────────────
-document.getElementById('btnMagnet').addEventListener('click', () => {
-  magnetOn = !magnetOn;
-  document.getElementById('btnMagnet').classList.toggle('active', magnetOn);
-  document.getElementById('dotMagnet').className = 'dot' + (magnetOn ? ' on' : '');
-  log(magnetOn ? '🧲 MAGNET aktiv' : '🧲 MAGNET aus', 'flow');
-});
+        })();
+    </script>
 
-document.getElementById('btnAdd').addEventListener('click', () => {
-  spawnDrop(W/2 + (Math.random()-0.5)*60, 20, 12 + Math.random()*16);
-  log('💧 Tropfen hinzugefügt', 'flow');
-});
-
-document.getElementById('btnSplit').addEventListener('click', () => {
-  if (!drops.length) return;
-  let maxIdx = 0;
-  for (let i=1; i<drops.length; i++) if (drops[i].r > drops[maxIdx].r) maxIdx = i;
-  if (splitDrop(maxIdx)) log('✂ größter Tropfen geteilt', 'flow');
-  else log('… kein Tropfen groß genug', 'flow');
-});
-
-document.getElementById('btnQuake').addEventListener('click', () => {
-  drops.forEach(d => {
-    d.vx += (Math.random()-0.5)*8;
-    d.vy += (Math.random()-0.5)*8 - 2;
-  });
-  log('⚡ QUAKE · alle Tropfen erschüttert', 'flow');
-});
-
-document.getElementById('btnDs9').addEventListener('click', () => {
-  ds9On = !ds9On;
-  document.getElementById('btnDs9').classList.toggle('active', ds9On);
-  document.getElementById('dotDs9').className = 'dot' + (ds9On ? ' gold' : '');
-  log(ds9On ? '★ DS9 · goldener Schimmer' : '★ DS9 · inaktiv', 'ds9');
-});
-
-document.getElementById('btnReset').addEventListener('click', () => {
-  initDrops();
-  log('⟲ RESET · Quecksilber neu formatiert', 'flow');
-});
-
-// ─── 11. LOOP ─────────────────────────────────────────────────────
-function loop() {
-  step();
-  render();
-  updateStats();
-  renderHologram();
-  requestAnimationFrame(loop);
-}
-
-// ─── 12. LOG ──────────────────────────────────────────────────────
-function log(msg, type='ok') {
-  const el = document.getElementById('log');
-  const time = new Date().toLocaleTimeString();
-  const cls = ['ok','flow','ds9'].includes(type) ? type : 'ok';
-  el.innerHTML += `<div>[${time}] <span class="${cls}">${msg}</span></div>`;
-  el.scrollTop = el.scrollHeight;
-  while (el.children.length > 20) el.removeChild(el.firstChild);
-}
-
-// ─── 13. TASTATUR ────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  if (e.key === ' ') { e.preventDefault(); document.getElementById('btnAdd').click(); }
-  if (e.key === 'm' || e.key === 'M') document.getElementById('btnMagnet').click();
-  if (e.key === 's' || e.key === 'S') document.getElementById('btnSplit').click();
-  if (e.key === 'q' || e.key === 'Q') document.getElementById('btnQuake').click();
-  if (e.key === 'd' || e.key === 'D') document.getElementById('btnDs9').click();
-  if (e.key === 'x' || e.key === 'X') document.getElementById('btnReset').click();
-});
-
-// ─── 14. INIT ─────────────────────────────────────────────────────
-resize();
-initDrops();
-log('🧬 RAWATOR · Quecksilber · Anime · 81-Hologramm gestartet', 'ds9');
-log('⌨️  space=Tropfen  m=Magnet  s=Split  q=Quake  d=DS9  x=Reset', 'flow');
-loop();
-</script>
 </body>
 </html>
